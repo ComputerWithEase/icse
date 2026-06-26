@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Basics — 100 MCQ Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .score-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  /* ── Layout ── */
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Group nav ── */
+  .group-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .group-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .group-btn:hover, .group-btn.active {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.08);
+  }
+
+  /* ── Section ── */
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: var(--mono);
+  }
+
+  /* ── Question card ── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .q-card:hover { border-color: #444c56; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--java-blue);
+  }
+
+  /* ── Options ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.12s;
+    position: relative;
+  }
+  .option:hover { border-color: var(--java-blue); background: rgba(77,171,247,0.05); }
+  .option input[type="radio"] { display: none; }
+
+  .opt-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.12s;
+  }
+  .opt-text { font-size: 14px; color: var(--text); }
+
+  .option.selected .opt-label {
+    border-color: var(--java-blue);
+    background: var(--java-blue);
+    color: #000;
+  }
+  .option.correct { border-color: var(--correct); background: rgba(46,160,67,0.1); }
+  .option.correct .opt-label { border-color: var(--correct); background: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: rgba(218,54,51,0.1); }
+  .option.wrong .opt-label { border-color: var(--wrong); background: var(--wrong); color: #fff; }
+
+  /* ── Submit / next ── */
+  .section-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-result {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section-result strong { color: var(--java-orange); }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary {
+    background: var(--java-orange);
+    color: #000;
+  }
+  .btn-primary:hover { background: #e08800; }
+  .btn-ghost {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  /* ── Global result ── */
+  #global-result {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+  #global-result h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--java-orange);
+  }
+  #global-result p { color: var(--muted); font-size: 15px; }
+  #global-result .big-score {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+
+  /* ── Progress bar ── */
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .wrapper { padding: 24px 16px 60px; }
+    .section-footer { flex-direction: column; align-items: stretch; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Java<span>.basics</span></div>
+  <h1>Introduction · Values &amp; Data Types · Operators — 100 Questions</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 100</div>
+</header>
+
+<div class="wrapper">
+
+  <!-- Group navigation -->
+  <nav class="group-nav" id="group-nav">
+    <a class="group-btn active" onclick="showGroup(0)" href="#">Group 1 · Q1–20</a>
+    <a class="group-btn" onclick="showGroup(1)" href="#">Group 2 · Q21–40</a>
+    <a class="group-btn" onclick="showGroup(2)" href="#">Group 3 · Q41–60</a>
+    <a class="group-btn" onclick="showGroup(3)" href="#">Group 4 · Q61–80</a>
+    <a class="group-btn" onclick="showGroup(4)" href="#">Group 5 · Q81–100</a>
+    <a class="group-btn" onclick="showGroup(5)" href="#" id="results-tab" style="display:none">📊 Results</a>
+  </nav>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 1 — Java Introduction
+       ══════════════════════════════════════════ -->
+  <section class="section visible" id="group-0">
+    <div class="section-header">
+      <span class="section-number">Group 01</span>
+      <h2 class="section-title">Java Introduction</h2>
+      <span class="section-count">Q1 – Q20</span>
+    </div>
+
+    <div id="cards-0"></div>
+
+    <div class="section-footer">
+      <div class="section-result" id="result-0">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitGroup(0)">Submit Group 1</button>
+        <button class="btn btn-ghost" onclick="showGroup(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 2 — Values & Data Types Part I
+       ══════════════════════════════════════════ -->
+  <section class="section" id="group-1">
+    <div class="section-header">
+      <span class="section-number">Group 02</span>
+      <h2 class="section-title">Values &amp; Data Types — Part I</h2>
+      <span class="section-count">Q21 – Q40</span>
+    </div>
+    <div id="cards-1"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-1">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(0)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(1)">Submit Group 2</button>
+        <button class="btn btn-ghost" onclick="showGroup(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 3 — Values & Data Types Part II
+       ══════════════════════════════════════════ -->
+  <section class="section" id="group-2">
+    <div class="section-header">
+      <span class="section-number">Group 03</span>
+      <h2 class="section-title">Values &amp; Data Types — Part II</h2>
+      <span class="section-count">Q41 – Q60</span>
+    </div>
+    <div id="cards-2"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-2">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(1)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(2)">Submit Group 3</button>
+        <button class="btn btn-ghost" onclick="showGroup(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 4 — Operators Part I
+       ══════════════════════════════════════════ -->
+  <section class="section" id="group-3">
+    <div class="section-header">
+      <span class="section-number">Group 04</span>
+      <h2 class="section-title">Operators — Part I</h2>
+      <span class="section-count">Q61 – Q80</span>
+    </div>
+    <div id="cards-3"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-3">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(2)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(3)">Submit Group 4</button>
+        <button class="btn btn-ghost" onclick="showGroup(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 5 — Operators Part II
+       ══════════════════════════════════════════ -->
+  <section class="section" id="group-4">
+    <div class="section-header">
+      <span class="section-number">Group 05</span>
+      <h2 class="section-title">Operators — Part II</h2>
+      <span class="section-count">Q81 – Q100</span>
+    </div>
+    <div id="cards-4"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-4">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(3)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(4)">Submit Group 5</button>
+        <button class="btn btn-primary" onclick="showFinalResult()" style="background:var(--java-blue)">View Final Score</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final result panel -->
+  <div id="global-result">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score-text">—</div>
+    <p id="final-grade-text"></p>
+    <br>
+    <button class="btn btn-primary" onclick="resetAll()">Retake Quiz</button>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// QUESTION DATA — 100 questions in 5 groups of 20
+// Format: { q, opts: [A,B,C,D], ans: 0-based index }
+// ─────────────────────────────────────────────────────────────────────────────
+const data = [
+
+// ── GROUP 1: Java Introduction (Q1–Q20) ──
+[
+  { q:"Who created the Java programming language?", opts:["Dennis Ritchie","Bjarne Stroustrup","James Gosling","Guido van Rossum"], ans:2 },
+  { q:"In which year was Java officially released to the public?", opts:["1991","1993","1995","2000"], ans:2 },
+  { q:"What does JVM stand for?", opts:["Java Virtual Memory","Java Variable Manager","Java Virtual Machine","Java Version Manager"], ans:2 },
+  { q:"What does JDK stand for?", opts:["Java Developer Kit","Java Development Kit","Java Deployment Kit","Java Debug Kit"], ans:1 },
+  { q:"What does JRE stand for?", opts:["Java Runtime Environment","Java Release Edition","Java Remote Execution","Java Resource Engine"], ans:0 },
+  { q:"What is Java's famous portability slogan?", opts:["Code once, run everywhere","Think different","Just do it","Write once, run anywhere"], ans:3 },
+  { q:"What is the file extension of a compiled Java bytecode file?", opts:[".java",".exe",".class",".jar"], ans:2 },
+  { q:"Which command compiles a Java source file?", opts:["java","jrun","javac","compile"], ans:2 },
+  { q:"Which command runs a compiled Java program?", opts:["javac","run","jvm","java"], ans:3 },
+  { q:"What is bytecode in Java?", opts:["Machine code for a specific CPU","Source code in binary","Intermediate code executed by the JVM","A type of Java error"], ans:2 },
+  { q:"Which method is the entry point of every Java application?", opts:["start()","init()","main()","run()"], ans:2 },
+  { q:"What is the correct signature of the <code>main</code> method?", opts:["public void main(String args)","public static void main(String[] args)","static main(String[] args)","void main()"], ans:1 },
+  { q:"Which of the following is a valid single-line comment in Java?", opts:["<!-- comment -->","/* comment */","// comment","# comment"], ans:2 },
+  { q:"Which statement correctly prints text to the console in Java?", opts:["print('Hello');","Console.log('Hello');","System.out.println(\"Hello\");","echo 'Hello';"], ans:2 },
+  { q:"Java is considered which type of language?", opts:["Interpreted only","Compiled only","Both compiled and interpreted","Neither compiled nor interpreted"], ans:2 },
+  { q:"Which organization currently maintains and develops Java?", opts:["Microsoft","Google","Oracle","IBM"], ans:2 },
+  { q:"What does the <code>package</code> keyword do in Java?", opts:["Imports external libraries","Groups related classes into a namespace","Compiles the program","Creates a new object"], ans:1 },
+  { q:"Which keyword is used to import a class from another package?", opts:["include","require","import","using"], ans:2 },
+  { q:"Which of the following statements about Java is TRUE?", opts:["Java is platform-dependent","Java does not support OOP","Java uses pointers extensively","Java is platform-independent"], ans:3 },
+  { q:"What does <code>System.out.print()</code> do differently from <code>System.out.println()</code>?", opts:["It prints in red","It does not add a newline at the end","It only prints numbers","It requires no semicolon"], ans:1 },
+],
+
+// ── GROUP 2: Values & Data Types Part I (Q21–Q40) ──
+[
+  { q:"How many primitive data types does Java have?", opts:["4","6","8","10"], ans:2 },
+  { q:"Which of the following is NOT a primitive type in Java?", opts:["int","boolean","String","char"], ans:2 },
+  { q:"What is the default value of an <code>int</code> instance variable in Java?", opts:["null","1","undefined","0"], ans:3 },
+  { q:"What is the size of a <code>byte</code> data type in Java?", opts:["4 bits","8 bits","16 bits","32 bits"], ans:1 },
+  { q:"What is the range of the <code>byte</code> data type?", opts:["0 to 255","-128 to 127","-256 to 255","-32768 to 32767"], ans:1 },
+  { q:"What is the size of an <code>int</code> in Java?", opts:["8 bits","16 bits","32 bits","64 bits"], ans:2 },
+  { q:"What is the size of a <code>long</code> in Java?", opts:["16 bits","32 bits","64 bits","128 bits"], ans:2 },
+  { q:"Which suffix is used to declare a <code>long</code> literal in Java?", opts:["l or L","g or G","d or D","s or S"], ans:0 },
+  { q:"What is the size of a <code>float</code> in Java?", opts:["16 bits","32 bits","64 bits","128 bits"], ans:1 },
+  { q:"Which suffix is used to declare a <code>float</code> literal?", opts:["d or D","f or F","l or L","g or G"], ans:1 },
+  { q:"What is the default type of a floating-point literal like <code>3.14</code> in Java?", opts:["float","double","decimal","real"], ans:1 },
+  { q:"What is the size of a <code>double</code> in Java?", opts:["32 bits","64 bits","128 bits","16 bits"], ans:1 },
+  { q:"What is the size of a <code>char</code> in Java?", opts:["8 bits","16 bits","32 bits","1 bit"], ans:1 },
+  { q:"Java's <code>char</code> type uses which character encoding?", opts:["ASCII","UTF-8","UTF-16","UTF-32"], ans:2 },
+  { q:"What are the only two values a <code>boolean</code> can hold in Java?", opts:["0 and 1","yes and no","true and false","on and off"], ans:2 },
+  { q:"What is the default value of a <code>boolean</code> instance variable?", opts:["true","null","0","false"], ans:3 },
+  { q:"Which data type is most appropriate to store a person's age (e.g., 25)?", opts:["double","char","byte or int","boolean"], ans:2 },
+  { q:"Which of the following is a valid <code>char</code> literal in Java?", opts:["\"A\"","A","'A'","(A)"], ans:2 },
+  { q:"What is the default value of a <code>double</code> instance variable?", opts:["0.0","null","1.0","undefined"], ans:0 },
+  { q:"Which of the following correctly declares a <code>long</code> variable?", opts:["long x = 100;","long x = 100L;","Both A and B are valid","long x = 100.0;"], ans:2 },
+],
+
+// ── GROUP 3: Values & Data Types Part II (Q41–Q60) ──
+[
+  { q:"What is type casting in Java?", opts:["Changing a variable's name","Converting a value from one data type to another","Creating a new class","A type of loop"], ans:1 },
+  { q:"Which type of casting is performed automatically by Java?", opts:["Explicit casting","Narrowing conversion","Widening conversion","Manual casting"], ans:2 },
+  { q:"Which casting requires explicit syntax by the programmer?", opts:["Widening","Automatic","Narrowing","Implicit"], ans:2 },
+  { q:"Which of the following is an example of explicit (narrowing) casting?", opts:["int x = 5; double d = x;","double d = 9.9; int x = (int) d;","long l = 100; float f = l;","byte b = 10; int i = b;"], ans:1 },
+  { q:"What is the result of <code>(int) 9.99</code> in Java?", opts:["10","9","9.99","Compilation error"], ans:1 },
+  { q:"What is <code>String</code> in Java?", opts:["A primitive data type","A keyword","A class in java.lang","A reserved word"], ans:2 },
+  { q:"Which of the following correctly declares a String variable?", opts:["String s = 'Hello';","string s = \"Hello\";","String s = \"Hello\";","Str s = \"Hello\";"], ans:2 },
+  { q:"What is the default value of a <code>String</code> instance variable?", opts:["\"\"","0","false","null"], ans:3 },
+  { q:"Which method returns the number of characters in a String?", opts:[".size()",".count()",".length()",".chars()"], ans:2 },
+  { q:"Strings in Java are:", opts:["Mutable","Immutable","Primitive","Always null"], ans:1 },
+  { q:"Which keyword was introduced in Java 10 for local variable type inference?", opts:["auto","let","type","var"], ans:3 },
+  { q:"What does <code>var x = 42;</code> infer the type of <code>x</code> to be?", opts:["long","byte","double","int"], ans:3 },
+  { q:"Can <code>var</code> be used for instance variables in Java?", opts:["Yes","No","Only in Java 11+","Only with primitive types"], ans:1 },
+  { q:"What is the correct way to declare an integer array in Java?", opts:["int arr[];","int[] arr;","Both A and B are valid","array<int> arr;"], ans:2 },
+  { q:"What is the index of the first element in a Java array?", opts:["1","-1","0","Depends on the array type"], ans:2 },
+  { q:"Which of the following correctly initializes an array with values?", opts:["int[] a = {1,2,3};","int[] a = [1,2,3];","int a[] = (1,2,3);","int[3] a = 1,2,3;"], ans:0 },
+  { q:"What exception is thrown when accessing an array index out of bounds?", opts:["NullPointerException","RuntimeException","ArrayIndexOutOfBoundsException","IllegalArgumentException"], ans:2 },
+  { q:"Which method converts the String <code>\"123\"</code> to an <code>int</code>?", opts:["Integer.toString(\"123\")","Integer.parseInt(\"123\")","int.parse(\"123\")","Convert.toInt(\"123\")"], ans:1 },
+  { q:"What does <code>String.valueOf(42)</code> return?", opts:["42 as int","\"42\" as String","42.0 as double","null"], ans:1 },
+  { q:"Which of the following correctly declares a constant in Java?", opts:["const int MAX = 10;","final int MAX = 10;","constant int MAX = 10;","fixed int MAX = 10;"], ans:1 },
+],
+
+// ── GROUP 4: Operators Part I (Q61–Q80) ──
+[
+  { q:"What is the result of <code>10 + 3</code> in Java?", opts:["103","13","7","Compilation error"], ans:1 },
+  { q:"What does the <code>%</code> operator do in Java?", opts:["Calculates percentage","Returns the remainder of division","Converts to percent","Rounds the result"], ans:1 },
+  { q:"What is the result of <code>10 % 3</code>?", opts:["3","0","1","3.33"], ans:2 },
+  { q:"What is the result of <code>7 / 2</code> in Java when both operands are integers?", opts:["3.5","4","3","2"], ans:2 },
+  { q:"What is the result of <code>7.0 / 2</code> in Java?", opts:["3","4","3.5","3.0"], ans:2 },
+  { q:"What does the <code>=</code> operator do in Java?", opts:["Compares two values","Assigns a value to a variable","Checks equality","Increments a variable"], ans:1 },
+  { q:"What does <code>x += 5</code> mean in Java?", opts:["x = 5","x = x + 5","x = x * 5","x + 5"], ans:1 },
+  { q:"What does <code>x *= 3</code> mean in Java?", opts:["x = x + 3","x = 3","x = x * 3","x = x / 3"], ans:2 },
+  { q:"After executing <code>int x = 5; x++;</code>, what is the value of <code>x</code>?", opts:["4","5","6","Undefined"], ans:2 },
+  { q:"What is the difference between <code>x++</code> and <code>++x</code>?", opts:["No difference","x++ uses value then increments; ++x increments then uses value","++x is invalid syntax","x++ is invalid syntax"], ans:1 },
+  { q:"Given <code>int x = 5; int y = x++;</code>, what is the value of <code>y</code>?", opts:["6","5","4","0"], ans:1 },
+  { q:"Given <code>int x = 5; int y = ++x;</code>, what is the value of <code>y</code>?", opts:["5","4","6","0"], ans:2 },
+  { q:"What is the result of <code>2 + 3 * 4</code> in Java?", opts:["20","14","24","10"], ans:1 },
+  { q:"Which operator has the highest precedence in Java?", opts:["+ (addition)","* (multiplication)","() (parentheses)","= (assignment)"], ans:2 },
+  { q:"What is the result of <code>(2 + 3) * 4</code>?", opts:["14","20","10","24"], ans:1 },
+  { q:"What is the result of <code>10 - 3 + 2</code> in Java?", opts:["5","9","15","10"], ans:1 },
+  { q:"What does <code>x -= 4</code> mean in Java?", opts:["x = 4","x = x + 4","x = x - 4","x = -4"], ans:2 },
+  { q:"What does <code>x /= 2</code> mean in Java?", opts:["x = 2","x = x * 2","x = x - 2","x = x / 2"], ans:3 },
+  { q:"What is the result of <code>--x</code> when <code>x = 10</code>?", opts:["10","9","11","Undefined"], ans:1 },
+  { q:"What is the result of <code>5 % 5</code> in Java?", opts:["1","5","0","25"], ans:2 },
+],
+
+// ── GROUP 5: Operators Part II (Q81–Q100) ──
+[
+  { q:"Which operator checks if two values are equal in Java?", opts:["=","===","==","equals"], ans:2 },
+  { q:"Which operator checks if two values are NOT equal in Java?", opts:["<>","!==","!=","not="], ans:2 },
+  { q:"What is the result of <code>5 > 3</code> in Java?", opts:["5","3","true","false"], ans:2 },
+  { q:"What is the result of <code>5 == 5.0</code> in Java?", opts:["false","Compilation error","Undefined","true"], ans:3 },
+  { q:"Which logical operator returns <code>true</code> only if BOTH operands are <code>true</code>?", opts:["||","!","&&","^"], ans:2 },
+  { q:"Which logical operator returns <code>true</code> if AT LEAST ONE operand is <code>true</code>?", opts:["&&","!","^","||"], ans:3 },
+  { q:"What does the logical <code>!</code> operator do?", opts:["Adds values","Negates a boolean value","Performs bitwise NOT","Performs logical AND"], ans:1 },
+  { q:"What is the result of <code>!true</code> in Java?", opts:["true","null","1","false"], ans:3 },
+  { q:"What is the result of <code>true && false</code>?", opts:["true","1","false","null"], ans:2 },
+  { q:"What is the result of <code>true || false</code>?", opts:["false","null","0","true"], ans:3 },
+  { q:"What is the correct syntax for the ternary operator in Java?", opts:["if (cond) a : b","cond ? a : b","cond -> a : b","a if cond else b"], ans:1 },
+  { q:"What does <code>int x = (5 > 3) ? 10 : 20;</code> set <code>x</code> to?", opts:["20","5","3","10"], ans:3 },
+  { q:"Which bitwise operator performs AND?", opts:["&&","|","&","^"], ans:2 },
+  { q:"Which bitwise operator performs OR?", opts:["||","&","|","^"], ans:2 },
+  { q:"Which bitwise operator performs XOR (exclusive OR)?", opts:["&&","||","&","^"], ans:3 },
+  { q:"What is the result of <code>5 & 3</code>? (5 = 101, 3 = 011 in binary)", opts:["7","6","1","0"], ans:2 },
+  { q:"What does the <code>&lt;&lt;</code> operator do in Java?", opts:["Right-shifts bits","Compares two values","Left-shifts bits","Performs logical AND"], ans:2 },
+  { q:"What does the <code>&gt;&gt;</code> operator do in Java?", opts:["Left-shifts bits","Compares two values","Performs bitwise OR","Right-shifts bits (signed)"], ans:3 },
+  { q:"Which operator checks if an object is an instance of a class?", opts:["typeof","isInstance","instanceof","classof"], ans:2 },
+  { q:"What is the result of <code>10 | 5</code>? (10 = 1010, 5 = 0101 in binary)", opts:["0","15","5","10"], ans:1 },
+]
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────────────────────
+const state = {
+  selected: Array.from({length:5}, () => new Array(20).fill(-1)),
+  submitted: [false,false,false,false,false],
+  scores: [0,0,0,0,0]
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Render all cards
+// ─────────────────────────────────────────────────────────────────────────────
+function renderAll() {
+  data.forEach((group, gi) => {
+    const container = document.getElementById(`cards-${gi}`);
+    container.innerHTML = group.map((q, qi) => {
+      const globalNum = gi * 20 + qi + 1;
+      const opts = q.opts.map((o, oi) => `
+        <label class="option" id="opt-${gi}-${qi}-${oi}" onclick="select(${gi},${qi},${oi})">
+          <input type="radio" name="q-${gi}-${qi}" value="${oi}">
+          <span class="opt-label">${String.fromCharCode(65+oi)}</span>
+          <span class="opt-text">${o}</span>
+        </label>`).join('');
+      return `
+        <div class="q-card" id="qcard-${gi}-${qi}">
+          <div class="q-header">
+            <span class="q-num">Q${globalNum}</span>
+            <span class="q-text">${q.q}</span>
+          </div>
+          <div class="options" id="opts-${gi}-${qi}">${opts}</div>
+        </div>`;
+    }).join('');
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Select option
+// ─────────────────────────────────────────────────────────────────────────────
+function select(gi, qi, oi) {
+  if (state.submitted[gi]) return;
+  const prev = state.selected[gi][qi];
+  if (prev !== -1) {
+    document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  }
+  state.selected[gi][qi] = oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Submit a group
+// ─────────────────────────────────────────────────────────────────────────────
+function submitGroup(gi) {
+  if (state.submitted[gi]) { alert('This group is already submitted!'); return; }
+  const unanswered = state.selected[gi].filter(v => v === -1).length;
+  if (unanswered > 0) {
+    alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`);
+    return;
+  }
+  state.submitted[gi] = true;
+  let correct = 0;
+  data[gi].forEach((q, qi) => {
+    const chosen = state.selected[gi][qi];
+    const right = q.ans;
+    for (let oi = 0; oi < 4; oi++) {
+      const el = document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents = 'none';
+      if (oi === right) el.classList.add('correct');
+      else if (oi === chosen && chosen !== right) el.classList.add('wrong');
+    }
+    if (chosen === right) correct++;
+  });
+  state.scores[gi] = correct;
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  document.getElementById(`result-${gi}`).innerHTML = `Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent = `Score: ${total} / ${state.submitted.filter(Boolean).length * 20}`;
+  updateProgress();
+
+  if (state.submitted.every(Boolean)) {
+    document.getElementById('results-tab').style.display = '';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Show group
+// ─────────────────────────────────────────────────────────────────────────────
+function showGroup(idx) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('global-result').style.display = 'none';
+
+  if (idx <= 4) {
+    document.getElementById(`group-${idx}`).classList.add('visible');
+    document.querySelectorAll('.group-btn')[idx].classList.add('active');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Final result
+// ─────────────────────────────────────────────────────────────────────────────
+function showFinalResult() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  const pct = Math.round(total / 100 * 100);
+  let grade = pct >= 90 ? '🏆 Excellent! You have a strong grasp of Java basics.' :
+              pct >= 75 ? '👍 Good work! Review the questions you missed.' :
+              pct >= 50 ? '📖 Fair. Keep studying Java fundamentals.' :
+                          '💡 Keep practicing! The basics take time to master.';
+  document.getElementById('final-score-text').textContent = `${total} / 100`;
+  document.getElementById('final-grade-text').textContent = `${pct}% — ${grade}`;
+  document.getElementById('global-result').style.display = 'block';
+  document.getElementById('results-tab').classList.add('active');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Progress
+// ─────────────────────────────────────────────────────────────────────────────
+function updateProgress() {
+  const answered = state.selected.flat().filter(v => v !== -1).length;
+  document.getElementById('progress-fill').style.width = (answered / 100 * 100) + '%';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Reset
+// ─────────────────────────────────────────────────────────────────────────────
+function resetAll() {
+  state.selected.forEach(g => g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent = 'Score: 0 / 100';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('results-tab').style.display = 'none';
+  document.getElementById('global-result').style.display = 'none';
+  [0,1,2,3,4].forEach(gi => {
+    document.getElementById(`result-${gi}`).innerHTML = 'Answer all questions first.';
+  });
+  renderAll();
+  showGroup(0);
+}
+
+// Init
+renderAll();
+</script>
+</body>
+</html>

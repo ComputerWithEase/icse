@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCQ Quiz for ICSE Computer Application</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .score-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  /* ── Layout ── */
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Group nav ── */
+  .group-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .group-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .group-btn:hover, .group-btn.active {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.08);
+  }
+
+  /* ── Section ── */
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: var(--mono);
+  }
+
+  /* ── Question card ── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .q-card:hover { border-color: #444c56; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--java-blue);
+  }
+
+  /* ── Options ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.12s;
+    position: relative;
+  }
+  .option:hover { border-color: var(--java-blue); background: rgba(77,171,247,0.05); }
+  .option input[type="radio"] { display: none; }
+
+  .opt-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.12s;
+  }
+  .opt-text { font-size: 14px; color: var(--text); }
+
+  .option.selected .opt-label {
+    border-color: var(--java-blue);
+    background: var(--java-blue);
+    color: #000;
+  }
+  .option.correct { border-color: var(--correct); background: rgba(46,160,67,0.1); }
+  .option.correct .opt-label { border-color: var(--correct); background: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: rgba(218,54,51,0.1); }
+  .option.wrong .opt-label { border-color: var(--wrong); background: var(--wrong); color: #fff; }
+
+  /* ── Submit / next ── */
+  .section-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-result {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section-result strong { color: var(--java-orange); }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary {
+    background: var(--java-orange);
+    color: #000;
+  }
+  .btn-primary:hover { background: #e08800; }
+  .btn-ghost {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  /* ── Global result ── */
+  #global-result {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+  #global-result h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--java-orange);
+  }
+  #global-result p { color: var(--muted); font-size: 15px; }
+  #global-result .big-score {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+
+  /* ── Progress bar ── */
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .wrapper { padding: 24px 16px 60px; }
+    .section-footer { flex-direction: column; align-items: stretch; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>Introduction to Object-Oriented Programming — 100 Questions</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 100</div>
+</header>
+
+<div class="wrapper">
+
+  <!-- Group navigation -->
+  <nav class="group-nav" id="group-nav">
+    <a class="group-btn active" onclick="showGroup(0)" href="#">Group 1 · Q1–20</a>
+    <a class="group-btn" onclick="showGroup(1)" href="#">Group 2 · Q21–40</a>
+    <a class="group-btn" onclick="showGroup(2)" href="#">Group 3 · Q41–60</a>
+    <a class="group-btn" onclick="showGroup(3)" href="#">Group 4 · Q61–80</a>
+    <a class="group-btn" onclick="showGroup(4)" href="#">Group 5 · Q81–100</a>
+    <a class="group-btn" onclick="showGroup(5)" href="#" id="results-tab" style="display:none">📊 Results</a>
+  </nav>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 1 — OOP Fundamentals & Core Concepts
+       ══════════════════════════════════════════ -->
+  <section class="section visible" id="group-0">
+    <div class="section-header">
+      <span class="section-number">Group 01</span>
+      <h2 class="section-title">OOP Fundamentals &amp; Core Concepts</h2>
+      <span class="section-count">Q1 – Q20</span>
+    </div>
+
+    <div id="cards-0"></div>
+
+    <div class="section-footer">
+      <div class="section-result" id="result-0">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitGroup(0)">Submit Group 1</button>
+        <button class="btn btn-ghost" onclick="showGroup(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 2 — Classes, Objects & Constructors
+       ══════════════════════════════════════════ -->
+  <section class="section" id="group-1">
+    <div class="section-header">
+      <span class="section-number">Group 02</span>
+      <h2 class="section-title">Classes, Objects &amp; Constructors</h2>
+      <span class="section-count">Q21 – Q40</span>
+    </div>
+    <div id="cards-1"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-1">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(0)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(1)">Submit Group 2</button>
+        <button class="btn btn-ghost" onclick="showGroup(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 3 — Inheritance & Polymorphism
+       ══════════════════════════════════════════ -->
+  <section class="section" id="group-2">
+    <div class="section-header">
+      <span class="section-number">Group 03</span>
+      <h2 class="section-title">Inheritance &amp; Polymorphism</h2>
+      <span class="section-count">Q41 – Q60</span>
+    </div>
+    <div id="cards-2"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-2">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(1)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(2)">Submit Group 3</button>
+        <button class="btn btn-ghost" onclick="showGroup(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 4 — Encapsulation & Abstraction
+       ══════════════════════════════════════════ -->
+  <section class="section" id="group-3">
+    <div class="section-header">
+      <span class="section-number">Group 04</span>
+      <h2 class="section-title">Encapsulation &amp; Abstraction</h2>
+      <span class="section-count">Q61 – Q80</span>
+    </div>
+    <div id="cards-3"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-3">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(2)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(3)">Submit Group 4</button>
+        <button class="btn btn-ghost" onclick="showGroup(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GROUP 5 — Interfaces, Keywords & Advanced OOP
+       ══════════════════════════════════════════ -->
+  <section class="section" id="group-4">
+    <div class="section-header">
+      <span class="section-number">Group 05</span>
+      <h2 class="section-title">Interfaces, Keywords &amp; Advanced OOP</h2>
+      <span class="section-count">Q81 – Q100</span>
+    </div>
+    <div id="cards-4"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-4">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(3)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(4)">Submit Group 5</button>
+        <button class="btn btn-primary" onclick="showFinalResult()" style="background:var(--java-blue)">View Final Score</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final result panel -->
+  <div id="global-result">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score-text">—</div>
+    <p id="final-grade-text"></p>
+    <br>
+    <button class="btn btn-primary" onclick="resetAll()">Retake Quiz</button>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// QUESTION DATA — 100 questions in 5 groups of 20
+// Format: { q, opts: [A,B,C,D], ans: 0-based index }
+// ─────────────────────────────────────────────────────────────────────────────
+const data = [
+
+// ── GROUP 1: OOP Fundamentals & Core Concepts (Q1-Q20) ──
+[
+  { q:"What does OOP stand for?", opts:["Object-Oriented Programming","Object-Oriented Process","Orderly Object Protocol","Object-Oriented Parsing"], ans:0 },
+  { q:"Which of the following is NOT one of the four main pillars of OOP?", opts:["Abstraction","Compilation","Encapsulation","Polymorphism"], ans:1 },
+  { q:"In Java, which keyword is used to create an object?", opts:["create","object","new","make"], ans:2 },
+  { q:"What is a class in Java?", opts:["A runtime instance","A blueprint for creating objects","A method that returns an object","A primitive data type"], ans:1 },
+  { q:"What is an object in Java?", opts:["A primitive variable","An instance of a class","A static method","A keyword"], ans:1 },
+  { q:"Which of the following best defines encapsulation?", opts:["The ability of a class to inherit from multiple classes","Hiding internal state and exposing only necessary parts","Overriding methods in subclasses","Calling methods at runtime"], ans:1 },
+  { q:"What is the purpose of abstraction in OOP?", opts:["To increase code verbosity","To hide implementation details and show only essential features","To allow multiple inheritance","To prevent method overriding"], ans:1 },
+  { q:"Polymorphism in Java allows:", opts:["A class to inherit from itself","One interface to have multiple implementations","A variable to hold any primitive type","Methods to run on multiple CPUs"], ans:1 },
+  { q:"Which of the following is an advantage of OOP?", opts:["Code is harder to maintain","Reusability of code","Requires more memory always","Slower execution"], ans:1 },
+  { q:"In Java, what is the root class of all classes?", opts:["Base","Object","Root","Main"], ans:1 },
+  { q:"Which OOP concept is demonstrated when a child class reuses methods of a parent class?", opts:["Encapsulation","Abstraction","Inheritance","Polymorphism"], ans:2 },
+  { q:"What symbol is used to access a member of an object in Java?", opts:["->","::",".",":"], ans:2 },
+  { q:"Which concept describes the ability to treat objects of different classes through the same interface?", opts:["Encapsulation","Inheritance","Abstraction","Polymorphism"], ans:3 },
+  { q:"Java is primarily considered:", opts:["Procedural language","Object-oriented language","Functional language","Assembly language"], ans:1 },
+  { q:"Which of the following is a feature of Java that supports OOP?", opts:["Pointers","Goto statements","Garbage collection","Manual memory management"], ans:2 },
+  { q:"An instance variable in Java belongs to:", opts:["The class as a whole","A specific object","A method only","The main method"], ans:1 },
+  { q:"Which keyword prevents a class from being inherited in Java?", opts:["static","private","final","abstract"], ans:2 },
+  { q:"What is the correct way to declare a class named <code>Car</code> in Java?", opts:["class Car {}","Class Car {}","new Car {}","object Car {}"], ans:0 },
+  { q:"Which of the following is a valid Java identifier for a class?", opts:["2Cars","Car_Model","car-model","class"], ans:1 },
+  { q:"In Java, a class can extend:", opts:["Multiple classes","Only one class","No other class","Only abstract classes"], ans:1 },
+],
+
+// ── GROUP 2: Classes, Objects & Constructors (Q21-Q40) ──
+[
+  { q:"What is a constructor in Java?", opts:["A method that destroys objects","A special method called when an object is created","A static utility method","A method with a return type"], ans:1 },
+  { q:"Which of the following is true about a default constructor?", opts:["It must be explicitly defined","It is provided by Java if no constructor is defined","It accepts one parameter","It always returns null"], ans:1 },
+  { q:"A constructor must have:", opts:["A return type","The same name as the class","The keyword static","Only one parameter"], ans:1 },
+  { q:"Which keyword refers to the current object inside a class?", opts:["self","current","this","me"], ans:2 },
+  { q:"What is constructor overloading?", opts:["Calling a constructor from another class","Having multiple constructors with different parameter lists","Inheriting a constructor","Overriding the default constructor"], ans:1 },
+  { q:"How do you call a constructor of the parent class in Java?", opts:["parent()","super()","base()","this()"], ans:1 },
+  { q:"What is the output of <code>new Car()</code> when Car has no constructor defined?", opts:["Compilation error","Runtime error","An object is created using the default constructor","null is returned"], ans:2 },
+  { q:"Instance variables are initialized by default to:", opts:["Random values","Their last assigned value","Default values (0, null, false, etc.)","Compilation fails"], ans:2 },
+  { q:"Which access modifier makes a member accessible only within the same class?", opts:["public","protected","default","private"], ans:3 },
+  { q:"What does the <code>static</code> keyword mean when applied to a field?", opts:["The field belongs to the object","The field belongs to the class","The field is immutable","The field is private"], ans:1 },
+  { q:"A static method in Java:", opts:["Can access instance variables directly","Needs an object to be called","Cannot access instance variables directly","Is always public"], ans:2 },
+  { q:"Which of the following creates a copy of an object?", opts:["Clone constructor","Copy constructor","Default constructor","Parameterized constructor"], ans:1 },
+  { q:"What is the result of calling a method on a <code>null</code> reference?", opts:["Returns 0","Returns null","Throws NullPointerException","Compiles but does nothing"], ans:2 },
+  { q:"In Java, local variables are stored in:", opts:["Heap memory","Stack memory","Method area","Static memory"], ans:1 },
+  { q:"Objects in Java are stored in:", opts:["Stack memory","Register","Heap memory","ROM"], ans:2 },
+  { q:"Which method is called automatically when an object is printed using <code>System.out.println()</code>?", opts:["print()","display()","toString()","show()"], ans:2 },
+  { q:"What keyword is used to prevent modification of a variable value?", opts:["static","const","final","fixed"], ans:2 },
+  { q:"How many times is a constructor called per object?", opts:["Zero","Once","Twice","As many times as needed"], ans:1 },
+  { q:"Which of these is NOT a valid constructor declaration for class <code>Dog</code>?", opts:["Dog() {}","Dog(String name) {}","void Dog() {}","Dog(int age, String name) {}"], ans:2 },
+  { q:"What is the purpose of the <code>this()</code> call inside a constructor?", opts:["To call the parent constructor","To call another constructor of the same class","To destroy the object","To call a static method"], ans:1 },
+],
+
+// ── GROUP 3: Inheritance & Polymorphism (Q41-Q60) ──
+[
+  { q:"Which keyword is used to inherit a class in Java?", opts:["implements","inherits","extends","uses"], ans:2 },
+  { q:"Java supports:", opts:["Multiple class inheritance","Single class inheritance only","Both multiple and single","Hierarchical only"], ans:1 },
+  { q:"What is method overriding?", opts:["Defining two methods with the same name in one class","Redefining a parent class method in a child class","Calling a method twice","Hiding a static method"], ans:1 },
+  { q:"Which annotation is used to indicate method overriding?", opts:["@Overload","@Override","@Inherit","@Super"], ans:1 },
+  { q:"What is method overloading?", opts:["Replacing a parent's method","Defining multiple methods with the same name but different parameters","Calling a method twice","Hiding an instance method"], ans:1 },
+  { q:"Which type of polymorphism is resolved at compile time?", opts:["Runtime polymorphism","Dynamic dispatch","Static polymorphism","Late binding"], ans:2 },
+  { q:"Which type of polymorphism is resolved at runtime?", opts:["Operator overloading","Method overloading","Method overriding through dynamic dispatch","Constructor overloading"], ans:2 },
+  { q:"Can a subclass access private members of its parent class?", opts:["Yes, always","No, never directly","Only through static methods","Only through constructors"], ans:1 },
+  { q:"What does the <code>super</code> keyword refer to?", opts:["The current class","The child class","The parent class","The Object class"], ans:2 },
+  { q:"Which of the following is true about final methods?", opts:["They cannot be called","They can be overridden","They cannot be overridden","They are always static"], ans:2 },
+  { q:"What is a multilevel inheritance example?", opts:["A extends B and C","A extends B, B extends C","A and B both extend C","None of the above"], ans:1 },
+  { q:"Java prevents multiple inheritance of classes to avoid:", opts:["Code reuse","The Diamond Problem","Polymorphism","Static binding"], ans:1 },
+  { q:"Which of the following correctly describes dynamic dispatch?", opts:["Resolving method calls at compile time","Selecting a method based on the reference type","Selecting a method based on the actual object type at runtime","Compiling code dynamically"], ans:2 },
+  { q:"When a child class constructor doesn't explicitly call <code>super()</code>, Java:", opts:["Throws an error","Calls the parent's default constructor automatically","Calls the parent's parameterized constructor","Ignores the parent constructor"], ans:1 },
+  { q:"Which access modifier allows a subclass in a different package to access a member?", opts:["private","default","protected","public only"], ans:2 },
+  { q:"A class declared <code>abstract</code> can:", opts:["Be instantiated directly","Not have any methods","Contain abstract and concrete methods","Only have abstract methods"], ans:2 },
+  { q:"Interfaces in Java are used to achieve:", opts:["Single inheritance only","Multiple inheritance through implementation","Code hiding","Constructor sharing"], ans:1 },
+  { q:"Which of the following statements about inheritance is FALSE?", opts:["Subclass inherits public methods","Subclass inherits private methods directly","Subclass can override parent methods","Subclass can call parent methods via super"], ans:1 },
+  { q:"What is the IS-A relationship in Java?", opts:["Composition","Aggregation","Inheritance","Association"], ans:2 },
+  { q:"What is the HAS-A relationship in Java?", opts:["Inheritance","Polymorphism","Composition/Aggregation","Abstraction"], ans:2 },
+],
+
+// ── GROUP 4: Encapsulation & Abstraction (Q61-Q80) ──
+[
+  { q:"Encapsulation is best implemented using:", opts:["public fields only","private fields with public getters/setters","static methods","abstract classes"], ans:1 },
+  { q:"What is a getter method?", opts:["A method that deletes a field","A method that returns the value of a private field","A method that sets a field value","A constructor"], ans:1 },
+  { q:"What is a setter method?", opts:["A method that returns a value","A method that modifies a private field","A constructor","A static initializer"], ans:1 },
+  { q:"Which keyword is used to declare an abstract method?", opts:["interface","final","abstract","static"], ans:2 },
+  { q:"An abstract class:", opts:["Cannot have concrete methods","Cannot have constructors","Can have both abstract and concrete methods","Must implement all interface methods"], ans:2 },
+  { q:"Which of these can be instantiated directly?", opts:["Abstract class","Interface","Concrete class","All of the above"], ans:2 },
+  { q:"If a class has at least one abstract method, it must be declared:", opts:["final","static","abstract","private"], ans:2 },
+  { q:"A class that implements an interface must:", opts:["Extend that interface","Provide implementations for all its abstract methods","Declare itself abstract always","Be in the same package"], ans:1 },
+  { q:"Which is true about interfaces before Java 8?", opts:["Interfaces can have concrete methods","Interfaces can have only abstract methods","Interfaces can have constructors","Interfaces can have instance fields"], ans:1 },
+  { q:"Which Java 8 feature allows interfaces to have method implementations?", opts:["Abstract methods","Static fields","Default methods","Final methods"], ans:2 },
+  { q:"Encapsulation helps in:", opts:["Increasing global variable usage","Protecting data from unintended access","Making all fields public","Preventing inheritance"], ans:1 },
+  { q:"Which of the following breaks encapsulation?", opts:["Private fields","Public getter","Public setter","Public instance field"], ans:3 },
+  { q:"What does data hiding mean in Java OOP?", opts:["Deleting unnecessary data","Restricting access to class internals","Making data invisible to the JVM","Using abstract classes"], ans:1 },
+  { q:"An abstract method has:", opts:["A body with implementation","No body, ends with semicolon","A return type of void only","Must be static"], ans:1 },
+  { q:"Which of the following is true about an interface?", opts:["An interface can extend a class","A class can implement multiple interfaces","An interface can be instantiated","An interface can have a constructor"], ans:1 },
+  { q:"What is the default access modifier for interface methods (before Java 9)?", opts:["private","protected","public","package-private"], ans:2 },
+  { q:"Variables declared in an interface are implicitly:", opts:["private","static only","public static final","protected"], ans:2 },
+  { q:"Which of the following classes cannot be subclassed?", opts:["Abstract class","Interface","Final class","Static class"], ans:2 },
+  { q:"In Java, what does JavaBean convention require?", opts:["All fields must be static","Private fields with public getters/setters and no-arg constructor","Abstract class with factory methods","Singleton pattern"], ans:1 },
+  { q:"Which modifier makes a method available without creating an object?", opts:["final","abstract","private","static"], ans:3 },
+],
+
+// ── GROUP 5: Interfaces, Keywords & Advanced OOP (Q81-Q100) ──
+[
+  { q:"Which keyword is used to implement an interface?", opts:["extends","uses","implements","inherits"], ans:2 },
+  { q:"Can an interface extend another interface in Java?", opts:["No","Yes, using extends","Yes, using implements","Only in Java 11+"], ans:1 },
+  { q:"What is the purpose of the <code>instanceof</code> keyword?", opts:["Creates an instance","Checks if an object is an instance of a class","Converts object types","Initializes an interface"], ans:1 },
+  { q:"Which of the following correctly describes a Singleton pattern?", opts:["Only one method can exist","Only one instance of the class exists","Class cannot be inherited","All fields are static"], ans:1 },
+  { q:"What is the output of <code>\"hello\".getClass().getName()</code> in Java?", opts:["String","java.lang.String","Hello","java.String"], ans:1 },
+  { q:"Which design principle states 'program to an interface, not an implementation'?", opts:["DRY","SOLID — Liskov","SOLID — Dependency Inversion","YAGNI"], ans:2 },
+  { q:"What is casting in Java OOP?", opts:["Destroying an object","Converting one type to another","Creating a copy","Hiding fields"], ans:1 },
+  { q:"What is upcasting?", opts:["Casting a parent to child type","Casting a child to parent type","Casting int to double","Casting interface to class"], ans:1 },
+  { q:"What is downcasting?", opts:["Converting a parent reference to a child type","Converting a child reference to a parent type","Narrowing numeric types","Widening primitive types"], ans:0 },
+  { q:"What exception occurs on an invalid downcast?", opts:["NullPointerException","ClassCastException","IllegalArgumentException","ArrayIndexOutOfBoundsException"], ans:1 },
+  { q:"Which of the following is a functional interface in Java?", opts:["Serializable","Runnable","Comparable","Cloneable"], ans:1 },
+  { q:"What is a lambda expression in Java?", opts:["An anonymous class","A shorthand for implementing functional interfaces","A loop construct","A type of constructor"], ans:1 },
+  { q:"Which of the following represents tight coupling?", opts:["Using interfaces","Using dependency injection","Directly instantiating dependencies inside a class","Using abstract classes"], ans:2 },
+  { q:"What is cohesion in OOP design?", opts:["Degree to which classes depend on each other","Degree to which a class focuses on a single responsibility","Number of methods in a class","Number of fields in a class"], ans:1 },
+  { q:"What is coupling in OOP design?", opts:["Degree of focus of a class","Degree to which classes depend on each other","Number of interfaces implemented","Number of constructors"], ans:1 },
+  { q:"Which SOLID principle says a class should have only one reason to change?", opts:["Open/Closed Principle","Single Responsibility Principle","Liskov Substitution","Interface Segregation"], ans:1 },
+  { q:"The Open/Closed Principle states that classes should be:", opts:["Open for modification, closed for extension","Open for extension, closed for modification","Neither open nor closed","Fully open"], ans:1 },
+  { q:"Which of the following is used to achieve loose coupling in Java?", opts:["Concrete classes","Interfaces and dependency injection","static methods","final classes"], ans:1 },
+  { q:"What does the <code>@FunctionalInterface</code> annotation enforce?", opts:["The interface has at least one method","The interface has exactly one abstract method","The interface is serializable","The interface is final"], ans:1 },
+  { q:"Which of these best describes composition over inheritance?", opts:["Always use abstract classes","Prefer building classes using other class instances rather than extending","Always avoid OOP","Use only interfaces"], ans:1 },
+]
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────────────────────
+const state = {
+  selected: Array.from({length:5}, () => new Array(20).fill(-1)),
+  submitted: [false,false,false,false,false],
+  scores: [0,0,0,0,0]
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Render all cards
+// ─────────────────────────────────────────────────────────────────────────────
+function renderAll() {
+  data.forEach((group, gi) => {
+    const container = document.getElementById(`cards-${gi}`);
+    container.innerHTML = group.map((q, qi) => {
+      const globalNum = gi * 20 + qi + 1;
+      const opts = q.opts.map((o, oi) => `
+        <label class="option" id="opt-${gi}-${qi}-${oi}" onclick="select(${gi},${qi},${oi})">
+          <input type="radio" name="q-${gi}-${qi}" value="${oi}">
+          <span class="opt-label">${String.fromCharCode(65+oi)}</span>
+          <span class="opt-text">${o}</span>
+        </label>`).join('');
+      return `
+        <div class="q-card" id="qcard-${gi}-${qi}">
+          <div class="q-header">
+            <span class="q-num">Q${globalNum}</span>
+            <span class="q-text">${q.q}</span>
+          </div>
+          <div class="options" id="opts-${gi}-${qi}">${opts}</div>
+        </div>`;
+    }).join('');
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Select option
+// ─────────────────────────────────────────────────────────────────────────────
+function select(gi, qi, oi) {
+  if (state.submitted[gi]) return;
+  const prev = state.selected[gi][qi];
+  if (prev !== -1) {
+    document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  }
+  state.selected[gi][qi] = oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Submit a group
+// ─────────────────────────────────────────────────────────────────────────────
+function submitGroup(gi) {
+  if (state.submitted[gi]) { alert('This group is already submitted!'); return; }
+  const unanswered = state.selected[gi].filter(v => v === -1).length;
+  if (unanswered > 0) {
+    alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`);
+    return;
+  }
+  state.submitted[gi] = true;
+  let correct = 0;
+  data[gi].forEach((q, qi) => {
+    const chosen = state.selected[gi][qi];
+    const right = q.ans;
+    // Mark correct/wrong
+    for (let oi = 0; oi < 4; oi++) {
+      const el = document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents = 'none';
+      if (oi === right) el.classList.add('correct');
+      else if (oi === chosen && chosen !== right) el.classList.add('wrong');
+    }
+    if (chosen === right) correct++;
+  });
+  state.scores[gi] = correct;
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  document.getElementById(`result-${gi}`).innerHTML = `Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent = `Score: ${total} / ${state.submitted.filter(Boolean).length * 20}`;
+  updateProgress();
+
+  if (state.submitted.every(Boolean)) {
+    document.getElementById('results-tab').style.display = '';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Show group
+// ─────────────────────────────────────────────────────────────────────────────
+function showGroup(idx) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('global-result').style.display = 'none';
+
+  if (idx <= 4) {
+    document.getElementById(`group-${idx}`).classList.add('visible');
+    document.querySelectorAll('.group-btn')[idx].classList.add('active');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Final result
+// ─────────────────────────────────────────────────────────────────────────────
+function showFinalResult() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  const pct = Math.round(total / 100 * 100);
+  let grade = pct >= 90 ? '🏆 Excellent! You have a strong grasp of Java OOP.' :
+              pct >= 75 ? '👍 Good work! Review the questions you missed.' :
+              pct >= 50 ? '📖 Fair. Keep studying Java OOP concepts.' :
+                          '💡 Keep practicing! OOP takes time to master.';
+  document.getElementById('final-score-text').textContent = `${total} / 100`;
+  document.getElementById('final-grade-text').textContent = `${pct}% — ${grade}`;
+  document.getElementById('global-result').style.display = 'block';
+  document.getElementById('results-tab').classList.add('active');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Progress
+// ─────────────────────────────────────────────────────────────────────────────
+function updateProgress() {
+  const answered = state.selected.flat().filter(v => v !== -1).length;
+  document.getElementById('progress-fill').style.width = (answered / 100 * 100) + '%';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Reset
+// ─────────────────────────────────────────────────────────────────────────────
+function resetAll() {
+  state.selected.forEach(g => g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent = 'Score: 0 / 100';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('results-tab').style.display = 'none';
+  document.getElementById('global-result').style.display = 'none';
+  [0,1,2,3,4].forEach(gi => {
+    document.getElementById(`result-${gi}`).innerHTML = 'Answer all questions first.';
+  });
+  renderAll();
+  showGroup(0);
+}
+
+// Init
+renderAll();
+</script>
+</body>
+</html>
