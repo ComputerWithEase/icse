@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java MCQ Tests — Hub</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 10px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 22px 36px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  /* ── Progress bar decoration ── */
+  .rainbow-bar {
+    height: 3px;
+    background: linear-gradient(90deg,
+      #f89820 0%,
+      #4dabf7 20%,
+      #2ea043 40%,
+      #da3633 60%,
+      #f89820 80%,
+      #4dabf7 100%);
+  }
+
+  /* ── Wrapper ── */
+  .wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    flex: 1;
+    width: 100%;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border: 1px solid rgba(248,152,32,0.25);
+    border-radius: 20px;
+    padding: 5px 16px;
+    margin-bottom: 18px;
+  }
+  .hero h2 {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.8px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .hero h2 span { color: var(--java-orange); }
+  .hero p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ── Stats ── */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    flex-wrap: wrap;
+    margin-bottom: 52px;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .stat-div { width: 1px; background: var(--border); align-self: stretch; }
+
+  /* ── Section heading ── */
+  .sec-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .sec-head-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+  .sec-head-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── Quiz cards grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 52px;
+  }
+
+  .quiz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 24px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color 0.18s, background 0.18s, transform 0.15s, box-shadow 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .quiz-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .quiz-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .quiz-card:hover::before { opacity: 1; }
+
+  /* Colour themes per card */
+  .c1::before { background: linear-gradient(90deg,#f89820,#ffb347); }
+  .c1:hover { border-color: rgba(248,152,32,0.5); background: rgba(248,152,32,0.04); }
+
+  .c2::before { background: linear-gradient(90deg,#4dabf7,#74c0fc); }
+  .c2:hover { border-color: rgba(77,171,247,0.5); background: rgba(77,171,247,0.04); }
+
+  .c3::before { background: linear-gradient(90deg,#2ea043,#51cf66); }
+  .c3:hover { border-color: rgba(46,160,67,0.5); background: rgba(46,160,67,0.04); }
+
+  .c4::before { background: linear-gradient(90deg,#da3633,#ff6b6b); }
+  .c4:hover { border-color: rgba(218,54,51,0.5); background: rgba(218,54,51,0.04); }
+
+  .c5::before { background: linear-gradient(90deg,#9775fa,#b197fc); }
+  .c5:hover { border-color: rgba(151,117,250,0.5); background: rgba(151,117,250,0.04); }
+
+  .c6::before { background: linear-gradient(90deg,#20c997,#63e6be); }
+  .c6:hover { border-color: rgba(32,201,151,0.5); background: rgba(32,201,151,0.04); }
+
+  .c7::before { background: linear-gradient(90deg,#fd7e14,#ffa94d); }
+  .c7:hover { border-color: rgba(253,126,20,0.5); background: rgba(253,126,20,0.04); }
+
+  .c8::before { background: linear-gradient(90deg,#e64980,#f783ac); }
+  .c8:hover { border-color: rgba(230,73,128,0.5); background: rgba(230,73,128,0.04); }
+
+  .c9::before { background: linear-gradient(90deg,#1c7ed6,#4dabf7); }
+  .c9:hover { border-color: rgba(28,126,214,0.5); background: rgba(28,126,214,0.04); }
+
+  /* Card inner layout */
+  .card-top { display: flex; align-items: flex-start; gap: 14px; }
+  .card-icon {
+    width: 46px; height: 46px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .c1 .card-icon { background: rgba(248,152,32,0.12); }
+  .c2 .card-icon { background: rgba(77,171,247,0.12); }
+  .c3 .card-icon { background: rgba(46,160,67,0.12); }
+  .c4 .card-icon { background: rgba(218,54,51,0.12); }
+  .c5 .card-icon { background: rgba(151,117,250,0.12); }
+  .c6 .card-icon { background: rgba(32,201,151,0.12); }
+  .c7 .card-icon { background: rgba(253,126,20,0.12); }
+  .c8 .card-icon { background: rgba(230,73,128,0.12); }
+  .c9 .card-icon { background: rgba(28,126,214,0.12); }
+
+  .card-info { flex: 1; }
+  .card-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+  }
+  .card-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Topics chips inside card */
+  .topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .topic-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--surface2);
+    white-space: nowrap;
+  }
+
+  .card-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    transition: color 0.15s, transform 0.15s;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+  .quiz-card:hover .card-arrow { transform: translateX(4px); }
+  .c1:hover .card-arrow { color: var(--java-orange); }
+  .c2:hover .card-arrow { color: var(--java-blue); }
+  .c3:hover .card-arrow { color: var(--correct); }
+  .c4:hover .card-arrow { color: var(--wrong); }
+  .c5:hover .card-arrow { color: #9775fa; }
+  .c6:hover .card-arrow { color: #20c997; }
+  .c7:hover .card-arrow { color: #fd7e14; }
+  .c8:hover .card-arrow { color: #e64980; }
+  .c9:hover .card-arrow { color: #1c7ed6; }
+
+  /* q-count pill */
+  .q-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* ── CTA Banner ── */
+  .cta {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 52px;
+  }
+  .cta-text h3 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .cta-text p { font-size: 13px; color: var(--muted); }
+  .cta-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: 0.4px;
+    transition: all 0.15s;
+    background: var(--java-orange);
+    color: #000;
+    white-space: nowrap;
+  }
+  .cta-btn:hover { background: #e08800; }
+
+  /* ── Chapter map ── */
+  .chapter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 52px;
+  }
+  .ch-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: default;
+    transition: all 0.15s;
+  }
+  .ch-chip:hover {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.07);
+  }
+  .ch-chip.covered { border-color: rgba(46,160,67,0.4); color: var(--correct); background: rgba(46,160,67,0.08); }
+  .ch-chip.covered::before { content: '✓ '; }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 18px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .foot-logo { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--java-orange); }
+  .foot-logo span { color: var(--java-blue); }
+  footer p { font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 640px) {
+    header { padding: 14px 16px; flex-wrap: wrap; }
+    .wrapper { padding: 28px 14px 60px; }
+    .grid { grid-template-columns: 1fr; }
+    .hero h2 { font-size: 26px; }
+    .cta { flex-direction: column; align-items: flex-start; }
+    footer { padding: 16px; }
+    .stat-div { display: none; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false">
+
+<!-- ── Header ── -->
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>MCQ Question Bank — All Topics</h1>
+  <div class="badge">ICSE</div>
+</header>
+<div class="rainbow-bar"></div>
+
+<div class="wrapper">
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-badge">📚 ICSE Computer Application</div>
+    <h2>Java <span>MCQ</span> Test</h2>
+    <p>Click any topic below to open its full 100-question multiple-choice test. Each test is divided into 5 groups of 20 questions.</p>
+  </div>
+
+  <!-- ── Stats ── -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">8</div>
+      <div class="stat-lbl">Total Tests</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <div class="stat-num">800</div>
+      <div class="stat-lbl">Total Questions</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <div class="stat-num">40</div>
+      <div class="stat-lbl">Question Groups</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <div class="stat-num">20</div>
+      <div class="stat-lbl">Q per Group</div>
+    </div>
+  </div>
+
+  <!-- ── MCQ Tests Grid ── -->
+  <div class="sec-head">
+    <span class="sec-head-label">MCQ Tests</span>
+    <div class="sec-head-line"></div>
+  </div>
+
+  <div class="grid">
+
+    <!-- Test 1 -->
+    <a class="quiz-card c1" href="java_oop_quiz.html">
+      <div class="card-top">
+        <div class="card-icon">🔵</div>
+        <div class="card-info">
+          <div class="card-num">Test 01</div>
+          <div class="card-title">OOP Fundamentals</div>
+          <div class="card-desc">Core OOP concepts including abstraction, encapsulation, inheritance, polymorphism, classes, objects, and constructors.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">OOP Pillars</span>
+        <span class="topic-tag">Classes & Objects</span>
+        <span class="topic-tag">Constructors</span>
+        <span class="topic-tag">Interfaces</span>
+        <span class="topic-tag">Keywords</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">100 Questions · 5 Groups</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Test 2 -->
+    <a class="quiz-card c2" href="java_basics_quiz.html">
+      <div class="card-top">
+        <div class="card-icon">🟦</div>
+        <div class="card-info">
+          <div class="card-num">Test 02</div>
+          <div class="card-title">Java Basics</div>
+          <div class="card-desc">Introduction to Java, all primitive data types, values, literals, ranges, and all categories of operators.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">Introduction</span>
+        <span class="topic-tag">Data Types</span>
+        <span class="topic-tag">Literals</span>
+        <span class="topic-tag">Operators</span>
+        <span class="topic-tag">Type Casting</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">100 Questions · 5 Groups</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Test 3 -->
+    <a class="quiz-card c3" href="java_io_math_quiz.html">
+      <div class="card-top">
+        <div class="card-icon">🟩</div>
+        <div class="card-info">
+          <div class="card-num">Test 03</div>
+          <div class="card-title">Input, Output & Math</div>
+          <div class="card-desc">Console output, Scanner input, formatted output with printf, and all Math library methods including trig and logarithms.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">Console Output</span>
+        <span class="topic-tag">Scanner</span>
+        <span class="topic-tag">printf</span>
+        <span class="topic-tag">Math Library</span>
+        <span class="topic-tag">Trig Functions</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">100 Questions · 5 Groups</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Test 4 -->
+    <a class="quiz-card c4" href="java_loops_quiz.html">
+      <div class="card-top">
+        <div class="card-icon">🔁</div>
+        <div class="card-info">
+          <div class="card-num">Test 04</div>
+          <div class="card-title">Control Flow & Loops</div>
+          <div class="card-desc">Conditional statements, switch, ternary, all loop types, break/continue, labeled loops, and nested loop patterns.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">if / else</span>
+        <span class="topic-tag">switch</span>
+        <span class="topic-tag">for / while</span>
+        <span class="topic-tag">do-while</span>
+        <span class="topic-tag">Nested Loops</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">100 Questions · 5 Groups</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Test 5 -->
+    <a class="quiz-card c5" href="java_arrays_quiz.html">
+      <div class="card-top">
+        <div class="card-icon">📦</div>
+        <div class="card-info">
+          <div class="card-num">Test 05</div>
+          <div class="card-title">Arrays (1D & 2D)</div>
+          <div class="card-desc">Single and double dimensional arrays — declaration, traversal, sorting, searching, the Arrays class, and jagged arrays.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">1D Arrays</span>
+        <span class="topic-tag">2D Arrays</span>
+        <span class="topic-tag">Arrays Class</span>
+        <span class="topic-tag">Sorting</span>
+        <span class="topic-tag">Jagged Arrays</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">100 Questions · 5 Groups</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Test 6 -->
+    <a class="quiz-card c6" href="java_strings_quiz.html">
+      <div class="card-top">
+        <div class="card-icon">🔤</div>
+        <div class="card-info">
+          <div class="card-num">Test 06</div>
+          <div class="card-title">String Handling</div>
+          <div class="card-desc">String creation, pool, immutability, comparison, search, manipulation methods, StringBuilder, StringBuffer, and conversions.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">String Basics</span>
+        <span class="topic-tag">Comparison</span>
+        <span class="topic-tag">Manipulation</span>
+        <span class="topic-tag">StringBuilder</span>
+        <span class="topic-tag">Conversion</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">100 Questions · 5 Groups</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Test 7 -->
+    <a class="quiz-card c7" href="java_methods_classes_quiz.html">
+      <div class="card-top">
+        <div class="card-icon">⚙️</div>
+        <div class="card-info">
+          <div class="card-num">Test 07</div>
+          <div class="card-title">Methods, Classes & Objects</div>
+          <div class="card-desc">User-defined methods, overloading, recursion, class declaration, instance & static members, object creation, and memory model.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">Methods</span>
+        <span class="topic-tag">Overloading</span>
+        <span class="topic-tag">Recursion</span>
+        <span class="topic-tag">Classes</span>
+        <span class="topic-tag">Objects</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">100 Questions · 5 Groups</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Test 8 -->
+    <a class="quiz-card c8" href="java_constructors_encap_inherit_quiz.html">
+      <div class="card-top">
+        <div class="card-icon">🧱</div>
+        <div class="card-info">
+          <div class="card-num">Test 08</div>
+          <div class="card-title">Constructors, Encapsulation & Inheritance</div>
+          <div class="card-desc">Constructor types, chaining, data hiding, getters/setters, extends keyword, super, method overriding, and polymorphism.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">Constructors</span>
+        <span class="topic-tag">Encapsulation</span>
+        <span class="topic-tag">Inheritance</span>
+        <span class="topic-tag">super</span>
+        <span class="topic-tag">Overriding</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">100 Questions · 5 Groups</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Dashboard -->
+    <a class="quiz-card c9" href="java_dashboard.html">
+      <div class="card-top">
+        <div class="card-icon">🏠</div>
+        <div class="card-info">
+          <div class="card-num">Dashboard</div>
+          <div class="card-title">Sourav Sir</div>
+          <div class="card-desc">Your complete Java study dashboard with Notes, YouTube Tutorials, MCQ Tests, and Previous Year Questions all in one place.</div>
+        </div>
+      </div>
+      <div class="topics">
+        <span class="topic-tag">Notes</span>
+        <span class="topic-tag">YouTube</span>
+        <span class="topic-tag">MCQ Tests</span>
+        <span class="topic-tag">PYQ</span>
+        <span class="topic-tag">Topics Map</span>
+      </div>
+      <div class="card-footer">
+        <span class="q-count">All Resources</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="cta">
+    <div class="cta-text">
+      <h3>🎯 How to use this hub</h3>
+      <p>Click any test card above to open it. Answer all 20 questions per group, submit, see instant feedback, then move to the next group. Track your final score at the end.</p>
+    </div>
+    <a class="cta-btn" href="java_oop_quiz.html">Start with OOP →</a>
+  </div>
+
+  <!-- ── Topics Covered ── -->
+  <div class="sec-head">
+    <span class="sec-head-label">All Topics Covered</span>
+    <div class="sec-head-line"></div>
+  </div>
+
+  <div class="chapter-list">
+    <span class="ch-chip covered">Java Introduction</span>
+    <span class="ch-chip covered">Data Types & Variables</span>
+    <span class="ch-chip covered">Operators</span>
+    <span class="ch-chip covered">Type Casting</span>
+    <span class="ch-chip covered">Console Input (Scanner)</span>
+    <span class="ch-chip covered">Console Output</span>
+    <span class="ch-chip covered">Formatted Output (printf)</span>
+    <span class="ch-chip covered">Math Library</span>
+    <span class="ch-chip covered">Conditional Statements</span>
+    <span class="ch-chip covered">switch Statement</span>
+    <span class="ch-chip covered">Ternary Operator</span>
+    <span class="ch-chip covered">for Loop</span>
+    <span class="ch-chip covered">while Loop</span>
+    <span class="ch-chip covered">do-while Loop</span>
+    <span class="ch-chip covered">break & continue</span>
+    <span class="ch-chip covered">Nested Loops</span>
+    <span class="ch-chip covered">1D Arrays</span>
+    <span class="ch-chip covered">2D Arrays</span>
+    <span class="ch-chip covered">Arrays Class</span>
+    <span class="ch-chip covered">Jagged Arrays</span>
+    <span class="ch-chip covered">String Basics</span>
+    <span class="ch-chip covered">String Methods</span>
+    <span class="ch-chip covered">StringBuilder</span>
+    <span class="ch-chip covered">StringBuffer</span>
+    <span class="ch-chip covered">User-Defined Methods</span>
+    <span class="ch-chip covered">Method Overloading</span>
+    <span class="ch-chip covered">Recursion</span>
+    <span class="ch-chip covered">Classes & Objects</span>
+    <span class="ch-chip covered">Constructors</span>
+    <span class="ch-chip covered">Constructor Chaining</span>
+    <span class="ch-chip covered">Encapsulation</span>
+    <span class="ch-chip covered">Inheritance</span>
+    <span class="ch-chip covered">super Keyword</span>
+    <span class="ch-chip covered">Method Overriding</span>
+    <span class="ch-chip covered">Polymorphism</span>
+    <span class="ch-chip covered">OOP Pillars</span>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="foot-logo">Sourav<span> Sir</span></div>
+  <p>8 Tests · 800 Questions · Complete Java MCQ Coverage</p>
+  <p style="font-family:var(--mono);font-size:11px;color:var(--muted);">Java SE 17 · Updated 2026</p>
+</footer>
+
+</body>
+</html>

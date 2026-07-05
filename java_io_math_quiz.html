@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java for ICSE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .score-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .group-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .group-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .group-btn:hover, .group-btn.active {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.08);
+  }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: var(--mono);
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .q-card:hover { border-color: #444c56; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--java-blue);
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .option:hover { border-color: var(--java-blue); background: rgba(77,171,247,0.05); }
+  .option input[type="radio"] { display: none; }
+
+  .opt-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.12s;
+  }
+  .opt-text { font-size: 14px; color: var(--text); }
+
+  .option.selected .opt-label {
+    border-color: var(--java-blue);
+    background: var(--java-blue);
+    color: #000;
+  }
+  .option.correct { border-color: var(--correct); background: rgba(46,160,67,0.1); }
+  .option.correct .opt-label { border-color: var(--correct); background: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: rgba(218,54,51,0.1); }
+  .option.wrong .opt-label { border-color: var(--wrong); background: var(--wrong); color: #fff; }
+
+  .section-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-result {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section-result strong { color: var(--java-orange); }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary { background: var(--java-orange); color: #000; }
+  .btn-primary:hover { background: #e08800; }
+  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  #global-result {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+  #global-result h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; color: var(--java-orange); }
+  #global-result p { color: var(--muted); font-size: 15px; }
+  #global-result .big-score {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .wrapper { padding: 24px 16px 60px; }
+    .section-footer { flex-direction: column; align-items: stretch; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>Input · Output · Mathematical Library Methods — 100 Questions</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 100</div>
+</header>
+
+<div class="wrapper">
+
+  <nav class="group-nav">
+    <a class="group-btn active" onclick="showGroup(0)" href="#">Group 1 · Q1–20</a>
+    <a class="group-btn" onclick="showGroup(1)" href="#">Group 2 · Q21–40</a>
+    <a class="group-btn" onclick="showGroup(2)" href="#">Group 3 · Q41–60</a>
+    <a class="group-btn" onclick="showGroup(3)" href="#">Group 4 · Q61–80</a>
+    <a class="group-btn" onclick="showGroup(4)" href="#">Group 5 · Q81–100</a>
+    <a class="group-btn" onclick="showGroup(5)" href="#" id="results-tab" style="display:none">📊 Results</a>
+  </nav>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- GROUP 1 -->
+  <section class="section visible" id="group-0">
+    <div class="section-header">
+      <span class="section-number">Group 01</span>
+      <h2 class="section-title">Console Output</h2>
+      <span class="section-count">Q1 – Q20</span>
+    </div>
+    <div id="cards-0"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-0">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitGroup(0)">Submit Group 1</button>
+        <button class="btn btn-ghost" onclick="showGroup(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 2 -->
+  <section class="section" id="group-1">
+    <div class="section-header">
+      <span class="section-number">Group 02</span>
+      <h2 class="section-title">Console Input — Scanner</h2>
+      <span class="section-count">Q21 – Q40</span>
+    </div>
+    <div id="cards-1"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-1">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(0)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(1)">Submit Group 2</button>
+        <button class="btn btn-ghost" onclick="showGroup(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 3 -->
+  <section class="section" id="group-2">
+    <div class="section-header">
+      <span class="section-number">Group 03</span>
+      <h2 class="section-title">Formatted Output &amp; String I/O</h2>
+      <span class="section-count">Q41 – Q60</span>
+    </div>
+    <div id="cards-2"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-2">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(1)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(2)">Submit Group 3</button>
+        <button class="btn btn-ghost" onclick="showGroup(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 4 -->
+  <section class="section" id="group-3">
+    <div class="section-header">
+      <span class="section-number">Group 04</span>
+      <h2 class="section-title">Math Library Methods — Part I</h2>
+      <span class="section-count">Q61 – Q80</span>
+    </div>
+    <div id="cards-3"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-3">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(2)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(3)">Submit Group 4</button>
+        <button class="btn btn-ghost" onclick="showGroup(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 5 -->
+  <section class="section" id="group-4">
+    <div class="section-header">
+      <span class="section-number">Group 05</span>
+      <h2 class="section-title">Math Library Methods — Part II</h2>
+      <span class="section-count">Q81 – Q100</span>
+    </div>
+    <div id="cards-4"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-4">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(3)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(4)">Submit Group 5</button>
+        <button class="btn btn-primary" onclick="showFinalResult()" style="background:var(--java-blue)">View Final Score</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="global-result">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score-text">—</div>
+    <p id="final-grade-text"></p>
+    <br>
+    <button class="btn btn-primary" onclick="resetAll()">Retake Quiz</button>
+  </div>
+
+</div>
+
+<script>
+const data = [
+
+// GROUP 1 — Console Output (Q1–Q20)
+[
+  { q:"Which method prints text to the console and moves to a new line?", opts:["System.out.print()","System.out.println()","System.out.write()","System.out.display()"], ans:1 },
+  { q:"Which method prints text to the console WITHOUT adding a newline?", opts:["System.out.println()","System.out.newline()","System.out.print()","System.out.write()"], ans:2 },
+  { q:"What is the output of <code>System.out.println(\"Hello\" + \" \" + \"World\");</code>?", opts:["Hello+World","Hello World","HelloWorld","Compilation error"], ans:1 },
+  { q:"What is the output of <code>System.out.println(5 + 3);</code>?", opts:["53","5+3","8","Compilation error"], ans:2 },
+  { q:"What is the output of <code>System.out.println(\"Result: \" + 5 + 3);</code>?", opts:["Result: 8","Result: 53","Result: 5+3","Compilation error"], ans:1 },
+  { q:"What is the output of <code>System.out.println(5 + 3 + \" Result\");</code>?", opts:["5+3 Result","53 Result","8 Result","Compilation error"], ans:2 },
+  { q:"Which escape sequence represents a newline inside a String?", opts:["\\t","\\r","\\n","\\b"], ans:2 },
+  { q:"Which escape sequence represents a tab character?", opts:["\\n","\\t","\\r","\\b"], ans:1 },
+  { q:"What does <code>System.out.println('A');</code> print?", opts:["65","'A'","A","Compilation error"], ans:2 },
+  { q:"What is the output of <code>System.out.println(10 / 3);</code>?", opts:["3.33","3","4","3.0"], ans:1 },
+  { q:"What is the output of <code>System.out.println(10.0 / 3);</code>?", opts:["3","3.33","3.3333333333333335","3.0"], ans:2 },
+  { q:"What does the <code>+</code> operator do when one operand is a String?", opts:["Adds numerically","Concatenates as strings","Throws an error","Rounds the number"], ans:1 },
+  { q:"What is the output of <code>System.out.print(\"A\"); System.out.print(\"B\");</code>?", opts:["A B","A\\nB","AB","A\\nB\\n"], ans:2 },
+  { q:"What is the output of <code>System.out.println(true);</code>?", opts:["1","True","true","Compilation error"], ans:2 },
+  { q:"What is the output of <code>System.out.println(1 == 1);</code>?", opts:["1","True","true","false"], ans:2 },
+  { q:"Which standard stream does <code>System.out</code> refer to?", opts:["Standard error","Standard file","Standard input","Standard output"], ans:3 },
+  { q:"Which standard stream does <code>System.err</code> refer to?", opts:["Standard output","Standard error","Standard file","Standard input"], ans:1 },
+  { q:"What is the output of <code>System.out.println('A' + 1);</code>?", opts:["A1","B","66","Compilation error"], ans:2 },
+  { q:"What is the output of <code>System.out.println(\"\" + 1 + 2);</code>?", opts:["3","12","1+2","Compilation error"], ans:1 },
+  { q:"What is the output of <code>System.out.println(1 + 2 + \"3\");</code>?", opts:["123","33","6","Compilation error"], ans:1 },
+],
+
+// GROUP 2 — Console Input: Scanner (Q21–Q40)
+[
+  { q:"Which class is used to read keyboard input in Java?", opts:["BufferedReader","InputReader","Scanner","KeyboardReader"], ans:2 },
+  { q:"Which package contains the <code>Scanner</code> class?", opts:["java.io","java.util","java.lang","java.input"], ans:1 },
+  { q:"What is the correct import statement for the Scanner class?", opts:["import java.io.Scanner;","import java.Scanner;","import java.util.Scanner;","import util.Scanner;"], ans:2 },
+  { q:"Which of the following correctly creates a Scanner for keyboard input?", opts:["Scanner sc = new Scanner();","Scanner sc = new Scanner(System.in);","Scanner sc = Scanner(System.in);","Scanner sc = new Scanner(System.out);"], ans:1 },
+  { q:"Which method reads an <code>int</code> from the Scanner?", opts:["sc.readInt()","sc.getInt()","sc.nextInt()","sc.parseInt()"], ans:2 },
+  { q:"Which method reads a <code>double</code> from the Scanner?", opts:["sc.nextDouble()","sc.getDouble()","sc.readDouble()","sc.parseDouble()"], ans:0 },
+  { q:"Which Scanner method reads one word (stops at whitespace)?", opts:["sc.nextLine()","sc.readString()","sc.next()","sc.getString()"], ans:2 },
+  { q:"Which Scanner method reads an entire line including spaces?", opts:["sc.next()","sc.nextLine()","sc.readLine()","sc.getLine()"], ans:1 },
+  { q:"Which Scanner method reads a <code>boolean</code> value?", opts:["sc.nextBool()","sc.getBoolean()","sc.readBoolean()","sc.nextBoolean()"], ans:3 },
+  { q:"Which Scanner method reads a <code>long</code> value?", opts:["sc.nextLong()","sc.getLong()","sc.readLong()","sc.parseLong()"], ans:0 },
+  { q:"What should you call on a Scanner when you are done using it?", opts:["sc.end()","sc.stop()","sc.close()","sc.dispose()"], ans:2 },
+  { q:"What does <code>sc.hasNextInt()</code> return?", opts:["The next integer","true if the next token is an int","false always","The count of remaining integers"], ans:1 },
+  { q:"What exception is thrown when <code>sc.nextInt()</code> encounters non-integer input?", opts:["NumberFormatException","IOException","InputMismatchException","ParseException"], ans:2 },
+  { q:"Which Scanner method checks if there is another token available?", opts:["sc.hasMore()","sc.isAvailable()","sc.hasNext()","sc.check()"], ans:2 },
+  { q:"What is <code>System.in</code> in Java?", opts:["Standard output stream","Standard error stream","Standard input stream","A file input stream"], ans:2 },
+  { q:"Which Scanner method reads a <code>float</code> value?", opts:["sc.nextFloat()","sc.getFloat()","sc.readFloat()","sc.parseFloat()"], ans:0 },
+  { q:"Which Scanner method reads a <code>byte</code> value?", opts:["sc.readByte()","sc.getByte()","sc.nextByte()","sc.parseByte()"], ans:2 },
+  { q:"Which of the following correctly reads an integer into variable <code>n</code>?", opts:["int n = Scanner.nextInt();","int n = new Scanner(System.in);","int n = sc.nextInt();","int n = sc.readInt();"], ans:2 },
+  { q:"Which Scanner method reads a <code>short</code> value?", opts:["sc.nextShort()","sc.getShort()","sc.readShort()","sc.parseShort()"], ans:0 },
+  { q:"What common issue arises when mixing <code>nextInt()</code> and <code>nextLine()</code>?", opts:["nextInt() consumes the newline, leaving it for nextLine() to read as empty","nextLine() always throws an exception after nextInt()","Both methods read the same token","There is no issue — they work seamlessly together"], ans:0 },
+],
+
+// GROUP 3 — Formatted Output & String I/O (Q41–Q60)
+[
+  { q:"Which methods are used for formatted console output in Java?", opts:["System.out.println() only","System.out.format() only","System.out.printf() only","Both System.out.printf() and System.out.format()"], ans:3 },
+  { q:"Which format specifier is used for integers in <code>printf</code>?", opts:["%f","%s","%d","%i"], ans:2 },
+  { q:"Which format specifier is used for floating-point numbers in <code>printf</code>?", opts:["%d","%f","%s","%c"], ans:1 },
+  { q:"Which format specifier is used for Strings in <code>printf</code>?", opts:["%d","%f","%s","%c"], ans:2 },
+  { q:"Which format specifier is used for a single character in <code>printf</code>?", opts:["%s","%d","%f","%c"], ans:3 },
+  { q:"What is the output of <code>System.out.printf(\"%d\", 42);</code>?", opts:["42.0","%d42","42","Compilation error"], ans:2 },
+  { q:"What does <code>System.out.printf(\"%.2f\", 3.14159);</code> print?", opts:["3.14159","3.1","3.14","3.142"], ans:2 },
+  { q:"What does the format specifier <code>%5d</code> do?", opts:["Prints only 5 digits","Right-aligns the integer in a field of width 5","Prints 5 copies of the number","Prints in base 5"], ans:1 },
+  { q:"What does <code>%-5d</code> do in a format specifier?", opts:["Prints negative numbers only","Left-aligns the integer in a field of width 5","Prints 5 digits exactly","Subtracts 5 from the value"], ans:1 },
+  { q:"Which class is preferred for efficiently building Strings in Java?", opts:["StringBuffer","StringBuilder","Both are equally preferred","StringHelper"], ans:1 },
+  { q:"What does <code>String.format(\"%s is %d\", \"Age\", 25)</code> return?", opts:["Age is 25","Age is %d","\"Age\" is 25","Compilation error"], ans:0 },
+  { q:"Which format specifier prints a boolean value?", opts:["%b","%s","%d","%f"], ans:0 },
+  { q:"What does <code>%n</code> do inside a format string?", opts:["Prints the letter n","Prints a platform-specific newline","Prints null","Does nothing"], ans:1 },
+  { q:"What does <code>System.out.printf(\"%08d\", 42);</code> print?", opts:["42000000","00000042","42      ","Compilation error"], ans:1 },
+  { q:"Which method converts an integer to its String representation?", opts:["Integer.toStr(42)","String.from(42)","Integer.toString(42)","String.parse(42)"], ans:2 },
+  { q:"Which method converts a String to a <code>double</code>?", opts:["Double.parseDouble()","Double.valueOf()","Both A and B are correct","Double.convert()"], ans:2 },
+  { q:"What does <code>System.out.printf(\"%e\", 123456.789);</code> approximately print?", opts:["123456.789","1.234568e+05","1.23e5","Compilation error"], ans:1 },
+  { q:"Which String method formats a string like <code>printf</code> but returns a String?", opts:["String.format()","String.printf()","String.build()","String.output()"], ans:0 },
+  { q:"What does <code>System.out.printf(\"%5.2f\", 3.7);</code> print?", opts:["3.70","3.7","  3.70","3.700"], ans:2 },
+  { q:"What does the <code>%x</code> format specifier do?", opts:["Prints in octal","Prints in binary","Prints in hexadecimal (lowercase)","Prints nothing"], ans:2 },
+],
+
+// GROUP 4 — Math Library Methods Part I (Q61–Q80)
+[
+  { q:"Which class provides built-in mathematical functions in Java?", opts:["Mathematics","Maths","Math","MathLib"], ans:2 },
+  { q:"Which package contains the <code>Math</code> class?", opts:["java.util","java.math","java.lang","java.io"], ans:2 },
+  { q:"Do you need to explicitly import the <code>Math</code> class?", opts:["Yes — import java.lang.Math","Yes — import java.util.Math","No — java.lang is auto-imported","No — it is part of the JVM itself"], ans:2 },
+  { q:"What does <code>Math.abs(-7)</code> return?", opts:["-7","0","7","49"], ans:2 },
+  { q:"What does <code>Math.abs(-3.5)</code> return?", opts:["-3.5","3.0","3.5","4.0"], ans:2 },
+  { q:"What does <code>Math.max(10, 20)</code> return?", opts:["10","20","15","30"], ans:1 },
+  { q:"What does <code>Math.min(10, 20)</code> return?", opts:["10","20","15","0"], ans:0 },
+  { q:"What does <code>Math.pow(2, 10)</code> return?", opts:["20.0","512.0","1024.0","100.0"], ans:2 },
+  { q:"What is the return type of <code>Math.pow()</code>?", opts:["int","long","float","double"], ans:3 },
+  { q:"What does <code>Math.sqrt(144)</code> return?", opts:["12","12.0","72.0","1.44"], ans:1 },
+  { q:"What does <code>Math.sqrt(2)</code> return (approximately)?", opts:["1.0","1.4142135623730951","2.0","4.0"], ans:1 },
+  { q:"What does <code>Math.ceil(4.2)</code> return?", opts:["4.0","4","5.0","4.2"], ans:2 },
+  { q:"What does <code>Math.floor(4.9)</code> return?", opts:["5.0","4.9","4.0","4"], ans:2 },
+  { q:"What does <code>Math.round(4.5)</code> return?", opts:["4","4.5","5","5.0"], ans:2 },
+  { q:"What does <code>Math.round(4.4)</code> return?", opts:["4","4.4","5","4.0"], ans:0 },
+  { q:"What does <code>Math.round(-4.5)</code> return?", opts:["-5","-4","0","-4.5"], ans:1 },
+  { q:"What is the return type of <code>Math.round(double x)</code>?", opts:["double","float","int","long"], ans:3 },
+  { q:"What is the return type of <code>Math.round(float x)</code>?", opts:["double","float","int","long"], ans:2 },
+  { q:"What does <code>Math.ceil(-4.2)</code> return?", opts:["-5.0","-4.2","-4.0","4.0"], ans:2 },
+  { q:"What does <code>Math.floor(-4.2)</code> return?", opts:["-4.0","-4.2","-5.0","4.0"], ans:2 },
+],
+
+// GROUP 5 — Math Library Methods Part II (Q81–Q100)
+[
+  { q:"What does <code>Math.random()</code> return?", opts:["A random integer","A random double >= 0.0 and < 1.0","A random double between 0 and 100","A random boolean"], ans:1 },
+  { q:"Which expression generates a random integer from 0 to 9?", opts:["(int) Math.random() * 10","(int)(Math.random() * 10)","Math.random(10)","Math.randInt(0, 9)"], ans:1 },
+  { q:"What does <code>Math.log(Math.E)</code> return?", opts:["0.0","1.0","2.718","3.14"], ans:1 },
+  { q:"What does <code>Math.log10(1000)</code> return?", opts:["100.0","10.0","3.0","1000.0"], ans:2 },
+  { q:"What constant does <code>Math.PI</code> represent?", opts:["3.14 exactly","The ratio of a circle's circumference to its diameter","A method call result","An integer constant"], ans:1 },
+  { q:"What is the precise value of <code>Math.PI</code> in Java?", opts:["3.14","3.14159","3.141592653589793","3.1416"], ans:2 },
+  { q:"What does <code>Math.E</code> represent?", opts:["The base of natural logarithms (~2.718)","An energy constant","Euler's prime number","Exponent base 10"], ans:0 },
+  { q:"What does <code>Math.sin(0)</code> return?", opts:["1.0","0.0","-1.0","Undefined"], ans:1 },
+  { q:"What does <code>Math.cos(0)</code> return?", opts:["0.0","1.0","-1.0","Undefined"], ans:1 },
+  { q:"What does <code>Math.tan(0)</code> return?", opts:["1.0","0.0","Infinity","Undefined"], ans:1 },
+  { q:"What unit does <code>Math.sin()</code> accept as its argument?", opts:["Degrees","Gradians","Radians","Turns"], ans:2 },
+  { q:"Which Math method converts degrees to radians?", opts:["Math.toRadians()","Math.degToRad()","Math.convertRad()","Math.radians()"], ans:0 },
+  { q:"What does <code>Math.toRadians(180)</code> return (approximately)?", opts:["180.0","1.0","3.141592653589793","0.0"], ans:2 },
+  { q:"What does <code>Math.toDegrees(Math.PI)</code> return?", opts:["3.14","90.0","180.0","360.0"], ans:2 },
+  { q:"What does <code>Math.hypot(3, 4)</code> return?", opts:["7.0","12.0","5.0","25.0"], ans:2 },
+  { q:"What does <code>Math.signum(-5.0)</code> return?", opts:["0.0","-5.0","-1.0","1.0"], ans:2 },
+  { q:"What does <code>Math.signum(0.0)</code> return?", opts:["1.0","-1.0","0.0","NaN"], ans:2 },
+  { q:"What does <code>Math.cbrt(27)</code> return?", opts:["9.0","3.0","729.0","13.5"], ans:1 },
+  { q:"What does <code>Math.exp(1)</code> return (approximately)?", opts:["1.0","2.718281828459045","3.14","0.0"], ans:1 },
+  { q:"What does <code>Math.log(1)</code> return?", opts:["1.0","0.0","-1.0","Undefined"], ans:1 },
+]
+];
+
+const state = {
+  selected: Array.from({length:5}, () => new Array(20).fill(-1)),
+  submitted: [false,false,false,false,false],
+  scores: [0,0,0,0,0]
+};
+
+function renderAll() {
+  data.forEach((group, gi) => {
+    const container = document.getElementById(`cards-${gi}`);
+    container.innerHTML = group.map((q, qi) => {
+      const globalNum = gi * 20 + qi + 1;
+      const opts = q.opts.map((o, oi) => `
+        <label class="option" id="opt-${gi}-${qi}-${oi}" onclick="select(${gi},${qi},${oi})">
+          <input type="radio" name="q-${gi}-${qi}" value="${oi}">
+          <span class="opt-label">${String.fromCharCode(65+oi)}</span>
+          <span class="opt-text">${o}</span>
+        </label>`).join('');
+      return `
+        <div class="q-card" id="qcard-${gi}-${qi}">
+          <div class="q-header">
+            <span class="q-num">Q${globalNum}</span>
+            <span class="q-text">${q.q}</span>
+          </div>
+          <div class="options">${opts}</div>
+        </div>`;
+    }).join('');
+  });
+}
+
+function select(gi, qi, oi) {
+  if (state.submitted[gi]) return;
+  const prev = state.selected[gi][qi];
+  if (prev !== -1) document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  state.selected[gi][qi] = oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+}
+
+function submitGroup(gi) {
+  if (state.submitted[gi]) { alert('This group is already submitted!'); return; }
+  const unanswered = state.selected[gi].filter(v => v === -1).length;
+  if (unanswered > 0) { alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`); return; }
+  state.submitted[gi] = true;
+  let correct = 0;
+  data[gi].forEach((q, qi) => {
+    const chosen = state.selected[gi][qi];
+    const right = q.ans;
+    for (let oi = 0; oi < 4; oi++) {
+      const el = document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents = 'none';
+      if (oi === right) el.classList.add('correct');
+      else if (oi === chosen && chosen !== right) el.classList.add('wrong');
+    }
+    if (chosen === right) correct++;
+  });
+  state.scores[gi] = correct;
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  document.getElementById(`result-${gi}`).innerHTML = `Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent = `Score: ${total} / ${state.submitted.filter(Boolean).length * 20}`;
+  updateProgress();
+  if (state.submitted.every(Boolean)) document.getElementById('results-tab').style.display = '';
+}
+
+function showGroup(idx) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('global-result').style.display = 'none';
+  if (idx <= 4) {
+    document.getElementById(`group-${idx}`).classList.add('visible');
+    document.querySelectorAll('.group-btn')[idx].classList.add('active');
+  }
+}
+
+function showFinalResult() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  const pct = Math.round(total / 100 * 100);
+  let grade = pct >= 90 ? '🏆 Excellent! You have a strong grasp of Java I/O & Math.' :
+              pct >= 75 ? '👍 Good work! Review the questions you missed.' :
+              pct >= 50 ? '📖 Fair. Keep studying Java I/O and Math methods.' :
+                          '💡 Keep practicing! These concepts take time to master.';
+  document.getElementById('final-score-text').textContent = `${total} / 100`;
+  document.getElementById('final-grade-text').textContent = `${pct}% — ${grade}`;
+  document.getElementById('global-result').style.display = 'block';
+  document.getElementById('results-tab').classList.add('active');
+}
+
+function updateProgress() {
+  const answered = state.selected.flat().filter(v => v !== -1).length;
+  document.getElementById('progress-fill').style.width = (answered / 100 * 100) + '%';
+}
+
+function resetAll() {
+  state.selected.forEach(g => g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent = 'Score: 0 / 100';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('results-tab').style.display = 'none';
+  document.getElementById('global-result').style.display = 'none';
+  [0,1,2,3,4].forEach(gi => { document.getElementById(`result-${gi}`).innerHTML = 'Answer all questions first.'; });
+  renderAll();
+  showGroup(0);
+}
+
+renderAll();
+</script>
+</body>
+</html>

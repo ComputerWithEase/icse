@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java for ICSE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .score-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .group-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .group-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .group-btn:hover, .group-btn.active {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.08);
+  }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: var(--mono);
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .q-card:hover { border-color: #444c56; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--java-blue);
+  }
+  pre.code-block {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    color: var(--java-blue);
+    margin: 10px 0 0;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .option:hover { border-color: var(--java-blue); background: rgba(77,171,247,0.05); }
+  .option input[type="radio"] { display: none; }
+
+  .opt-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.12px;
+  }
+  .opt-text { font-size: 14px; color: var(--text); }
+
+  .option.selected .opt-label {
+    border-color: var(--java-blue);
+    background: var(--java-blue);
+    color: #000;
+  }
+  .option.correct { border-color: var(--correct); background: rgba(46,160,67,0.1); }
+  .option.correct .opt-label { border-color: var(--correct); background: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: rgba(218,54,51,0.1); }
+  .option.wrong .opt-label { border-color: var(--wrong); background: var(--wrong); color: #fff; }
+
+  .section-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-result {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section-result strong { color: var(--java-orange); }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary { background: var(--java-orange); color: #000; }
+  .btn-primary:hover { background: #e08800; }
+  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  #global-result {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+  #global-result h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; color: var(--java-orange); }
+  #global-result p { color: var(--muted); font-size: 15px; }
+  #global-result .big-score {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .wrapper { padding: 24px 16px 60px; }
+    .section-footer { flex-direction: column; align-items: stretch; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>String Handling — 100 Questions</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 100</div>
+</header>
+
+<div class="wrapper">
+
+  <nav class="group-nav">
+    <a class="group-btn active" onclick="showGroup(0)" href="#">Group 1 · Q1–20</a>
+    <a class="group-btn" onclick="showGroup(1)" href="#">Group 2 · Q21–40</a>
+    <a class="group-btn" onclick="showGroup(2)" href="#">Group 3 · Q41–60</a>
+    <a class="group-btn" onclick="showGroup(3)" href="#">Group 4 · Q61–80</a>
+    <a class="group-btn" onclick="showGroup(4)" href="#">Group 5 · Q81–100</a>
+    <a class="group-btn" onclick="showGroup(5)" href="#" id="results-tab" style="display:none">📊 Results</a>
+  </nav>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- GROUP 1 -->
+  <section class="section visible" id="group-0">
+    <div class="section-header">
+      <span class="section-number">Group 01</span>
+      <h2 class="section-title">String Basics &amp; Creation</h2>
+      <span class="section-count">Q1 – Q20</span>
+    </div>
+    <div id="cards-0"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-0">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitGroup(0)">Submit Group 1</button>
+        <button class="btn btn-ghost" onclick="showGroup(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 2 -->
+  <section class="section" id="group-1">
+    <div class="section-header">
+      <span class="section-number">Group 02</span>
+      <h2 class="section-title">String Methods — Comparison &amp; Search</h2>
+      <span class="section-count">Q21 – Q40</span>
+    </div>
+    <div id="cards-1"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-1">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(0)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(1)">Submit Group 2</button>
+        <button class="btn btn-ghost" onclick="showGroup(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 3 -->
+  <section class="section" id="group-2">
+    <div class="section-header">
+      <span class="section-number">Group 03</span>
+      <h2 class="section-title">String Methods — Manipulation</h2>
+      <span class="section-count">Q41 – Q60</span>
+    </div>
+    <div id="cards-2"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-2">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(1)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(2)">Submit Group 3</button>
+        <button class="btn btn-ghost" onclick="showGroup(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 4 -->
+  <section class="section" id="group-3">
+    <div class="section-header">
+      <span class="section-number">Group 04</span>
+      <h2 class="section-title">StringBuilder &amp; StringBuffer</h2>
+      <span class="section-count">Q61 – Q80</span>
+    </div>
+    <div id="cards-3"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-3">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(2)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(3)">Submit Group 4</button>
+        <button class="btn btn-ghost" onclick="showGroup(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 5 -->
+  <section class="section" id="group-4">
+    <div class="section-header">
+      <span class="section-number">Group 05</span>
+      <h2 class="section-title">String Conversion, Formatting &amp; Advanced</h2>
+      <span class="section-count">Q81 – Q100</span>
+    </div>
+    <div id="cards-4"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-4">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(3)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(4)">Submit Group 5</button>
+        <button class="btn btn-primary" onclick="showFinalResult()" style="background:var(--java-blue)">View Final Score</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="global-result">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score-text">—</div>
+    <p id="final-grade-text"></p>
+    <br>
+    <button class="btn btn-primary" onclick="resetAll()">Retake Quiz</button>
+  </div>
+
+</div>
+
+<script>
+const data = [
+
+// ── GROUP 1: String Basics & Creation (Q1–Q20) ──
+[
+  { q:"What is the correct way to declare a String in Java?", opts:["string s = \"Hello\";","String s = 'Hello';","String s = \"Hello\";","str s = \"Hello\";"], ans:2 },
+  { q:"Which package does the <code>String</code> class belong to?", opts:["java.util","java.io","java.string","java.lang"], ans:3 },
+  { q:"Strings in Java are:", opts:["Mutable objects","Primitive data types","Immutable objects","Always stored on the stack"], ans:2 },
+  { q:"What is the String constant pool in Java?", opts:["A pool of threads for String processing","A special memory area in the heap that stores unique String literals","A stack region for String variables","A garbage collection zone"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s1 = \"Hello\";\nString s2 = \"Hello\";\nSystem.out.println(s1 == s2);</pre>", opts:["false","null","Compilation error","true"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">String s1 = new String(\"Hello\");\nString s2 = new String(\"Hello\");\nSystem.out.println(s1 == s2);</pre>", opts:["true","false","null","Compilation error"], ans:1 },
+  { q:"What does <code>new String(\"Hello\")</code> always do?", opts:["Reuses the pool object","Creates a new object in the heap","Creates a String on the stack","Returns null"], ans:1 },
+  { q:"What is the default value of a <code>String</code> instance variable?", opts:["\"\"","0","false","null"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Java\";\ns = s + \" Programming\";\nSystem.out.println(s);</pre>", opts:["Java","Programming","Java Programming","Compilation error"], ans:2 },
+  { q:"Why are Strings immutable in Java?", opts:["To use less memory","For security, caching, and thread-safety","Because Java doesn't support mutable strings","Due to JVM limitations"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello\";\ns.concat(\" World\");\nSystem.out.println(s);</pre>", opts:["Hello World","World","Hello","Compilation error"], ans:2 },
+  { q:"How many objects are created by <code>String s = \"Java\";</code> if \"Java\" is NOT in the pool?", opts:["0","1","2","3"], ans:1 },
+  { q:"How many objects are created by <code>String s = new String(\"Java\");</code> if \"Java\" IS already in the pool?", opts:["0","1","2","3"], ans:1 },
+  { q:"Which method can be used to place a String into the String constant pool?", opts:["s.pool()","s.cache()","s.intern()","s.store()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s1 = new String(\"Hi\");\nString s2 = s1.intern();\nString s3 = \"Hi\";\nSystem.out.println(s2 == s3);</pre>", opts:["false","null","Compilation error","true"], ans:3 },
+  { q:"Which of the following is an empty String?", opts:["null","\" \"","\"\"","String.empty"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = null;\nSystem.out.println(s);</pre>", opts:["\"\"","Compilation error","NullPointerException","null"], ans:3 },
+  { q:"Which operator is used for String concatenation in Java?", opts:["&","+","*","::"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"\" + 1 + 2 + 3;\nSystem.out.println(s);</pre>", opts:["6","123","\"123\"","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int a = 1, b = 2;\nString s = \"Sum: \" + (a + b);\nSystem.out.println(s);</pre>", opts:["Sum: 12","Sum: 3","\"Sum: 3\"","Compilation error"], ans:1 },
+],
+
+// ── GROUP 2: String Methods — Comparison & Search (Q21–Q40) ──
+[
+  { q:"Which method compares two Strings for content equality?", opts:["==","compareTo()","equals()","matches()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s1 = \"hello\";\nString s2 = \"HELLO\";\nSystem.out.println(s1.equals(s2));</pre>", opts:["true","false","Compilation error","null"], ans:1 },
+  { q:"Which method compares Strings ignoring case?", opts:["equals()","compare()","equalsIgnoreCase()","compareIgnoreCase()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s1 = \"hello\";\nString s2 = \"HELLO\";\nSystem.out.println(s1.equalsIgnoreCase(s2));</pre>", opts:["false","true","null","Compilation error"], ans:1 },
+  { q:"What does <code>compareTo()</code> return when two Strings are equal?", opts:["true","1","-1","0"], ans:3 },
+  { q:"What does <code>\"apple\".compareTo(\"banana\")</code> return?", opts:["A positive integer","0","A negative integer","true"], ans:2 },
+  { q:"Which method returns the index of the first occurrence of a character?", opts:["findChar()","search()","indexOf()","locate()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello World\";\nSystem.out.println(s.indexOf('o'));</pre>", opts:["4","7","0","-1"], ans:0 },
+  { q:"What does <code>indexOf()</code> return if the character is not found?", opts:["0","null","false","-1"], ans:3 },
+  { q:"Which method returns the index of the LAST occurrence of a character?", opts:["indexOf()","lastSearch()","lastIndexOf()","findLast()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello World\";\nSystem.out.println(s.lastIndexOf('o'));</pre>", opts:["4","7","0","-1"], ans:1 },
+  { q:"Which method checks if a String starts with a given prefix?", opts:["startsWith()","beginsWith()","hasPrefix()","prefixOf()"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Java Programming\";\nSystem.out.println(s.startsWith(\"Java\"));</pre>", opts:["false","true","Compilation error","null"], ans:1 },
+  { q:"Which method checks if a String ends with a given suffix?", opts:["hasSuffix()","suffixOf()","endsWith()","finishWith()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello.java\";\nSystem.out.println(s.endsWith(\".java\"));</pre>", opts:["false","true","null","Compilation error"], ans:1 },
+  { q:"Which method checks if a String contains a given sequence of characters?", opts:["has()","indexOf()","includes()","contains()"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Java is great\";\nSystem.out.println(s.contains(\"great\"));</pre>", opts:["false","true","null","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello\";\nSystem.out.println(s.indexOf(\"ll\"));</pre>", opts:["1","2","3","0"], ans:1 },
+  { q:"Which method checks if a String matches a given regular expression?", opts:["contains()","equals()","matches()","find()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"hello\";\nSystem.out.println(s.contains(\"\"));</pre>", opts:["false","Compilation error","NullPointerException","true"], ans:3 },
+],
+
+// ── GROUP 3: String Methods — Manipulation (Q41–Q60) ──
+[
+  { q:"Which method returns the character at a specified index?", opts:["getChar()","charOf()","charAt()","get()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello\";\nSystem.out.println(s.charAt(1));</pre>", opts:["H","e","l","Compilation error"], ans:1 },
+  { q:"Which method returns the number of characters in a String?", opts:["size()","count()","length()","chars()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Java\";\nSystem.out.println(s.length());</pre>", opts:["3","4","5","Compilation error"], ans:1 },
+  { q:"Which method extracts a portion of a String?", opts:["sub()","extract()","slice()","substring()"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello World\";\nSystem.out.println(s.substring(6));</pre>", opts:["Hello","World","Hello World","ello World"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello World\";\nSystem.out.println(s.substring(0, 5));</pre>", opts:["Hello","World"," World","Hello "], ans:0 },
+  { q:"Which method converts all characters to uppercase?", opts:["toUpper()","upper()","toUpperCase()","uppercase()"], ans:2 },
+  { q:"Which method converts all characters to lowercase?", opts:["toLower()","lower()","lowercase()","toLowerCase()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello World\";\nSystem.out.println(s.toUpperCase());</pre>", opts:["hello world","Hello World","HELLO WORLD","Compilation error"], ans:2 },
+  { q:"Which method removes leading and trailing whitespace?", opts:["strip()","trim()","Both trim() and strip()","clean()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"  Hello  \";\nSystem.out.println(s.trim().length());</pre>", opts:["9","5","7","Compilation error"], ans:1 },
+  { q:"Which method replaces all occurrences of a character with another?", opts:["swap()","substitute()","replace()","change()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"banana\";\nSystem.out.println(s.replace('a', 'o'));</pre>", opts:["bonono","banana","bonona","Compilation error"], ans:0 },
+  { q:"Which method replaces the first occurrence of a regex match?", opts:["replaceFirst()","replaceOne()","replaceRegex()","swap()"], ans:0 },
+  { q:"Which method replaces all occurrences of a regex match?", opts:["replace()","replaceAll()","replaceRegex()","replaceEvery()"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello World\";\nSystem.out.println(s.replace(\"World\", \"Java\"));</pre>", opts:["Hello World","Hello Java","Java World","Compilation error"], ans:1 },
+  { q:"Which method splits a String into an array of substrings based on a delimiter?", opts:["divide()","split()","tokenize()","separate()"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"a,b,c\";\nString[] parts = s.split(\",\");\nSystem.out.println(parts.length);</pre>", opts:["2","3","4","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello\";\nSystem.out.println(s.isEmpty());</pre>", opts:["true","false","null","Compilation error"], ans:1 },
+],
+
+// ── GROUP 4: StringBuilder & StringBuffer (Q61–Q80) ──
+[
+  { q:"What is the key difference between <code>String</code> and <code>StringBuilder</code>?", opts:["String is faster","StringBuilder is immutable","StringBuilder is mutable","There is no difference"], ans:2 },
+  { q:"Which class is thread-safe: <code>StringBuilder</code> or <code>StringBuffer</code>?", opts:["StringBuilder","StringBuffer","Both","Neither"], ans:1 },
+  { q:"Which class is faster for single-threaded string manipulation?", opts:["String","StringBuffer","StringBuilder","All are the same speed"], ans:2 },
+  { q:"Which method appends a value to a <code>StringBuilder</code>?", opts:["add()","concat()","append()","insert()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">StringBuilder sb = new StringBuilder(\"Hello\");\nsb.append(\" World\");\nSystem.out.println(sb);</pre>", opts:["Hello","World","Hello World","Compilation error"], ans:2 },
+  { q:"Which method inserts a value at a specific index in a <code>StringBuilder</code>?", opts:["add()","append()","insert()","put()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">StringBuilder sb = new StringBuilder(\"Hello\");\nsb.insert(5, \" World\");\nSystem.out.println(sb);</pre>", opts:["Hello World","WorldHello"," WorldHello","Compilation error"], ans:0 },
+  { q:"Which method deletes characters between two indices in a <code>StringBuilder</code>?", opts:["remove()","delete()","erase()","clear()"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">StringBuilder sb = new StringBuilder(\"Hello World\");\nsb.delete(5, 11);\nSystem.out.println(sb);</pre>", opts:["Hello World","Hello","World","Compilation error"], ans:1 },
+  { q:"Which method reverses the contents of a <code>StringBuilder</code>?", opts:["flip()","invert()","reverse()","mirror()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">StringBuilder sb = new StringBuilder(\"Java\");\nsb.reverse();\nSystem.out.println(sb);</pre>", opts:["Java","avaJ","JAVA","Compilation error"], ans:1 },
+  { q:"Which method replaces characters between two indices in a <code>StringBuilder</code>?", opts:["replace()","swap()","set()","change()"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">StringBuilder sb = new StringBuilder(\"Hello World\");\nsb.replace(6, 11, \"Java\");\nSystem.out.println(sb);</pre>", opts:["Hello Java","Hello World","Java World","Compilation error"], ans:0 },
+  { q:"Which method returns the current length of a <code>StringBuilder</code>?", opts:["size()","capacity()","count()","length()"], ans:3 },
+  { q:"What is the default initial capacity of a <code>StringBuilder</code>?", opts:["8","10","16","32"], ans:2 },
+  { q:"Which method returns the character at a specific index in a <code>StringBuilder</code>?", opts:["get()","charAt()","charOf()","at()"], ans:1 },
+  { q:"Which method converts a <code>StringBuilder</code> to a <code>String</code>?", opts:["convert()","asString()","getString()","toString()"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">StringBuilder sb = new StringBuilder();\nsb.append(\"A\").append(\"B\").append(\"C\");\nSystem.out.println(sb.toString());</pre>", opts:["A","ABC","CBA","Compilation error"], ans:1 },
+  { q:"Which method deletes the character at a specific index in a <code>StringBuilder</code>?", opts:["remove()","delete()","deleteCharAt()","erase()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">StringBuffer sb = new StringBuffer(\"Hello\");\nsb.append(\" Java\");\nSystem.out.println(sb.length());</pre>", opts:["5","9","10","Compilation error"], ans:2 },
+],
+
+// ── GROUP 5: String Conversion, Formatting & Advanced (Q81–Q100) ──
+[
+  { q:"Which method converts an integer to a String?", opts:["Integer.parse(42)","String.from(42)","Integer.toString(42)","int.toString(42)"], ans:2 },
+  { q:"Which method converts a String to an integer?", opts:["Integer.convert()","String.toInt()","Integer.parseInt()","int.parse()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"123\";\nint n = Integer.parseInt(s);\nSystem.out.println(n + 1);</pre>", opts:["1231","123","124","Compilation error"], ans:2 },
+  { q:"Which method converts a double to a String?", opts:["Double.convert()","String.valueOf(3.14)","double.toString()","Both A and B"], ans:1 },
+  { q:"What exception is thrown when parsing an invalid number String?", opts:["NumberFormatException","ParseException","IllegalArgumentException","ArithmeticException"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">String s = String.valueOf(true);\nSystem.out.println(s.getClass().getSimpleName());</pre>", opts:["Boolean","boolean","String","Compilation error"], ans:2 },
+  { q:"What does <code>String.join(\"-\", \"a\", \"b\", \"c\")</code> return?", opts:["abc","a-b-c","a,b,c","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">char[] ch = {'J','a','v','a'};\nString s = new String(ch);\nSystem.out.println(s);</pre>", opts:["['J','a','v','a']","Java","Compilation error","null"], ans:1 },
+  { q:"Which method converts a String to a char array?", opts:["toChars()","getChars()","toCharArray()","asArray()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello\";\nchar[] ch = s.toCharArray();\nSystem.out.println(ch.length);</pre>", opts:["4","5","6","Compilation error"], ans:1 },
+  { q:"What does <code>String.format(\"%05d\", 42)</code> return?", opts:["42000","00042","42   ","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s1 = \"hello\";\nString s2 = \"world\";\nSystem.out.println(s1.compareTo(s2));</pre>", opts:["A positive integer","0","A negative integer","Compilation error"], ans:2 },
+  { q:"Which method checks if a String is empty (length == 0)?", opts:["isNull()","isBlank()","isEmpty()","length() == null"], ans:2 },
+  { q:"What is the difference between <code>isEmpty()</code> and <code>isBlank()</code>?", opts:["No difference","isEmpty() checks length==0; isBlank() also returns true for whitespace-only strings","isBlank() checks length==0; isEmpty() also handles whitespace","isBlank() was removed in Java 11"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"  \";\nSystem.out.println(s.isEmpty() + \" \" + s.isBlank());</pre>", opts:["true true","false true","true false","false false"], ans:1 },
+  { q:"Which method returns the Unicode value of the character at a given index?", opts:["charValue()","unicodeAt()","codePointAt()","charCodeAt()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Hello\";\nSystem.out.println(s.codePointAt(0));</pre>", opts:["H","72","104","Compilation error"], ans:1 },
+  { q:"What does <code>\"  hello  \".strip()</code> return in Java 11+?", opts:["\"  hello  \"","\"hello\"","\"hello  \"","\"  hello\""], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">String s = \"Java\";\nSystem.out.println(s.repeat(3));</pre>", opts:["Java","JavaJavaJava","Java Java Java","Compilation error"], ans:1 },
+  { q:"Which of the following is true about the <code>String.intern()</code> method?", opts:["It creates a new String in the heap","It deletes the String from memory","It returns a reference to the pooled version of the String","It converts the String to lowercase"], ans:2 },
+]
+];
+
+const state = {
+  selected: Array.from({length:5}, () => new Array(20).fill(-1)),
+  submitted: [false,false,false,false,false],
+  scores: [0,0,0,0,0]
+};
+
+function renderAll() {
+  data.forEach((group, gi) => {
+    const container = document.getElementById(`cards-${gi}`);
+    container.innerHTML = group.map((q, qi) => {
+      const globalNum = gi * 20 + qi + 1;
+      const opts = q.opts.map((o, oi) => `
+        <label class="option" id="opt-${gi}-${qi}-${oi}" onclick="select(${gi},${qi},${oi})">
+          <input type="radio" name="q-${gi}-${qi}" value="${oi}">
+          <span class="opt-label">${String.fromCharCode(65+oi)}</span>
+          <span class="opt-text">${o}</span>
+        </label>`).join('');
+      return `
+        <div class="q-card" id="qcard-${gi}-${qi}">
+          <div class="q-header">
+            <span class="q-num">Q${globalNum}</span>
+            <span class="q-text">${q.q}</span>
+          </div>
+          <div class="options">${opts}</div>
+        </div>`;
+    }).join('');
+  });
+}
+
+function select(gi, qi, oi) {
+  if (state.submitted[gi]) return;
+  const prev = state.selected[gi][qi];
+  if (prev !== -1) document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  state.selected[gi][qi] = oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+}
+
+function submitGroup(gi) {
+  if (state.submitted[gi]) { alert('This group is already submitted!'); return; }
+  const unanswered = state.selected[gi].filter(v => v === -1).length;
+  if (unanswered > 0) { alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`); return; }
+  state.submitted[gi] = true;
+  let correct = 0;
+  data[gi].forEach((q, qi) => {
+    const chosen = state.selected[gi][qi];
+    const right = q.ans;
+    for (let oi = 0; oi < 4; oi++) {
+      const el = document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents = 'none';
+      if (oi === right) el.classList.add('correct');
+      else if (oi === chosen && chosen !== right) el.classList.add('wrong');
+    }
+    if (chosen === right) correct++;
+  });
+  state.scores[gi] = correct;
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  document.getElementById(`result-${gi}`).innerHTML = `Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent = `Score: ${total} / ${state.submitted.filter(Boolean).length * 20}`;
+  updateProgress();
+  if (state.submitted.every(Boolean)) document.getElementById('results-tab').style.display = '';
+}
+
+function showGroup(idx) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('global-result').style.display = 'none';
+  if (idx <= 4) {
+    document.getElementById(`group-${idx}`).classList.add('visible');
+    document.querySelectorAll('.group-btn')[idx].classList.add('active');
+  }
+}
+
+function showFinalResult() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  const pct = Math.round(total / 100 * 100);
+  let grade = pct >= 90 ? '🏆 Excellent! You have a strong grasp of Java String handling.' :
+              pct >= 75 ? '👍 Good work! Review the questions you missed.' :
+              pct >= 50 ? '📖 Fair. Keep studying String methods and StringBuilder.' :
+                          '💡 Keep practicing! String handling takes time to master.';
+  document.getElementById('final-score-text').textContent = `${total} / 100`;
+  document.getElementById('final-grade-text').textContent = `${pct}% — ${grade}`;
+  document.getElementById('global-result').style.display = 'block';
+  document.getElementById('results-tab').classList.add('active');
+}
+
+function updateProgress() {
+  const answered = state.selected.flat().filter(v => v !== -1).length;
+  document.getElementById('progress-fill').style.width = (answered / 100 * 100) + '%';
+}
+
+function resetAll() {
+  state.selected.forEach(g => g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent = 'Score: 0 / 100';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('results-tab').style.display = 'none';
+  document.getElementById('global-result').style.display = 'none';
+  [0,1,2,3,4].forEach(gi => { document.getElementById(`result-${gi}`).innerHTML = 'Answer all questions first.'; });
+  renderAll();
+  showGroup(0);
+}
+
+renderAll();
+</script>
+</body>
+</html>

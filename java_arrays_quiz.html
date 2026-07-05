@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java for ICSE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .score-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .group-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .group-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .group-btn:hover, .group-btn.active {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.08);
+  }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: var(--mono);
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .q-card:hover { border-color: #444c56; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--java-blue);
+  }
+  pre.code-block {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    color: var(--java-blue);
+    margin: 10px 0 0;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .option:hover { border-color: var(--java-blue); background: rgba(77,171,247,0.05); }
+  .option input[type="radio"] { display: none; }
+
+  .opt-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.12s;
+  }
+  .opt-text { font-size: 14px; color: var(--text); }
+
+  .option.selected .opt-label {
+    border-color: var(--java-blue);
+    background: var(--java-blue);
+    color: #000;
+  }
+  .option.correct { border-color: var(--correct); background: rgba(46,160,67,0.1); }
+  .option.correct .opt-label { border-color: var(--correct); background: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: rgba(218,54,51,0.1); }
+  .option.wrong .opt-label { border-color: var(--wrong); background: var(--wrong); color: #fff; }
+
+  .section-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-result {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section-result strong { color: var(--java-orange); }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary { background: var(--java-orange); color: #000; }
+  .btn-primary:hover { background: #e08800; }
+  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  #global-result {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+  #global-result h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; color: var(--java-orange); }
+  #global-result p { color: var(--muted); font-size: 15px; }
+  #global-result .big-score {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .wrapper { padding: 24px 16px 60px; }
+    .section-footer { flex-direction: column; align-items: stretch; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>Single &amp; Double Dimensional Arrays — 100 Questions</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 100</div>
+</header>
+
+<div class="wrapper">
+
+  <nav class="group-nav">
+    <a class="group-btn active" onclick="showGroup(0)" href="#">Group 1 · Q1–20</a>
+    <a class="group-btn" onclick="showGroup(1)" href="#">Group 2 · Q21–40</a>
+    <a class="group-btn" onclick="showGroup(2)" href="#">Group 3 · Q41–60</a>
+    <a class="group-btn" onclick="showGroup(3)" href="#">Group 4 · Q61–80</a>
+    <a class="group-btn" onclick="showGroup(4)" href="#">Group 5 · Q81–100</a>
+    <a class="group-btn" onclick="showGroup(5)" href="#" id="results-tab" style="display:none">📊 Results</a>
+  </nav>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- GROUP 1 -->
+  <section class="section visible" id="group-0">
+    <div class="section-header">
+      <span class="section-number">Group 01</span>
+      <h2 class="section-title">1D Array — Declaration &amp; Initialization</h2>
+      <span class="section-count">Q1 – Q20</span>
+    </div>
+    <div id="cards-0"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-0">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitGroup(0)">Submit Group 1</button>
+        <button class="btn btn-ghost" onclick="showGroup(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 2 -->
+  <section class="section" id="group-1">
+    <div class="section-header">
+      <span class="section-number">Group 02</span>
+      <h2 class="section-title">1D Array — Traversal &amp; Operations</h2>
+      <span class="section-count">Q21 – Q40</span>
+    </div>
+    <div id="cards-1"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-1">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(0)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(1)">Submit Group 2</button>
+        <button class="btn btn-ghost" onclick="showGroup(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 3 -->
+  <section class="section" id="group-2">
+    <div class="section-header">
+      <span class="section-number">Group 03</span>
+      <h2 class="section-title">1D Array — Sorting, Searching &amp; Arrays Class</h2>
+      <span class="section-count">Q41 – Q60</span>
+    </div>
+    <div id="cards-2"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-2">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(1)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(2)">Submit Group 3</button>
+        <button class="btn btn-ghost" onclick="showGroup(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 4 -->
+  <section class="section" id="group-3">
+    <div class="section-header">
+      <span class="section-number">Group 04</span>
+      <h2 class="section-title">2D Array — Declaration, Init &amp; Access</h2>
+      <span class="section-count">Q61 – Q80</span>
+    </div>
+    <div id="cards-3"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-3">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(2)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(3)">Submit Group 4</button>
+        <button class="btn btn-ghost" onclick="showGroup(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 5 -->
+  <section class="section" id="group-4">
+    <div class="section-header">
+      <span class="section-number">Group 05</span>
+      <h2 class="section-title">2D Array — Traversal, Operations &amp; Jagged Arrays</h2>
+      <span class="section-count">Q81 – Q100</span>
+    </div>
+    <div id="cards-4"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-4">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(3)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(4)">Submit Group 5</button>
+        <button class="btn btn-primary" onclick="showFinalResult()" style="background:var(--java-blue)">View Final Score</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="global-result">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score-text">—</div>
+    <p id="final-grade-text"></p>
+    <br>
+    <button class="btn btn-primary" onclick="resetAll()">Retake Quiz</button>
+  </div>
+
+</div>
+
+<script>
+const data = [
+
+// ── GROUP 1: 1D Array — Declaration & Initialization (Q1–Q20) ──
+[
+  { q:"Which of the following correctly declares a 1D integer array in Java?", opts:["int arr;","int arr[];","int[] arr;","Both B and C are valid"], ans:3 },
+  { q:"Which keyword is used to allocate memory for an array in Java?", opts:["malloc","alloc","new","create"], ans:2 },
+  { q:"What is the correct way to declare and allocate a 1D integer array of size 5?", opts:["int arr = new int[5];","int[] arr = new int[5];","int arr[] = int[5];","int[5] arr;"], ans:1 },
+  { q:"What is the default value of an <code>int</code> array element in Java?", opts:["null","1","undefined","0"], ans:3 },
+  { q:"What is the default value of a <code>boolean</code> array element?", opts:["true","null","false","0"], ans:2 },
+  { q:"What is the default value of a <code>String</code> array element?", opts:["\"\"","0","false","null"], ans:3 },
+  { q:"What is the default value of a <code>double</code> array element?", opts:["0","0.0","null","1.0"], ans:1 },
+  { q:"Which of the following correctly initializes an array with values?", opts:["int[] a = {1, 2, 3};","int[] a = [1, 2, 3];","int a[] = (1, 2, 3);","int[3] a = {1, 2, 3};"], ans:0 },
+  { q:"What is the index of the first element of any Java array?", opts:["1","-1","0","Depends on the size"], ans:2 },
+  { q:"What is the index of the last element of an array of size <code>n</code>?", opts:["n","n+1","n-1","n-2"], ans:2 },
+  { q:"What happens when you access an array element at an invalid index?", opts:["Returns null","Returns 0","Throws ArrayIndexOutOfBoundsException","Compilation error"], ans:2 },
+  { q:"Which property gives the length (number of elements) of an array named <code>arr</code>?", opts:["arr.size()","arr.length()","arr.length","arr.count"], ans:2 },
+  { q:"What is the length of the array declared as <code>int[] arr = new int[8];</code>?", opts:["7","8","9","0"], ans:1 },
+  { q:"Arrays in Java are stored in which memory area?", opts:["Stack","Register","Method area","Heap"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = new int[3];\nSystem.out.println(arr[0]);</pre>", opts:["null","1","undefined","0"], ans:3 },
+  { q:"Which of the following creates an array with values 10, 20, 30?", opts:["int[] a = new int[]{10, 20, 30};","int[] a = {10, 20, 30};","Both A and B","int[] a = int[10, 20, 30];"], ans:2 },
+  { q:"Can the size of a Java array be changed after it is created?", opts:["Yes, using resize()","Yes, using length property","No, arrays are fixed in size","Only if declared with var"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {5, 10, 15};\nSystem.out.println(arr.length);</pre>", opts:["2","3","15","Compilation error"], ans:1 },
+  { q:"Which of the following is a valid way to declare an array of Strings?", opts:["String arr[] = new String[3];","String[] arr = new String[3];","Both A and B","String arr = new String[3];"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {1, 2, 3};\narr[1] = 99;\nSystem.out.println(arr[1]);</pre>", opts:["2","1","99","Compilation error"], ans:2 },
+],
+
+// ── GROUP 2: 1D Array — Traversal & Operations (Q21–Q40) ──
+[
+  { q:"Which loop is most commonly used to traverse all elements of a 1D array?", opts:["while loop","do-while loop","for loop","switch statement"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {1, 2, 3, 4, 5};\nfor (int i = 0; i < arr.length; i++) {\n  System.out.print(arr[i] + \" \");\n}</pre>", opts:["1 2 3 4","1 2 3 4 5","0 1 2 3 4","Compilation error"], ans:1 },
+  { q:"What is the enhanced for-each loop syntax to iterate over an int array <code>arr</code>?", opts:["for (int x in arr)","for (x : arr)","for (int x : arr)","foreach (int x : arr)"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {2, 4, 6};\nint sum = 0;\nfor (int x : arr) sum += x;\nSystem.out.println(sum);</pre>", opts:["12","6","2","Compilation error"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {10, 20, 30};\nSystem.out.println(arr[0] + arr[2]);</pre>", opts:["10","30","40","Compilation error"], ans:2 },
+  { q:"Which of the following finds the maximum element in an array?", opts:["Loop through and compare each element to a running max variable","Use arr.max()","Use Math.max(arr)","Arrays.maximum(arr)"], ans:0 },
+  { q:"How do you swap elements at index 0 and 2 of array <code>arr</code>?", opts:["arr[0] = arr[2];","int t=arr[0]; arr[0]=arr[2]; arr[2]=t;","arr.swap(0,2);","swap(arr[0],arr[2]);"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {5, 3, 8, 1};\nint min = arr[0];\nfor (int x : arr)\n  if (x < min) min = x;\nSystem.out.println(min);</pre>", opts:["5","3","8","1"], ans:3 },
+  { q:"How do you copy an array <code>src</code> to array <code>dst</code> element by element?", opts:["dst = src;","System.arraycopy(src, 0, dst, 0, src.length);","dst.copy(src);","Arrays.transfer(src, dst);"], ans:1 },
+  { q:"What does <code>dst = src;</code> do when both are array references?", opts:["Copies all elements","Both variables point to the same array","Creates a new independent copy","Throws an error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {1, 2, 3, 4, 5};\nSystem.out.println(arr[arr.length - 1]);</pre>", opts:["4","5","1","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] a = {1, 2, 3};\nint[] b = a;\nb[0] = 99;\nSystem.out.println(a[0]);</pre>", opts:["1","99","0","Compilation error"], ans:1 },
+  { q:"Which method creates an independent copy of an array?", opts:["arr.clone()","Arrays.copyOf(arr, arr.length)","Both A and B","arr.copy()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {3, 1, 4, 1, 5};\nint count = 0;\nfor (int x : arr)\n  if (x == 1) count++;\nSystem.out.println(count);</pre>", opts:["1","2","3","0"], ans:1 },
+  { q:"What is printed by this code?<pre class=\"code-block\">int[] arr = {10, 20, 30, 40};\nfor (int i = arr.length - 1; i >= 0; i--)\n  System.out.print(arr[i] + \" \");</pre>", opts:["10 20 30 40","40 30 20 10","30 20 10","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = new int[5];\narr[2] = 7;\nSystem.out.println(arr[2] + arr[3]);</pre>", opts:["7","70","0","Compilation error"], ans:0 },
+  { q:"What is the correct way to pass an array to a method in Java?", opts:["Pass by value (a copy is made)","Pass the reference (both share the same array)","Arrays cannot be passed to methods","Pass only the length"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {1, 2, 3, 4, 5};\nint sum = 0;\nfor (int i = 0; i < arr.length; i += 2)\n  sum += arr[i];\nSystem.out.println(sum);</pre>", opts:["6","9","15","5"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {4, 8, 2, 6};\nfor (int i = 0; i < arr.length / 2; i++) {\n  int t = arr[i];\n  arr[i] = arr[arr.length - 1 - i];\n  arr[arr.length - 1 - i] = t;\n}\nfor (int x : arr) System.out.print(x + \" \");</pre>", opts:["4 8 2 6","6 2 8 4","2 4 6 8","Compilation error"], ans:1 },
+  { q:"What does <code>System.arraycopy(src, 2, dst, 0, 3)</code> do?", opts:["Copies 2 elements from dst to src","Copies 3 elements starting at index 2 of src into dst starting at index 0","Copies the entire src array","Throws an exception always"], ans:1 },
+],
+
+// ── GROUP 3: 1D Array — Sorting, Searching & Arrays Class (Q41–Q60) ──
+[
+  { q:"Which class provides utility methods for arrays in Java?", opts:["ArrayUtils","java.lang.Array","java.util.Arrays","java.io.Arrays"], ans:2 },
+  { q:"Which method sorts a 1D array in ascending order?", opts:["arr.sort()","Arrays.sort(arr)","arr.order()","Collections.sort(arr)"], ans:1 },
+  { q:"What is the output after <code>Arrays.sort(arr)</code>?<pre class=\"code-block\">int[] arr = {5, 1, 4, 2, 3};\nArrays.sort(arr);\nSystem.out.println(arr[0]);</pre>", opts:["5","1","2","3"], ans:1 },
+  { q:"Which method searches a sorted array for a key and returns its index?", opts:["Arrays.indexOf(arr, key)","Arrays.find(arr, key)","Arrays.binarySearch(arr, key)","Arrays.search(arr, key)"], ans:2 },
+  { q:"What does <code>Arrays.binarySearch(arr, key)</code> return if the key is not found?", opts:["0","-1","A negative value indicating insertion point","null"], ans:2 },
+  { q:"Which method fills all elements of an array with a given value?", opts:["Arrays.set(arr, val)","Arrays.fill(arr, val)","Arrays.assign(arr, val)","arr.fill(val)"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = new int[4];\nArrays.fill(arr, 7);\nSystem.out.println(arr[2]);</pre>", opts:["0","4","7","Compilation error"], ans:2 },
+  { q:"Which method compares two arrays element by element for equality?", opts:["arr1 == arr2","arr1.equals(arr2)","Arrays.equals(arr1, arr2)","Arrays.compare(arr1, arr2)"], ans:2 },
+  { q:"What does <code>arr1 == arr2</code> check when both are arrays?", opts:["Whether elements are equal","Whether they are the same object in memory","Whether lengths are equal","Whether both are null"], ans:1 },
+  { q:"Which method converts an array to a String representation for printing?", opts:["arr.toString()","Arrays.print(arr)","Arrays.toString(arr)","String.valueOf(arr)"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {3, 1, 4, 1, 5, 9};\nArrays.sort(arr);\nint idx = Arrays.binarySearch(arr, 4);\nSystem.out.println(idx);</pre>", opts:["2","3","4","1"], ans:0 },
+  { q:"Which method copies a portion of an array into a new array?", opts:["Arrays.slice(arr, 1, 3)","Arrays.copyOfRange(arr, 1, 3)","arr.subArray(1, 3)","Arrays.sub(arr, 1, 3)"], ans:1 },
+  { q:"What does <code>Arrays.copyOf(arr, 6)</code> do if arr has 4 elements?", opts:["Throws an exception","Copies only 4 elements","Copies 4 elements and pads remaining 2 with defaults","Copies 6 random elements"], ans:2 },
+  { q:"What algorithm does <code>Arrays.sort()</code> use for primitive arrays?", opts:["Merge sort","Bubble sort","Dual-pivot quicksort","Selection sort"], ans:2 },
+  { q:"What is the time complexity of <code>Arrays.sort()</code>?", opts:["O(n)","O(n²)","O(n log n)","O(log n)"], ans:2 },
+  { q:"What does <code>Arrays.binarySearch()</code> require before being called?", opts:["The array must be empty","The array must be sorted","The array must have unique elements","The array must be of type int only"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] a = {1, 2, 3};\nint[] b = {1, 2, 3};\nSystem.out.println(Arrays.equals(a, b));</pre>", opts:["false","true","Compilation error","null"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {1, 2, 3, 4, 5};\nint[] copy = Arrays.copyOfRange(arr, 1, 4);\nSystem.out.println(copy.length);</pre>", opts:["4","5","3","2"], ans:2 },
+  { q:"Which import is needed to use the <code>Arrays</code> class?", opts:["import java.lang.Arrays;","import java.util.Arrays;","import java.io.Arrays;","No import needed"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {5, 3, 8, 1, 2};\nArrays.sort(arr);\nSystem.out.println(Arrays.toString(arr));</pre>", opts:["[5, 3, 8, 1, 2]","[1, 2, 3, 5, 8]","[8, 5, 3, 2, 1]","Compilation error"], ans:1 },
+],
+
+// ── GROUP 4: 2D Array — Declaration, Init & Access (Q61–Q80) ──
+[
+  { q:"Which of the following correctly declares a 2D integer array in Java?", opts:["int arr[][];","int[][] arr;","Both A and B","int arr[2][3];"], ans:2 },
+  { q:"How do you allocate a 2D array with 3 rows and 4 columns?", opts:["int[][] arr = new int[4][3];","int[][] arr = new int[3][4];","int arr = new int[3,4];","int[3][4] arr;"], ans:1 },
+  { q:"What is the total number of elements in a 2D array declared as <code>int[][] arr = new int[3][4];</code>?", opts:["3","4","7","12"], ans:3 },
+  { q:"What is the default value of every element in <code>int[][] arr = new int[2][3];</code>?", opts:["null","1","undefined","0"], ans:3 },
+  { q:"How do you access the element in row 1, column 2 of a 2D array <code>arr</code>?", opts:["arr(1,2)","arr[1,2]","arr[1][2]","arr[2][1]"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{1,2},{3,4},{5,6}};\nSystem.out.println(arr[1][1]);</pre>", opts:["3","2","4","1"], ans:2 },
+  { q:"Which property gives the number of rows in a 2D array <code>arr</code>?", opts:["arr.length","arr[0].length","arr.rows","arr.size()"], ans:0 },
+  { q:"Which expression gives the number of columns in row 0 of a 2D array <code>arr</code>?", opts:["arr.length","arr[0].length","arr.columns","arr.size(0)"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = new int[3][3];\nSystem.out.println(arr.length);</pre>", opts:["9","6","3","0"], ans:2 },
+  { q:"Which of the following correctly initializes a 2D array with values?", opts:["int[][] a = {{1,2},{3,4}};","int[][] a = new int[][]{{1,2},{3,4}};","Both A and B","int[2][2] a = {1,2,3,4};"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{10,20,30},{40,50,60}};\nSystem.out.println(arr[0][2]);</pre>", opts:["40","20","30","60"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{1,2,3},{4,5,6},{7,8,9}};\nSystem.out.println(arr[2][0]);</pre>", opts:["7","9","3","1"], ans:0 },
+  { q:"A 2D array in Java is best described as:", opts:["A flat list of elements","An array of arrays","A matrix object","A linked structure"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = new int[2][3];\narr[1][2] = 42;\nSystem.out.println(arr[1][2]);</pre>", opts:["0","2","3","42"], ans:3 },
+  { q:"What does <code>arr[0].length</code> return for a uniform 2D array with 3 rows and 5 columns?", opts:["3","5","15","0"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] m = {{1,2},{3,4}};\nm[0][1] = 9;\nSystem.out.println(m[0][0] + m[0][1]);</pre>", opts:["3","10","5","Compilation error"], ans:1 },
+  { q:"How many dimensions can a Java array have?", opts:["Only 1","Only 2","Up to 3","Theoretically unlimited, limited by memory"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{5,10},{15,20}};\nSystem.out.println(arr.length + \" \" + arr[0].length);</pre>", opts:["2 2","4 2","2 4","Compilation error"], ans:0 },
+  { q:"Which of the following is a valid 2D array declaration with 2 rows and 2 columns?", opts:["int[][] a = {{1,2},{3,4,5}};","int[][] a = {{1,2},{3,4}};","int[][] a = {1,2,3,4};","int a[][] = new int[2,2];"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = new int[2][2];\nfor (int[] row : arr)\n  for (int val : row)\n    System.out.print(val + \" \");</pre>", opts:["0 0 0 0","1 1 1 1","null null null null","Compilation error"], ans:0 },
+],
+
+// ── GROUP 5: 2D Array — Traversal, Operations & Jagged Arrays (Q81–Q100) ──
+[
+  { q:"What nested loop structure is used to traverse all elements of a 2D array?", opts:["Two sequential loops","One loop only","A nested loop (outer for rows, inner for columns)","A do-while loop"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{1,2,3},{4,5,6}};\nint sum = 0;\nfor (int[] row : arr)\n  for (int v : row)\n    sum += v;\nSystem.out.println(sum);</pre>", opts:["6","12","21","15"], ans:2 },
+  { q:"What is a jagged (ragged) array in Java?", opts:["An array with only one row","A 2D array where each row can have a different number of columns","An array with no columns","A sorted 2D array"], ans:1 },
+  { q:"Which of the following declares a jagged array?", opts:["int[][] arr = new int[3][3];","int[][] arr = new int[3][]; arr[0]=new int[1]; arr[1]=new int[2]; arr[2]=new int[3];","int[][] arr = {{1},{1,2},{1,2,3}};","Both B and C"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{1},{2,3},{4,5,6}};\nSystem.out.println(arr[2].length);</pre>", opts:["1","2","3","6"], ans:2 },
+  { q:"How do you print a 2D array in a grid format?", opts:["System.out.println(arr)","Arrays.toString(arr)","Nested loops with println after inner loop","Arrays.deepToString() with newlines manually added"], ans:2 },
+  { q:"Which method converts a 2D array to a readable String?", opts:["Arrays.toString(arr)","arr.toString()","Arrays.deepToString(arr)","String.valueOf(arr)"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] a = {{1,2},{3,4}};\nint[][] b = a;\nb[0][0] = 99;\nSystem.out.println(a[0][0]);</pre>", opts:["1","0","99","Compilation error"], ans:2 },
+  { q:"How do you find the sum of all elements in a 2D array?", opts:["Use arr.sum()","Use Arrays.sum(arr)","Use nested loops to accumulate","Use a single for-each loop"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{1,2,3},{4,5,6},{7,8,9}};\nSystem.out.println(arr[1][1]);</pre>", opts:["1","5","9","4"], ans:1 },
+  { q:"How do you transpose a square 2D matrix (swap rows and columns)?", opts:["Swap arr[i][j] with arr[i][j-1]","Swap arr[i][j] with arr[j][i] for i < j","Use Arrays.transpose(arr)","Reverse each row"], ans:1 },
+  { q:"What is the main diagonal of a square 2D array?", opts:["The first row","The last column","Elements where row index equals column index","Elements where row index plus column index equals n-1"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{1,2,3},{4,5,6},{7,8,9}};\nint diag = 0;\nfor (int i = 0; i < 3; i++) diag += arr[i][i];\nSystem.out.println(diag);</pre>", opts:["6","9","15","12"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{2,4},{6,8}};\nfor (int i = 0; i < arr.length; i++)\n  for (int j = 0; j < arr[i].length; j++)\n    arr[i][j] *= 2;\nSystem.out.println(arr[1][1]);</pre>", opts:["8","4","16","Compilation error"], ans:2 },
+  { q:"In a jagged array, what does <code>arr[i].length</code> represent?", opts:["The total number of elements","The number of rows","The number of columns in row i","The maximum row length"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{1,2,3},{4,5,6}};\nSystem.out.println(arr[0].length + arr[1].length);</pre>", opts:["3","6","2","9"], ans:1 },
+  { q:"Which of the following multiplies two 2D matrices A and B to produce C?", opts:["C[i][j] = A[i][j] * B[i][j]","Triple nested loop: C[i][j] += A[i][k] * B[k][j]","C = A * B directly","Arrays.multiply(A, B)"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = new int[3][];\narr[0] = new int[]{1};\narr[1] = new int[]{2,3};\narr[2] = new int[]{4,5,6};\nSystem.out.println(arr[2][2]);</pre>", opts:["4","5","6","Compilation error"], ans:2 },
+  { q:"How do you correctly deep-copy a 2D array in Java?", opts:["dst = src;","Use a nested loop to copy each element","Arrays.copyOf(src, src.length)","Arrays.deepCopy(src)"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int[][] arr = {{9,8,7},{6,5,4},{3,2,1}};\nint max = arr[0][0];\nfor (int[] row : arr)\n  for (int v : row)\n    if (v > max) max = v;\nSystem.out.println(max);</pre>", opts:["1","7","8","9"], ans:3 },
+]
+];
+
+const state = {
+  selected: Array.from({length:5}, () => new Array(20).fill(-1)),
+  submitted: [false,false,false,false,false],
+  scores: [0,0,0,0,0]
+};
+
+function renderAll() {
+  data.forEach((group, gi) => {
+    const container = document.getElementById(`cards-${gi}`);
+    container.innerHTML = group.map((q, qi) => {
+      const globalNum = gi * 20 + qi + 1;
+      const opts = q.opts.map((o, oi) => `
+        <label class="option" id="opt-${gi}-${qi}-${oi}" onclick="select(${gi},${qi},${oi})">
+          <input type="radio" name="q-${gi}-${qi}" value="${oi}">
+          <span class="opt-label">${String.fromCharCode(65+oi)}</span>
+          <span class="opt-text">${o}</span>
+        </label>`).join('');
+      return `
+        <div class="q-card" id="qcard-${gi}-${qi}">
+          <div class="q-header">
+            <span class="q-num">Q${globalNum}</span>
+            <span class="q-text">${q.q}</span>
+          </div>
+          <div class="options">${opts}</div>
+        </div>`;
+    }).join('');
+  });
+}
+
+function select(gi, qi, oi) {
+  if (state.submitted[gi]) return;
+  const prev = state.selected[gi][qi];
+  if (prev !== -1) document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  state.selected[gi][qi] = oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+}
+
+function submitGroup(gi) {
+  if (state.submitted[gi]) { alert('This group is already submitted!'); return; }
+  const unanswered = state.selected[gi].filter(v => v === -1).length;
+  if (unanswered > 0) { alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`); return; }
+  state.submitted[gi] = true;
+  let correct = 0;
+  data[gi].forEach((q, qi) => {
+    const chosen = state.selected[gi][qi];
+    const right = q.ans;
+    for (let oi = 0; oi < 4; oi++) {
+      const el = document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents = 'none';
+      if (oi === right) el.classList.add('correct');
+      else if (oi === chosen && chosen !== right) el.classList.add('wrong');
+    }
+    if (chosen === right) correct++;
+  });
+  state.scores[gi] = correct;
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  document.getElementById(`result-${gi}`).innerHTML = `Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent = `Score: ${total} / ${state.submitted.filter(Boolean).length * 20}`;
+  updateProgress();
+  if (state.submitted.every(Boolean)) document.getElementById('results-tab').style.display = '';
+}
+
+function showGroup(idx) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('global-result').style.display = 'none';
+  if (idx <= 4) {
+    document.getElementById(`group-${idx}`).classList.add('visible');
+    document.querySelectorAll('.group-btn')[idx].classList.add('active');
+  }
+}
+
+function showFinalResult() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  const pct = Math.round(total / 100 * 100);
+  let grade = pct >= 90 ? '🏆 Excellent! You have a strong grasp of Java arrays.' :
+              pct >= 75 ? '👍 Good work! Review the questions you missed.' :
+              pct >= 50 ? '📖 Fair. Keep studying 1D and 2D arrays.' :
+                          '💡 Keep practicing! Arrays take time to master.';
+  document.getElementById('final-score-text').textContent = `${total} / 100`;
+  document.getElementById('final-grade-text').textContent = `${pct}% — ${grade}`;
+  document.getElementById('global-result').style.display = 'block';
+  document.getElementById('results-tab').classList.add('active');
+}
+
+function updateProgress() {
+  const answered = state.selected.flat().filter(v => v !== -1).length;
+  document.getElementById('progress-fill').style.width = (answered / 100 * 100) + '%';
+}
+
+function resetAll() {
+  state.selected.forEach(g => g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent = 'Score: 0 / 100';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('results-tab').style.display = 'none';
+  document.getElementById('global-result').style.display = 'none';
+  [0,1,2,3,4].forEach(gi => { document.getElementById(`result-${gi}`).innerHTML = 'Answer all questions first.'; });
+  renderAll();
+  showGroup(0);
+}
+
+renderAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Methods, Classes & Objects — 100 MCQ Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .score-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .group-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .group-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .group-btn:hover, .group-btn.active {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.08);
+  }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: var(--mono);
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .q-card:hover { border-color: #444c56; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--java-blue);
+  }
+  pre.code-block {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    color: var(--java-blue);
+    margin: 10px 0 0;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .option:hover { border-color: var(--java-blue); background: rgba(77,171,247,0.05); }
+  .option input[type="radio"] { display: none; }
+
+  .opt-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.12s;
+  }
+  .opt-text { font-size: 14px; color: var(--text); }
+
+  .option.selected .opt-label {
+    border-color: var(--java-blue);
+    background: var(--java-blue);
+    color: #000;
+  }
+  .option.correct { border-color: var(--correct); background: rgba(46,160,67,0.1); }
+  .option.correct .opt-label { border-color: var(--correct); background: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: rgba(218,54,51,0.1); }
+  .option.wrong .opt-label { border-color: var(--wrong); background: var(--wrong); color: #fff; }
+
+  .section-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-result {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section-result strong { color: var(--java-orange); }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary { background: var(--java-orange); color: #000; }
+  .btn-primary:hover { background: #e08800; }
+  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  #global-result {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+  #global-result h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; color: var(--java-orange); }
+  #global-result p { color: var(--muted); font-size: 15px; }
+  #global-result .big-score {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .wrapper { padding: 24px 16px 60px; }
+    .section-footer { flex-direction: column; align-items: stretch; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>User-Defined Methods · Classes &amp; Basics of Objects — 100 Questions</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 100</div>
+</header>
+
+<div class="wrapper">
+
+  <nav class="group-nav">
+    <a class="group-btn active" onclick="showGroup(0)" href="#">Group 1 · Q1–20</a>
+    <a class="group-btn" onclick="showGroup(1)" href="#">Group 2 · Q21–40</a>
+    <a class="group-btn" onclick="showGroup(2)" href="#">Group 3 · Q41–60</a>
+    <a class="group-btn" onclick="showGroup(3)" href="#">Group 4 · Q61–80</a>
+    <a class="group-btn" onclick="showGroup(4)" href="#">Group 5 · Q81–100</a>
+    <a class="group-btn" onclick="showGroup(5)" href="#" id="results-tab" style="display:none">📊 Results</a>
+  </nav>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- GROUP 1 -->
+  <section class="section visible" id="group-0">
+    <div class="section-header">
+      <span class="section-number">Group 01</span>
+      <h2 class="section-title">User-Defined Methods — Basics</h2>
+      <span class="section-count">Q1 – Q20</span>
+    </div>
+    <div id="cards-0"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-0">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitGroup(0)">Submit Group 1</button>
+        <button class="btn btn-ghost" onclick="showGroup(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 2 -->
+  <section class="section" id="group-1">
+    <div class="section-header">
+      <span class="section-number">Group 02</span>
+      <h2 class="section-title">Method Overloading &amp; Recursion</h2>
+      <span class="section-count">Q21 – Q40</span>
+    </div>
+    <div id="cards-1"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-1">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(0)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(1)">Submit Group 2</button>
+        <button class="btn btn-ghost" onclick="showGroup(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 3 -->
+  <section class="section" id="group-2">
+    <div class="section-header">
+      <span class="section-number">Group 03</span>
+      <h2 class="section-title">Classes — Declaration &amp; Members</h2>
+      <span class="section-count">Q41 – Q60</span>
+    </div>
+    <div id="cards-2"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-2">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(1)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(2)">Submit Group 3</button>
+        <button class="btn btn-ghost" onclick="showGroup(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 4 -->
+  <section class="section" id="group-3">
+    <div class="section-header">
+      <span class="section-number">Group 04</span>
+      <h2 class="section-title">Objects — Creation, Memory &amp; References</h2>
+      <span class="section-count">Q61 – Q80</span>
+    </div>
+    <div id="cards-3"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-3">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(2)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(3)">Submit Group 4</button>
+        <button class="btn btn-ghost" onclick="showGroup(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 5 -->
+  <section class="section" id="group-4">
+    <div class="section-header">
+      <span class="section-number">Group 05</span>
+      <h2 class="section-title">Constructors, <code>this</code> Keyword &amp; Access Modifiers</h2>
+      <span class="section-count">Q81 – Q100</span>
+    </div>
+    <div id="cards-4"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-4">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(3)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(4)">Submit Group 5</button>
+        <button class="btn btn-primary" onclick="showFinalResult()" style="background:var(--java-blue)">View Final Score</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="global-result">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score-text">—</div>
+    <p id="final-grade-text"></p>
+    <br>
+    <button class="btn btn-primary" onclick="resetAll()">Retake Quiz</button>
+  </div>
+
+</div>
+
+<script>
+const data = [
+
+// ── GROUP 1: User-Defined Methods — Basics (Q1–Q20) ──
+[
+  { q:"What is a method in Java?", opts:["A variable that stores data","A block of code that performs a specific task and can be called by name","A type of loop","A keyword for creating objects"], ans:1 },
+  { q:"Which of the following is the correct syntax to define a method?", opts:["methodName returnType (params) {}","returnType methodName(params) {}","def methodName(params) returnType {}","method returnType methodName(params) {}"], ans:1 },
+  { q:"What is a void method?", opts:["A method with no parameters","A method that returns null","A method that does not return any value","A method that is never called"], ans:2 },
+  { q:"What keyword is used to return a value from a method?", opts:["give","send","output","return"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">static int add(int a, int b) {\n  return a + b;\n}\npublic static void main(String[] args) {\n  System.out.println(add(3, 4));\n}</pre>", opts:["3","4","7","Compilation error"], ans:2 },
+  { q:"What are formal parameters in a method?", opts:["Variables declared inside the method body","Variables passed when calling the method","Variables listed in the method definition","Global variables used by the method"], ans:2 },
+  { q:"What are actual parameters (arguments)?", opts:["Variables listed in the method definition","Values passed to the method during a call","Static fields of a class","Return values of a method"], ans:1 },
+  { q:"Which keyword is used to call a method of the same class from another static method?", opts:["call","invoke","this","Just the method name directly"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">static void greet() {\n  System.out.println(\"Hello!\");\n}\npublic static void main(String[] args) {\n  greet();\n  greet();\n}</pre>", opts:["Hello!","Hello!\nHello!","Compilation error","Nothing"], ans:1 },
+  { q:"Can a Java method have multiple return statements?", opts:["No, only one is allowed","Yes, but only one executes depending on logic","Yes, and all can execute","Only in void methods"], ans:1 },
+  { q:"What is the return type of a method that returns an integer?", opts:["void","Integer","int","number"], ans:2 },
+  { q:"What happens if a non-void method does not have a return statement for all code paths?", opts:["It returns 0 by default","It returns null","Compilation error","Runtime exception"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">static int square(int x) {\n  return x * x;\n}\npublic static void main(String[] args) {\n  int r = square(5);\n  System.out.println(r);\n}</pre>", opts:["5","10","25","Compilation error"], ans:2 },
+  { q:"What is pass-by-value in Java?", opts:["The method receives the actual variable","The method receives a copy of the value","Changes inside the method affect the original","Only objects are passed by value"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">static void change(int x) {\n  x = 100;\n}\npublic static void main(String[] args) {\n  int a = 5;\n  change(a);\n  System.out.println(a);\n}</pre>", opts:["100","5","0","Compilation error"], ans:1 },
+  { q:"What is a method signature in Java?", opts:["The return type only","The method name and its parameter types","The method body","The access modifier only"], ans:1 },
+  { q:"Can a method return another method's result directly?", opts:["No","Yes, using return methodName()","Only with void methods","Only with static methods"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">static boolean isEven(int n) {\n  return n % 2 == 0;\n}\npublic static void main(String[] args) {\n  System.out.println(isEven(4));\n}</pre>", opts:["4","true","false","Compilation error"], ans:1 },
+  { q:"What is a static method in Java?", opts:["A method that can only be called once","A method that belongs to the class, not an instance","A method with no parameters","A method that cannot return a value"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">static int max(int a, int b) {\n  if (a > b) return a;\n  return b;\n}\npublic static void main(String[] args) {\n  System.out.println(max(10, 20));\n}</pre>", opts:["10","20","30","Compilation error"], ans:1 },
+],
+
+// ── GROUP 2: Method Overloading & Recursion (Q21–Q40) ──
+[
+  { q:"What is method overloading in Java?", opts:["Calling a method multiple times","Defining multiple methods with the same name but different parameter lists","Overriding a parent's method","Hiding a method with static"], ans:1 },
+  { q:"Which of the following correctly demonstrates method overloading?", opts:["int add(int a) and int add(int a)","int add(int a) and double add(double a)","void show() and void show()","void show(int a) and void show(int a)"], ans:1 },
+  { q:"Can methods be overloaded by changing only the return type?", opts:["Yes","No, return type alone is not sufficient","Only for primitive types","Only for static methods"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">static int add(int a, int b) { return a + b; }\nstatic double add(double a, double b) { return a + b; }\npublic static void main(String[] args) {\n  System.out.println(add(2, 3));\n}</pre>", opts:["2.0","5.0","5","Compilation error"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">static void print(int x) { System.out.println(\"int: \" + x); }\nstatic void print(double x) { System.out.println(\"double: \" + x); }\npublic static void main(String[] args) {\n  print(5);\n}</pre>", opts:["double: 5.0","int: 5","Compilation error","int: 5.0"], ans:1 },
+  { q:"What is recursion in Java?", opts:["A loop that runs forever","A method that calls itself","A method that calls another method","Using multiple return statements"], ans:1 },
+  { q:"What is required for recursion to work correctly without infinite looping?", opts:["A large stack","A base case that stops the recursion","At least two methods","Only void return types"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">static int fact(int n) {\n  if (n == 0) return 1;\n  return n * fact(n - 1);\n}\npublic static void main(String[] args) {\n  System.out.println(fact(5));\n}</pre>", opts:["5","24","120","Compilation error"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">static int fib(int n) {\n  if (n <= 1) return n;\n  return fib(n-1) + fib(n-2);\n}\npublic static void main(String[] args) {\n  System.out.println(fib(6));\n}</pre>", opts:["6","8","13","5"], ans:1 },
+  { q:"What exception is thrown when recursion has no base case and the call stack overflows?", opts:["NullPointerException","ArithmeticException","ArrayIndexOutOfBoundsException","StackOverflowError"], ans:3 },
+  { q:"What is the base case in the factorial recursive method <code>fact(n)</code>?", opts:["n == 1 returns 1","n == 0 returns 1","n < 0 returns 0","n == n returns n"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">static int sum(int n) {\n  if (n == 0) return 0;\n  return n + sum(n - 1);\n}\npublic static void main(String[] args) {\n  System.out.println(sum(4));\n}</pre>", opts:["4","6","10","Compilation error"], ans:2 },
+  { q:"Can overloaded methods have different return types in addition to different parameters?", opts:["No","Yes, the parameter list must still differ","Only for static methods","Only for void methods"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">static void show(String s) { System.out.println(\"String: \" + s); }\nstatic void show(int n) { System.out.println(\"int: \" + n); }\npublic static void main(String[] args) {\n  show(\"Hi\");\n  show(7);\n}</pre>", opts:["String: Hi\nString: 7","int: Hi\nint: 7","String: Hi\nint: 7","Compilation error"], ans:2 },
+  { q:"How many times does a recursive factorial call execute for <code>fact(3)</code>?", opts:["3 calls (fact(3), fact(2), fact(1))","4 calls including the base case fact(0)","2 calls","5 calls"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">static void countdown(int n) {\n  if (n == 0) { System.out.print(\"Go!\"); return; }\n  System.out.print(n + \" \");\n  countdown(n - 1);\n}\npublic static void main(String[] args) { countdown(3); }</pre>", opts:["Go! 1 2 3","3 2 1 Go!","1 2 3 Go!","Compilation error"], ans:1 },
+  { q:"What is a varargs method in Java?", opts:["A method with no parameters","A method that accepts a variable number of arguments","A method with variable return type","A recursive method"], ans:1 },
+  { q:"What is the correct varargs syntax for a method accepting multiple ints?", opts:["int... nums","int[] nums","int num...","vararg int nums"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">static int sumAll(int... nums) {\n  int s = 0;\n  for (int n : nums) s += n;\n  return s;\n}\npublic static void main(String[] args) {\n  System.out.println(sumAll(1,2,3,4,5));\n}</pre>", opts:["10","15","5","Compilation error"], ans:1 },
+  { q:"Which of the following correctly calls an overloaded method <code>add(int, int)</code>?", opts:["add(2.0, 3.0)","add(2, 3)","add(\"2\", \"3\")","add(2, 3, 4)"], ans:1 },
+],
+
+// ── GROUP 3: Classes — Declaration & Members (Q41–Q60) ──
+[
+  { q:"What is a class in Java?", opts:["A running instance of a program","A blueprint or template for creating objects","A collection of static methods","A reserved keyword"], ans:1 },
+  { q:"What is the correct syntax to declare a class named <code>Car</code>?", opts:["Class Car {}","class car {}","class Car {}","object Car {}"], ans:2 },
+  { q:"What are instance variables (fields) in a class?", opts:["Variables declared inside a method","Variables that belong to each object of the class","Variables shared by all objects","Variables that are always static"], ans:1 },
+  { q:"What are static variables in a class?", opts:["Variables belonging to each object","Variables shared by all objects of the class","Variables that cannot be changed","Local variables inside methods"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Counter {\n  static int count = 0;\n}\npublic class Main {\n  public static void main(String[] args) {\n    Counter.count++;\n    Counter.count++;\n    System.out.println(Counter.count);\n  }\n}</pre>", opts:["0","1","2","Compilation error"], ans:2 },
+  { q:"What is a member method (instance method) of a class?", opts:["A method declared with static","A method that operates on a specific instance of the class","A method with no return type","A method called without an object"], ans:1 },
+  { q:"How do you call an instance method <code>drive()</code> on an object <code>car1</code>?", opts:["drive(car1)","car1->drive()","car1.drive()","Car.drive(car1)"], ans:2 },
+  { q:"What does the <code>static</code> keyword mean for a class member?", opts:["It belongs to the object","It cannot be modified","It belongs to the class itself, not any instance","It is always public"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Dog {\n  String name = \"Buddy\";\n  void bark() { System.out.println(name + \" says Woof!\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.bark();\n  }\n}</pre>", opts:["Woof!","Buddy says Woof!","Buddy","Compilation error"], ans:1 },
+  { q:"Can a class have both static and instance members?", opts:["No, only one type","Yes","Only static members are allowed","Only instance members are allowed"], ans:1 },
+  { q:"What is the purpose of an accessor (getter) method?", opts:["To modify a private field","To delete an object","To read the value of a private field","To create new objects"], ans:2 },
+  { q:"What is the purpose of a mutator (setter) method?", opts:["To read a private field","To modify the value of a private field","To destroy an object","To call another method"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Box {\n  int width = 5;\n  int height = 10;\n  int area() { return width * height; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Box b = new Box();\n    System.out.println(b.area());\n  }\n}</pre>", opts:["5","10","50","Compilation error"], ans:2 },
+  { q:"Which keyword is used to access a static member of a class?", opts:["new","this","ClassName.memberName","super"], ans:2 },
+  { q:"Can a static method directly access an instance variable?", opts:["Yes, always","No, not directly without an object reference","Only if the variable is final","Only if the class is public"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class MathHelper {\n  static int cube(int x) { return x * x * x; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    System.out.println(MathHelper.cube(3));\n  }\n}</pre>", opts:["3","9","27","Compilation error"], ans:2 },
+  { q:"What is a nested class in Java?", opts:["A class inside a method","A class defined within another class","A class with no fields","A subclass"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Person {\n  String name;\n  int age;\n  void display() {\n    System.out.println(name + \" \" + age);\n  }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Person p = new Person();\n    p.name = \"Alice\";\n    p.age = 25;\n    p.display();\n  }\n}</pre>", opts:["Alice","25","Alice 25","null 0"], ans:2 },
+  { q:"What is the role of the <code>main</code> method's class in a Java program?", opts:["It is always abstract","It serves as the entry point class","It must be declared final","It cannot have other methods"], ans:1 },
+  { q:"What is a utility class in Java?", opts:["A class with only instance methods","A class with only static methods and no objects are needed","A class that cannot be instantiated by definition","Both B and C"], ans:3 },
+],
+
+// ── GROUP 4: Objects — Creation, Memory & References (Q61–Q80) ──
+[
+  { q:"What is an object in Java?", opts:["A keyword","A primitive data type","An instance of a class","A static method"], ans:2 },
+  { q:"Which keyword is used to create an object in Java?", opts:["create","object","make","new"], ans:3 },
+  { q:"What is the correct way to create an object of class <code>Car</code>?", opts:["Car c = Car();","Car c = new Car;","Car c = new Car();","new Car c;"], ans:2 },
+  { q:"Where are Java objects stored in memory?", opts:["Stack","Register","Method area","Heap"], ans:3 },
+  { q:"Where are object references (variables) stored in memory?", opts:["Heap","Register","Stack","Permanent generation"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Animal {\n  String type = \"Dog\";\n}\npublic class Main {\n  public static void main(String[] args) {\n    Animal a = new Animal();\n    System.out.println(a.type);\n  }\n}</pre>", opts:["null","Animal","Dog","Compilation error"], ans:2 },
+  { q:"What is a null reference in Java?", opts:["A reference pointing to an empty string","A reference that points to no object","A reference with value 0","An uninitialized primitive"], ans:1 },
+  { q:"What exception is thrown when a method is called on a null reference?", opts:["ArrayIndexOutOfBoundsException","IllegalArgumentException","ClassCastException","NullPointerException"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">class Box {\n  int size;\n}\npublic class Main {\n  public static void main(String[] args) {\n    Box b1 = new Box();\n    Box b2 = b1;\n    b2.size = 99;\n    System.out.println(b1.size);\n  }\n}</pre>", opts:["0","99","null","Compilation error"], ans:1 },
+  { q:"What does <code>b2 = b1</code> do when both are object references?", opts:["Creates an independent copy of b1","Both b1 and b2 point to the same object","Copies only the fields","Creates a new object"], ans:1 },
+  { q:"What is garbage collection in Java?", opts:["Manually freeing memory","Automatically reclaiming memory occupied by unreachable objects","Deleting null references","Clearing the stack"], ans:1 },
+  { q:"When does an object become eligible for garbage collection?", opts:["When it is created","When no reference points to it","When its method returns","When the class is unloaded"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Point {\n  int x, y;\n  Point(int x, int y) { this.x = x; this.y = y; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Point p = new Point(3, 4);\n    System.out.println(p.x + \" \" + p.y);\n  }\n}</pre>", opts:["0 0","3 4","null null","Compilation error"], ans:1 },
+  { q:"Can you have multiple objects of the same class?", opts:["No, only one object per class","Yes, each object has its own copy of instance variables","Yes, but they share all variables","Only if the class is static"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Circle {\n  double radius;\n  double area() { return 3.14 * radius * radius; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Circle c = new Circle();\n    c.radius = 5;\n    System.out.printf(\"%.2f\", c.area());\n  }\n}</pre>", opts:["78.50","75.00","78.5","Compilation error"], ans:0 },
+  { q:"What does passing an object to a method allow?", opts:["Only reading its fields","Modifying its fields (since the reference is passed by value)","Creating a new copy of the object","Nothing special compared to primitives"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Counter {\n  int count = 0;\n  void increment() { count++; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Counter c = new Counter();\n    c.increment();\n    c.increment();\n    c.increment();\n    System.out.println(c.count);\n  }\n}</pre>", opts:["0","1","2","3"], ans:3 },
+  { q:"What does <code>==</code> check when used between two object references?", opts:["Whether fields are equal","Whether they point to the same object in memory","Whether they have the same class","Whether both are null"], ans:1 },
+  { q:"What method should be used to compare object contents for equality?", opts:["==","compareTo()","equals()","compare()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Lamp {\n  boolean isOn = false;\n  void toggle() { isOn = !isOn; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Lamp l = new Lamp();\n    l.toggle();\n    l.toggle();\n    System.out.println(l.isOn);\n  }\n}</pre>", opts:["true","false","null","Compilation error"], ans:1 },
+],
+
+// ── GROUP 5: Constructors, this Keyword & Access Modifiers (Q81–Q100) ──
+[
+  { q:"What is a constructor in Java?", opts:["A method that destroys objects","A special method called automatically when an object is created","A static utility method","A method that returns the object itself"], ans:1 },
+  { q:"Which of the following is true about a constructor's name?", opts:["It can be any valid identifier","It must match the class name exactly","It must start with lowercase","It must be the same as the return type"], ans:1 },
+  { q:"What is the return type of a constructor?", opts:["void","int","The class type","Constructors have no return type"], ans:3 },
+  { q:"What is a default constructor?", opts:["A constructor with one parameter","A constructor provided by Java when no constructor is defined","A constructor that returns null","A private constructor"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Student {\n  String name;\n  int age;\n  Student() { name = \"Unknown\"; age = 0; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Student s = new Student();\n    System.out.println(s.name + \" \" + s.age);\n  }\n}</pre>", opts:["null 0","Unknown 0","Unknown","Compilation error"], ans:1 },
+  { q:"What is a parameterized constructor?", opts:["A constructor with no parameters","A constructor that accepts arguments to initialize fields","A constructor that calls another constructor","A static constructor"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Rectangle {\n  int w, h;\n  Rectangle(int w, int h) { this.w = w; this.h = h; }\n  int area() { return w * h; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Rectangle r = new Rectangle(4, 5);\n    System.out.println(r.area());\n  }\n}</pre>", opts:["4","5","20","Compilation error"], ans:2 },
+  { q:"What is constructor overloading?", opts:["Having two classes with the same constructor","Defining multiple constructors with different parameter lists in the same class","Calling a constructor from a subclass","A constructor that calls itself"], ans:1 },
+  { q:"What does the <code>this</code> keyword refer to inside an instance method or constructor?", opts:["The parent class","The current object","The class itself","The calling method"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Bike {\n  String model;\n  Bike(String model) { this.model = model; }\n  void show() { System.out.println(\"Model: \" + this.model); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Bike b = new Bike(\"Yamaha\");\n    b.show();\n  }\n}</pre>", opts:["Model: null","Yamaha","Model: Yamaha","Compilation error"], ans:2 },
+  { q:"What does <code>this()</code> do inside a constructor?", opts:["Calls the parent class constructor","Calls another constructor of the same class","Returns the current object","Calls the main method"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Point {\n  int x, y;\n  Point() { this(0, 0); }\n  Point(int x, int y) { this.x = x; this.y = y; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Point p = new Point();\n    System.out.println(p.x + \" \" + p.y);\n  }\n}</pre>", opts:["null null","0 0","1 1","Compilation error"], ans:1 },
+  { q:"What does the <code>private</code> access modifier restrict?", opts:["Access to the class from other packages","Access to the member from any code outside the same class","Access to the member from subclasses","Access from the same package only"], ans:1 },
+  { q:"What does the <code>public</code> access modifier allow?", opts:["Access only within the same class","Access only within the same package","Access from any class anywhere","Access only from subclasses"], ans:2 },
+  { q:"What does the <code>protected</code> access modifier allow?", opts:["Access only within the same class","Access only to the JVM","Access from the same package and subclasses","Access from anywhere"], ans:2 },
+  { q:"What is the default (package-private) access modifier?", opts:["Access only within the same class","Access from any class","Access only to subclasses","Access within the same package only"], ans:3 },
+  { q:"Which access modifier is most restrictive?", opts:["public","protected","default","private"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">class Account {\n  private double balance;\n  Account(double b) { this.balance = b; }\n  double getBalance() { return balance; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Account a = new Account(5000.0);\n    System.out.println(a.getBalance());\n  }\n}</pre>", opts:["0.0","5000","5000.0","Compilation error"], ans:2 },
+  { q:"If a class defines any parameterized constructor but no default constructor, what happens when you call <code>new ClassName()</code>?", opts:["Returns null","A default constructor is still provided","Compilation error — no no-arg constructor exists","Runtime exception"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Engine {\n  int horsepower;\n  Engine(int hp) { this.horsepower = hp; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Engine e1 = new Engine(150);\n    Engine e2 = new Engine(200);\n    System.out.println(e1.horsepower + e2.horsepower);\n  }\n}</pre>", opts:["150","200","350","Compilation error"], ans:2 },
+]
+];
+
+const state = {
+  selected: Array.from({length:5}, () => new Array(20).fill(-1)),
+  submitted: [false,false,false,false,false],
+  scores: [0,0,0,0,0]
+};
+
+function renderAll() {
+  data.forEach((group, gi) => {
+    const container = document.getElementById(`cards-${gi}`);
+    container.innerHTML = group.map((q, qi) => {
+      const globalNum = gi * 20 + qi + 1;
+      const opts = q.opts.map((o, oi) => `
+        <label class="option" id="opt-${gi}-${qi}-${oi}" onclick="select(${gi},${qi},${oi})">
+          <input type="radio" name="q-${gi}-${qi}" value="${oi}">
+          <span class="opt-label">${String.fromCharCode(65+oi)}</span>
+          <span class="opt-text">${o}</span>
+        </label>`).join('');
+      return `
+        <div class="q-card" id="qcard-${gi}-${qi}">
+          <div class="q-header">
+            <span class="q-num">Q${globalNum}</span>
+            <span class="q-text">${q.q}</span>
+          </div>
+          <div class="options">${opts}</div>
+        </div>`;
+    }).join('');
+  });
+}
+
+function select(gi, qi, oi) {
+  if (state.submitted[gi]) return;
+  const prev = state.selected[gi][qi];
+  if (prev !== -1) document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  state.selected[gi][qi] = oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+}
+
+function submitGroup(gi) {
+  if (state.submitted[gi]) { alert('This group is already submitted!'); return; }
+  const unanswered = state.selected[gi].filter(v => v === -1).length;
+  if (unanswered > 0) { alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`); return; }
+  state.submitted[gi] = true;
+  let correct = 0;
+  data[gi].forEach((q, qi) => {
+    const chosen = state.selected[gi][qi];
+    const right = q.ans;
+    for (let oi = 0; oi < 4; oi++) {
+      const el = document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents = 'none';
+      if (oi === right) el.classList.add('correct');
+      else if (oi === chosen && chosen !== right) el.classList.add('wrong');
+    }
+    if (chosen === right) correct++;
+  });
+  state.scores[gi] = correct;
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  document.getElementById(`result-${gi}`).innerHTML = `Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent = `Score: ${total} / ${state.submitted.filter(Boolean).length * 20}`;
+  updateProgress();
+  if (state.submitted.every(Boolean)) document.getElementById('results-tab').style.display = '';
+}
+
+function showGroup(idx) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('global-result').style.display = 'none';
+  if (idx <= 4) {
+    document.getElementById(`group-${idx}`).classList.add('visible');
+    document.querySelectorAll('.group-btn')[idx].classList.add('active');
+  }
+}
+
+function showFinalResult() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  const pct = Math.round(total / 100 * 100);
+  let grade = pct >= 90 ? '🏆 Excellent! You have a strong grasp of Java methods, classes & objects.' :
+              pct >= 75 ? '👍 Good work! Review the questions you missed.' :
+              pct >= 50 ? '📖 Fair. Keep studying classes and object concepts.' :
+                          '💡 Keep practicing! OOP fundamentals take time to master.';
+  document.getElementById('final-score-text').textContent = `${total} / 100`;
+  document.getElementById('final-grade-text').textContent = `${pct}% — ${grade}`;
+  document.getElementById('global-result').style.display = 'block';
+  document.getElementById('results-tab').classList.add('active');
+}
+
+function updateProgress() {
+  const answered = state.selected.flat().filter(v => v !== -1).length;
+  document.getElementById('progress-fill').style.width = (answered / 100 * 100) + '%';
+}
+
+function resetAll() {
+  state.selected.forEach(g => g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent = 'Score: 0 / 100';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('results-tab').style.display = 'none';
+  document.getElementById('global-result').style.display = 'none';
+  [0,1,2,3,4].forEach(gi => { document.getElementById(`result-${gi}`).innerHTML = 'Answer all questions first.'; });
+  renderAll();
+  showGroup(0);
+}
+
+renderAll();
+</script>
+</body>
+</html>

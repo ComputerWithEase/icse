@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java for ICSE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .score-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .group-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .group-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .group-btn:hover, .group-btn.active {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.08);
+  }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: var(--mono);
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .q-card:hover { border-color: #444c56; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--java-blue);
+  }
+  pre.code-block {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    color: var(--java-blue);
+    margin: 10px 0 0;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .option:hover { border-color: var(--java-blue); background: rgba(77,171,247,0.05); }
+  .option input[type="radio"] { display: none; }
+
+  .opt-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.12s;
+  }
+  .opt-text { font-size: 14px; color: var(--text); }
+
+  .option.selected .opt-label {
+    border-color: var(--java-blue);
+    background: var(--java-blue);
+    color: #000;
+  }
+  .option.correct { border-color: var(--correct); background: rgba(46,160,67,0.1); }
+  .option.correct .opt-label { border-color: var(--correct); background: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: rgba(218,54,51,0.1); }
+  .option.wrong .opt-label { border-color: var(--wrong); background: var(--wrong); color: #fff; }
+
+  .section-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-result {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section-result strong { color: var(--java-orange); }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary { background: var(--java-orange); color: #000; }
+  .btn-primary:hover { background: #e08800; }
+  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  #global-result {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+  #global-result h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; color: var(--java-orange); }
+  #global-result p { color: var(--muted); font-size: 15px; }
+  #global-result .big-score {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .wrapper { padding: 24px 16px 60px; }
+    .section-footer { flex-direction: column; align-items: stretch; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>Conditional Statements · Loops · Nested Loops — 100 Questions</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 100</div>
+</header>
+
+<div class="wrapper">
+
+  <nav class="group-nav">
+    <a class="group-btn active" onclick="showGroup(0)" href="#">Group 1 · Q1–20</a>
+    <a class="group-btn" onclick="showGroup(1)" href="#">Group 2 · Q21–40</a>
+    <a class="group-btn" onclick="showGroup(2)" href="#">Group 3 · Q41–60</a>
+    <a class="group-btn" onclick="showGroup(3)" href="#">Group 4 · Q61–80</a>
+    <a class="group-btn" onclick="showGroup(4)" href="#">Group 5 · Q81–100</a>
+    <a class="group-btn" onclick="showGroup(5)" href="#" id="results-tab" style="display:none">📊 Results</a>
+  </nav>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- GROUP 1 -->
+  <section class="section visible" id="group-0">
+    <div class="section-header">
+      <span class="section-number">Group 01</span>
+      <h2 class="section-title">Conditional Statements — if / else</h2>
+      <span class="section-count">Q1 – Q20</span>
+    </div>
+    <div id="cards-0"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-0">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitGroup(0)">Submit Group 1</button>
+        <button class="btn btn-ghost" onclick="showGroup(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 2 -->
+  <section class="section" id="group-1">
+    <div class="section-header">
+      <span class="section-number">Group 02</span>
+      <h2 class="section-title">Switch Statements &amp; Ternary</h2>
+      <span class="section-count">Q21 – Q40</span>
+    </div>
+    <div id="cards-1"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-1">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(0)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(1)">Submit Group 2</button>
+        <button class="btn btn-ghost" onclick="showGroup(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 3 -->
+  <section class="section" id="group-2">
+    <div class="section-header">
+      <span class="section-number">Group 03</span>
+      <h2 class="section-title">Loops — for, while, do-while</h2>
+      <span class="section-count">Q41 – Q60</span>
+    </div>
+    <div id="cards-2"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-2">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(1)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(2)">Submit Group 3</button>
+        <button class="btn btn-ghost" onclick="showGroup(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 4 -->
+  <section class="section" id="group-3">
+    <div class="section-header">
+      <span class="section-number">Group 04</span>
+      <h2 class="section-title">Loop Control — break, continue &amp; Labels</h2>
+      <span class="section-count">Q61 – Q80</span>
+    </div>
+    <div id="cards-3"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-3">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(2)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(3)">Submit Group 4</button>
+        <button class="btn btn-ghost" onclick="showGroup(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 5 -->
+  <section class="section" id="group-4">
+    <div class="section-header">
+      <span class="section-number">Group 05</span>
+      <h2 class="section-title">Nested Loops &amp; Patterns</h2>
+      <span class="section-count">Q81 – Q100</span>
+    </div>
+    <div id="cards-4"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-4">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(3)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(4)">Submit Group 5</button>
+        <button class="btn btn-primary" onclick="showFinalResult()" style="background:var(--java-blue)">View Final Score</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="global-result">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score-text">—</div>
+    <p id="final-grade-text"></p>
+    <br>
+    <button class="btn btn-primary" onclick="resetAll()">Retake Quiz</button>
+  </div>
+
+</div>
+
+<script>
+const data = [
+
+// GROUP 1 — Conditional Statements: if / else (Q1–Q20)
+[
+  { q:"Which keyword is used to test a condition in Java?", opts:["check","when","if","cond"], ans:2 },
+  { q:"What is the correct syntax for an if statement?", opts:["if x > 5 {}","if (x > 5) {}","if x > 5 then {}","if[x > 5] {}"], ans:1 },
+  { q:"Which block executes when the <code>if</code> condition is false?", opts:["then","else","otherwise","default"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 10;\nif (x > 5) System.out.println(\"A\");\nelse System.out.println(\"B\");</pre>", opts:["A","B","AB","Compilation error"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 3;\nif (x > 5) System.out.println(\"A\");\nelse System.out.println(\"B\");</pre>", opts:["A","B","AB","Compilation error"], ans:1 },
+  { q:"What does <code>else if</code> allow you to do?", opts:["Repeat a loop","Chain multiple conditions","Declare a variable","Exit a method"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 0;\nif (x > 0) System.out.println(\"Pos\");\nelse if (x < 0) System.out.println(\"Neg\");\nelse System.out.println(\"Zero\");</pre>", opts:["Pos","Neg","Zero","Compilation error"], ans:2 },
+  { q:"Can an <code>if</code> statement exist without an <code>else</code>?", opts:["No, else is mandatory","Yes, else is optional","Only inside loops","Only with boolean variables"], ans:1 },
+  { q:"What type must the condition inside an <code>if</code> statement evaluate to?", opts:["int","String","boolean","Any type"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 5;\nif (x = 5) System.out.println(\"Yes\");</pre>", opts:["Yes","No output","Compilation error","5"], ans:2 },
+  { q:"What is a nested if statement?", opts:["An if inside a loop","An if statement inside another if statement","Multiple else statements","An if without braces"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int a = 10, b = 20;\nif (a > 5) {\n  if (b > 15) System.out.println(\"Both\");\n}</pre>", opts:["Both","Nothing is printed","Compilation error","a"], ans:0 },
+  { q:"In Java, what happens if curly braces are omitted after an <code>if</code> with multiple statements intended?", opts:["All statements run conditionally","Only the first statement is conditional","Compilation error always","Only the last statement is conditional"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 7;\nif (x % 2 == 0)\n  System.out.println(\"Even\");\nelse\n  System.out.println(\"Odd\");</pre>", opts:["Even","Odd","7","Compilation error"], ans:1 },
+  { q:"Which of the following is equivalent to a long if-else-if chain in many cases?", opts:["for loop","switch statement","while loop","do-while loop"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 15;\nif (x > 10 && x < 20) System.out.println(\"In range\");\nelse System.out.println(\"Out of range\");</pre>", opts:["In range","Out of range","15","Compilation error"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 5;\nif (x > 10 || x < 8) System.out.println(\"True branch\");\nelse System.out.println(\"False branch\");</pre>", opts:["True branch","False branch","5","Compilation error"], ans:0 },
+  { q:"What is dangling else problem in Java resolved by?", opts:["else binds to the nearest unmatched if","else binds to the first if","Java does not allow nested if-else","else must always have braces"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">boolean flag = false;\nif (flag) System.out.println(\"A\");\nSystem.out.println(\"B\");</pre>", opts:["A","B","AB","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 0;\nif (x) System.out.println(\"Yes\");</pre>", opts:["Yes","No output","Compilation error","0"], ans:2 },
+],
+
+// GROUP 2 — Switch Statements & Ternary (Q21–Q40)
+[
+  { q:"Which keyword is used to start a switch statement?", opts:["switch","case","select","choose"], ans:0 },
+  { q:"Which keyword defines a branch inside a switch statement?", opts:["if","case","when","option"], ans:1 },
+  { q:"What keyword prevents fall-through in a traditional switch statement?", opts:["stop","exit","break","end"], ans:2 },
+  { q:"What happens if a <code>break</code> is omitted in a switch case (traditional style)?", opts:["Compilation error","Execution falls through to the next case","The switch exits immediately","Nothing happens"], ans:1 },
+  { q:"Which keyword specifies the block to run if no case matches?", opts:["else","otherwise","default","fallback"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 2;\nswitch (x) {\n  case 1: System.out.println(\"One\"); break;\n  case 2: System.out.println(\"Two\"); break;\n  default: System.out.println(\"Other\");\n}</pre>", opts:["One","Two","Other","Compilation error"], ans:1 },
+  { q:"Which data types can be used in a traditional switch expression? (choose the most complete answer)", opts:["int and char only","int, char, String, and enum","Only String","Only boolean"], ans:1 },
+  { q:"Can a switch statement use a <code>boolean</code> as its expression?", opts:["Yes, always","No, boolean is not supported in switch","Only with Java 17+","Only inside loops"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 3;\nswitch (x) {\n  case 1: System.out.println(\"A\");\n  case 2: System.out.println(\"B\");\n  case 3: System.out.println(\"C\");\n  case 4: System.out.println(\"D\");\n}</pre>", opts:["C","CD","C only with break","ABC"], ans:1 },
+  { q:"What is the modern switch expression arrow syntax introduced in Java 14?", opts:["case 1 => result;","case 1: result;","case 1 -> result;","case 1 then result;"], ans:2 },
+  { q:"What is the ternary operator syntax in Java?", opts:["cond ? a : b","if cond then a else b","cond -> a : b","cond { a } else { b }"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">int x = 8;\nString result = (x % 2 == 0) ? \"Even\" : \"Odd\";\nSystem.out.println(result);</pre>", opts:["Even","Odd","8","Compilation error"], ans:0 },
+  { q:"Can ternary operators be nested in Java?", opts:["No, never allowed","Yes, but it can reduce readability","Only in switch statements","Only with integers"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int a = 5, b = 10;\nint max = (a > b) ? a : b;\nSystem.out.println(max);</pre>", opts:["5","10","15","Compilation error"], ans:1 },
+  { q:"In a switch statement, what happens if two case labels have the same value?", opts:["The last one is used","The first one is used","Compilation error","Runtime error"], ans:2 },
+  { q:"What is the output of a switch statement using a <code>String</code> expression with no matching case and no default?", opts:["Runtime error","Compilation error","Nothing happens","NullPointerException always"], ans:2 },
+  { q:"What does the new switch expression (Java 14+) allow you to do that the old one doesn't?", opts:["Use float as expression","Directly return/assign a value from the switch","Use break statements","Use floating-point case labels"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">char grade = 'B';\nswitch (grade) {\n  case 'A': System.out.println(\"Excellent\"); break;\n  case 'B': System.out.println(\"Good\"); break;\n  default: System.out.println(\"Unknown\");\n}</pre>", opts:["Excellent","Good","Unknown","Compilation error"], ans:1 },
+  { q:"Which of the following correctly chains multiple ternary operators?", opts:["x > 0 ? \"Pos\" : x < 0 ? \"Neg\" : \"Zero\"","x > 0 then \"Pos\" else x < 0 then \"Neg\"","switch(x > 0)","if-ternary(x)"], ans:0 },
+  { q:"What does <code>yield</code> do in a modern switch expression block?", opts:["Pauses execution","Returns a value from a case block","Throws an exception","Exits the program"], ans:1 },
+],
+
+// GROUP 3 — Loops: for, while, do-while (Q41–Q60)
+[
+  { q:"Which loop is best suited when the number of iterations is known in advance?", opts:["while","do-while","for","if"], ans:2 },
+  { q:"What is the correct syntax of a basic for loop?", opts:["for (init; condition; update) {}","for (condition; init; update) {}","for [init; condition; update] {}","for (init, condition, update) {}"], ans:0 },
+  { q:"How many times does this loop execute?<pre class=\"code-block\">for (int i = 0; i < 5; i++) {\n  System.out.println(i);\n}</pre>", opts:["4","5","6","Infinite"], ans:1 },
+  { q:"What is the output of the first iteration's printed value in the loop above?", opts:["1","0","5","Undefined"], ans:1 },
+  { q:"What does a <code>while</code> loop check before executing its body?", opts:["Nothing, it always runs once","The condition, before each iteration","The condition, after each iteration","Only on the first run"], ans:1 },
+  { q:"What is the minimum number of times a <code>while</code> loop body executes if the condition is initially false?", opts:["1","0","Infinite","Depends on the compiler"], ans:1 },
+  { q:"What is the minimum number of times a <code>do-while</code> loop body executes?", opts:["0","1","2","Depends on the condition"], ans:1 },
+  { q:"What is the correct syntax of a do-while loop?", opts:["do {} while (condition);","while (condition) do {}","do (condition) {}","while {} do (condition);"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">int i = 0;\nwhile (i < 3) {\n  System.out.print(i);\n  i++;\n}</pre>", opts:["012","123","0123","Infinite loop"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">int i = 5;\ndo {\n  System.out.print(i);\n  i++;\n} while (i < 3);</pre>", opts:["5","Nothing printed","Infinite loop","Compilation error"], ans:0 },
+  { q:"What happens if you forget to update the loop control variable in a while loop?", opts:["Compilation error","The loop runs once","Infinite loop (if condition stays true)","Runtime exception immediately"], ans:2 },
+  { q:"Which part of a for loop runs only once, before the loop starts?", opts:["Condition","Update","Initialization","Body"], ans:2 },
+  { q:"Which part of a for loop is evaluated after each iteration completes?", opts:["Initialization","Condition","Update","Body only"], ans:2 },
+  { q:"What does <code>for (;;) {}</code> represent in Java?", opts:["A syntax error","An infinite loop","A loop that runs zero times","A loop that runs once"], ans:1 },
+  { q:"Can you declare multiple variables in a for loop's initialization?", opts:["No, only one variable allowed","Yes, separated by commas","Only with arrays","Only with the same data type and comma-separated"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 1; i <= 3; i++) {\n  for (int j = 0; j < 1; j++) {\n    System.out.print(i);\n  }\n}</pre>", opts:["123","111","321","Compilation error"], ans:0 },
+  { q:"What type of loop is the enhanced for-each loop best suited for?", opts:["Counting down only","Iterating through arrays/collections without an index","Infinite loops","Conditional branching"], ans:1 },
+  { q:"What is the correct syntax for an enhanced for-each loop over an int array <code>arr</code>?", opts:["for (int x : arr) {}","for (int x in arr) {}","for (x : arr) {}","foreach (int x : arr) {}"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">int[] arr = {1, 2, 3};\nint sum = 0;\nfor (int x : arr) {\n  sum += x;\n}\nSystem.out.println(sum);</pre>", opts:["3","6","123","Compilation error"], ans:1 },
+  { q:"Which loop guarantees that its body executes at least once regardless of the condition?", opts:["for","while","do-while","for-each"], ans:2 },
+],
+
+// GROUP 4 — Loop Control: break, continue & Labels (Q61–Q80)
+[
+  { q:"What does the <code>break</code> statement do inside a loop?", opts:["Skips the current iteration","Terminates the loop entirely","Pauses execution","Restarts the loop"], ans:1 },
+  { q:"What does the <code>continue</code> statement do inside a loop?", opts:["Terminates the loop","Skips the rest of the current iteration and proceeds to the next","Restarts the program","Exits the method"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 0; i < 5; i++) {\n  if (i == 3) break;\n  System.out.print(i);\n}</pre>", opts:["01234","012","0123","Infinite loop"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 0; i < 5; i++) {\n  if (i == 2) continue;\n  System.out.print(i);\n}</pre>", opts:["01234","0134","012","01"], ans:1 },
+  { q:"Can <code>break</code> be used inside a switch statement?", opts:["No, only in loops","Yes, to prevent fall-through","Only with labeled switches","Only in nested switches"], ans:1 },
+  { q:"What is a labeled loop in Java used for?", opts:["Naming variables","Breaking or continuing a specific outer loop from within a nested loop","Declaring arrays","Creating method labels"], ans:1 },
+  { q:"What is the correct syntax for a labeled loop?", opts:["label: for (...) {}","for (...) : label {}","loop label (...) {}","for label (...) {}"], ans:0 },
+  { q:"What is the output?<pre class=\"code-block\">outer:\nfor (int i = 0; i < 3; i++) {\n  for (int j = 0; j < 3; j++) {\n    if (j == 1) break outer;\n    System.out.print(i + \"\" + j);\n  }\n}</pre>", opts:["00010210","00","000102","Infinite loop"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">outer:\nfor (int i = 0; i < 2; i++) {\n  for (int j = 0; j < 2; j++) {\n    if (j == 1) continue outer;\n    System.out.print(i + \"\" + j);\n  }\n}</pre>", opts:["00 10","0010","00111011","Compilation error"], ans:0 },
+  { q:"What is the difference between a labeled break and an unlabeled break in nested loops?", opts:["No difference","Labeled break exits only the inner loop; unlabeled exits all loops","Labeled break exits the specified outer loop; unlabeled exits only the innermost loop","Labeled break is not valid in Java"], ans:2 },
+  { q:"Where must a label be placed in Java?", opts:["After the loop","Immediately before the loop, followed by a colon","Inside the loop body","At the end of the program"], ans:1 },
+  { q:"Can you use <code>continue</code> with a label to skip to the next iteration of an outer loop?", opts:["No, continue cannot use labels","Yes, using 'continue label;'","Only with while loops","Only with break, not continue"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int i = 0;\nwhile (i < 10) {\n  i++;\n  if (i % 2 == 0) continue;\n  System.out.print(i);\n}</pre>", opts:["13579","2468","12345678910","02468"], ans:0 },
+  { q:"What happens if <code>break</code> is used outside of a loop or switch statement?", opts:["Nothing happens","It exits the program","Compilation error","It throws a runtime exception"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 1; i <= 5; i++) {\n  if (i == 4) break;\n  if (i == 2) continue;\n  System.out.print(i);\n}</pre>", opts:["1345","13","135","12345"], ans:1 },
+  { q:"In a nested loop without labels, which loop does an unlabeled <code>break</code> terminate?", opts:["All loops","Only the outermost loop","Only the innermost loop containing it","No loop, only the switch"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 0; i < 3; i++) {\n  System.out.print(\"Start\" + i);\n  if (i == 1) continue;\n  System.out.print(\"End\" + i);\n}</pre>", opts:["Start0End0Start1Start2End2","Start0Start1Start2","Start0End0Start1End1Start2End2","Compilation error"], ans:0 },
+  { q:"Can a labeled <code>break</code> be used to exit from a labeled block that is NOT a loop?", opts:["No, labels only work with loops","Yes, labeled break can exit any labeled block including plain blocks","Only with switch statements","Only with if statements"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int count = 0;\nfor (int i = 0; i < 5; i++) {\n  for (int j = 0; j < 5; j++) {\n    if (j == 2) break;\n    count++;\n  }\n}\nSystem.out.println(count);</pre>", opts:["25","10","5","2"], ans:1 },
+  { q:"Which keyword combination would you use to skip the remainder of an outer loop's body without exiting it completely, from within an inner loop?", opts:["break outerLabel;","continue outerLabel;","return outerLabel;","goto outerLabel;"], ans:1 },
+],
+
+// GROUP 5 — Nested Loops & Patterns (Q81–Q100)
+[
+  { q:"What is a nested loop?", opts:["A loop with a break statement","A loop placed inside another loop","Two separate loops in sequence","A loop with multiple conditions"], ans:1 },
+  { q:"How many times does the inner loop execute in total?<pre class=\"code-block\">for (int i = 0; i < 3; i++) {\n  for (int j = 0; j < 4; j++) {\n    // body\n  }\n}</pre>", opts:["3","4","7","12"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 1; i <= 2; i++) {\n  for (int j = 1; j <= 2; j++) {\n    System.out.print(i + \"\" + j + \" \");\n  }\n}</pre>", opts:["11 12 21 22","11 21 12 22","12 21","1 2 1 2"], ans:0 },
+  { q:"In nested loops, which loop completes all its iterations first for a single iteration of the outer loop?", opts:["Outer loop","Inner loop","Both run independently","Neither, they run in parallel"], ans:1 },
+  { q:"What pattern does this code print?<pre class=\"code-block\">for (int i = 1; i <= 3; i++) {\n  for (int j = 1; j <= i; j++) {\n    System.out.print(\"*\");\n  }\n  System.out.println();\n}</pre>", opts:["A square of stars","A right triangle: *, **, ***","A single line of 6 stars","An inverted triangle"], ans:1 },
+  { q:"What pattern does this code print?<pre class=\"code-block\">for (int i = 3; i >= 1; i--) {\n  for (int j = 1; j <= i; j++) {\n    System.out.print(\"*\");\n  }\n  System.out.println();\n}</pre>", opts:["A right triangle increasing","An inverted triangle: ***, **, *","A square","A diamond"], ans:1 },
+  { q:"What is the time complexity of a simple nested loop where both loops run <code>n</code> times?", opts:["O(n)","O(log n)","O(n²)","O(2n)"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 0; i < 2; i++) {\n  for (int j = 0; j < 2; j++) {\n    for (int k = 0; k < 2; k++) {\n      System.out.print(\"x\");\n    }\n  }\n}</pre>", opts:["x repeated 4 times","x repeated 6 times","x repeated 8 times","x repeated 2 times"], ans:2 },
+  { q:"To print a 5x5 grid of stars using nested loops, how many total iterations of the inner loop body occur?", opts:["5","10","25","50"], ans:2 },
+  { q:"What does this nested loop print for <code>i=1</code> to <code>3</code>?<pre class=\"code-block\">for (int i = 1; i <= 3; i++) {\n  for (int j = 1; j <= 3; j++) {\n    if (i == j) System.out.print(\"D\");\n    else System.out.print(\".\");\n  }\n  System.out.println();\n}</pre>", opts:["A pattern with D on the diagonal and . elsewhere","All D's","All dots","A single row of D's"], ans:0 },
+  { q:"What happens if a <code>break</code> (unlabeled) is used inside the inner loop of a nested loop pair?", opts:["Exits both loops","Exits only the inner loop, outer loop continues","Compilation error","Exits the program"], ans:1 },
+  { q:"To print a number pattern like 1, 12, 123 on separate lines, which loop structure is most appropriate?", opts:["Single for loop","Nested for loop where inner loop prints 1 to i","Nested loop with fixed inner bound","while loop only"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">int count = 0;\nfor (int i = 1; i <= 3; i++) {\n  for (int j = 1; j <= 3; j++) {\n    count++;\n  }\n}\nSystem.out.println(count);</pre>", opts:["3","6","9","12"], ans:2 },
+  { q:"Which control structure is typically used to print a multiplication table?", opts:["Single loop","Nested loop","If-else chain","Switch statement"], ans:1 },
+  { q:"What does this code print for each value of i from 1 to 3?<pre class=\"code-block\">for (int i = 1; i <= 3; i++) {\n  for (int sp = 1; sp <= 3 - i; sp++) System.out.print(\" \");\n  for (int j = 1; j <= i; j++) System.out.print(\"*\");\n  System.out.println();\n}</pre>", opts:["A left-aligned triangle","A right-aligned (centered) triangle of stars","A square of stars","Random stars and spaces"], ans:1 },
+  { q:"In nested loops used for pattern printing, what is the purpose of <code>System.out.println()</code> after the inner loop?", opts:["To break out of the outer loop","To move the cursor to the next line for the next row of the pattern","To reset the inner loop counter","To terminate the program"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 0; i < 3; i++) {\n  for (int j = 0; j < 3; j++) {\n    if (i == j) continue;\n    System.out.print(i + \"\" + j + \" \");\n  }\n}</pre>", opts:["All 9 pairs printed","Pairs printed except where i equals j (6 pairs)","Only pairs where i equals j","Nothing is printed"], ans:1 },
+  { q:"Which loop type is generally preferred for nested loops that iterate over a 2D array's rows and columns with known dimensions?", opts:["while loop","do-while loop","for loop","Infinite loop with manual break"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">for (int i = 1; i <= 2; i++) {\n  for (int j = 1; j <= 2; j++) {\n    System.out.print(i * j + \" \");\n  }\n}</pre>", opts:["1 2 2 4","1 1 2 2","2 4 6 8","1 2 3 4"], ans:0 },
+  { q:"What is a common use case for triple-nested loops?", opts:["Simple linear search","Working with 3D data structures or comparing all triplets in a collection","Reading a single line of input","Printing a single string"], ans:1 },
+]
+];
+
+const state = {
+  selected: Array.from({length:5}, () => new Array(20).fill(-1)),
+  submitted: [false,false,false,false,false],
+  scores: [0,0,0,0,0]
+};
+
+function renderAll() {
+  data.forEach((group, gi) => {
+    const container = document.getElementById(`cards-${gi}`);
+    container.innerHTML = group.map((q, qi) => {
+      const globalNum = gi * 20 + qi + 1;
+      const opts = q.opts.map((o, oi) => `
+        <label class="option" id="opt-${gi}-${qi}-${oi}" onclick="select(${gi},${qi},${oi})">
+          <input type="radio" name="q-${gi}-${qi}" value="${oi}">
+          <span class="opt-label">${String.fromCharCode(65+oi)}</span>
+          <span class="opt-text">${o}</span>
+        </label>`).join('');
+      return `
+        <div class="q-card" id="qcard-${gi}-${qi}">
+          <div class="q-header">
+            <span class="q-num">Q${globalNum}</span>
+            <span class="q-text">${q.q}</span>
+          </div>
+          <div class="options">${opts}</div>
+        </div>`;
+    }).join('');
+  });
+}
+
+function select(gi, qi, oi) {
+  if (state.submitted[gi]) return;
+  const prev = state.selected[gi][qi];
+  if (prev !== -1) document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  state.selected[gi][qi] = oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+}
+
+function submitGroup(gi) {
+  if (state.submitted[gi]) { alert('This group is already submitted!'); return; }
+  const unanswered = state.selected[gi].filter(v => v === -1).length;
+  if (unanswered > 0) { alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`); return; }
+  state.submitted[gi] = true;
+  let correct = 0;
+  data[gi].forEach((q, qi) => {
+    const chosen = state.selected[gi][qi];
+    const right = q.ans;
+    for (let oi = 0; oi < 4; oi++) {
+      const el = document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents = 'none';
+      if (oi === right) el.classList.add('correct');
+      else if (oi === chosen && chosen !== right) el.classList.add('wrong');
+    }
+    if (chosen === right) correct++;
+  });
+  state.scores[gi] = correct;
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  document.getElementById(`result-${gi}`).innerHTML = `Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent = `Score: ${total} / ${state.submitted.filter(Boolean).length * 20}`;
+  updateProgress();
+  if (state.submitted.every(Boolean)) document.getElementById('results-tab').style.display = '';
+}
+
+function showGroup(idx) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('global-result').style.display = 'none';
+  if (idx <= 4) {
+    document.getElementById(`group-${idx}`).classList.add('visible');
+    document.querySelectorAll('.group-btn')[idx].classList.add('active');
+  }
+}
+
+function showFinalResult() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  const pct = Math.round(total / 100 * 100);
+  let grade = pct >= 90 ? '🏆 Excellent! You have a strong grasp of Java control flow.' :
+              pct >= 75 ? '👍 Good work! Review the questions you missed.' :
+              pct >= 50 ? '📖 Fair. Keep studying loops and conditionals.' :
+                          '💡 Keep practicing! Control flow takes time to master.';
+  document.getElementById('final-score-text').textContent = `${total} / 100`;
+  document.getElementById('final-grade-text').textContent = `${pct}% — ${grade}`;
+  document.getElementById('global-result').style.display = 'block';
+  document.getElementById('results-tab').classList.add('active');
+}
+
+function updateProgress() {
+  const answered = state.selected.flat().filter(v => v !== -1).length;
+  document.getElementById('progress-fill').style.width = (answered / 100 * 100) + '%';
+}
+
+function resetAll() {
+  state.selected.forEach(g => g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent = 'Score: 0 / 100';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('results-tab').style.display = 'none';
+  document.getElementById('global-result').style.display = 'none';
+  [0,1,2,3,4].forEach(gi => { document.getElementById(`result-${gi}`).innerHTML = 'Answer all questions first.'; });
+  renderAll();
+  showGroup(0);
+}
+
+renderAll();
+</script>
+</body>
+</html>

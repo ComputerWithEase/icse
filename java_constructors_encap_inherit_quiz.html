@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Constructors, Encapsulation & Inheritance — 100 MCQ Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .score-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .group-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .group-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .group-btn:hover, .group-btn.active {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.08);
+  }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: var(--mono);
+  }
+
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .q-card:hover { border-color: #444c56; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--java-blue);
+  }
+  pre.code-block {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    color: var(--java-blue);
+    margin: 10px 0 0;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .option:hover { border-color: var(--java-blue); background: rgba(77,171,247,0.05); }
+  .option input[type="radio"] { display: none; }
+
+  .opt-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.12s;
+  }
+  .opt-text { font-size: 14px; color: var(--text); }
+
+  .option.selected .opt-label {
+    border-color: var(--java-blue);
+    background: var(--java-blue);
+    color: #000;
+  }
+  .option.correct { border-color: var(--correct); background: rgba(46,160,67,0.1); }
+  .option.correct .opt-label { border-color: var(--correct); background: var(--correct); color: #fff; }
+  .option.wrong { border-color: var(--wrong); background: rgba(218,54,51,0.1); }
+  .option.wrong .opt-label { border-color: var(--wrong); background: var(--wrong); color: #fff; }
+
+  .section-footer {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-result {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .section-result strong { color: var(--java-orange); }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary { background: var(--java-orange); color: #000; }
+  .btn-primary:hover { background: #e08800; }
+  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  #global-result {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+  #global-result h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; color: var(--java-orange); }
+  #global-result p { color: var(--muted); font-size: 15px; }
+  #global-result .big-score {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+    margin: 20px 0 8px;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .wrapper { padding: 24px 16px 60px; }
+    .section-footer { flex-direction: column; align-items: stretch; }
+    .btn { text-align: center; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>Constructors · Encapsulation · Inheritance — 100 Questions</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 100</div>
+</header>
+
+<div class="wrapper">
+
+  <nav class="group-nav">
+    <a class="group-btn active" onclick="showGroup(0)" href="#">Group 1 · Q1–20</a>
+    <a class="group-btn" onclick="showGroup(1)" href="#">Group 2 · Q21–40</a>
+    <a class="group-btn" onclick="showGroup(2)" href="#">Group 3 · Q41–60</a>
+    <a class="group-btn" onclick="showGroup(3)" href="#">Group 4 · Q61–80</a>
+    <a class="group-btn" onclick="showGroup(4)" href="#">Group 5 · Q81–100</a>
+    <a class="group-btn" onclick="showGroup(5)" href="#" id="results-tab" style="display:none">📊 Results</a>
+  </nav>
+
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- GROUP 1 -->
+  <section class="section visible" id="group-0">
+    <div class="section-header">
+      <span class="section-number">Group 01</span>
+      <h2 class="section-title">Constructors — Basics &amp; Types</h2>
+      <span class="section-count">Q1 – Q20</span>
+    </div>
+    <div id="cards-0"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-0">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitGroup(0)">Submit Group 1</button>
+        <button class="btn btn-ghost" onclick="showGroup(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 2 -->
+  <section class="section" id="group-1">
+    <div class="section-header">
+      <span class="section-number">Group 02</span>
+      <h2 class="section-title">Constructors — Overloading &amp; Chaining</h2>
+      <span class="section-count">Q21 – Q40</span>
+    </div>
+    <div id="cards-1"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-1">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(0)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(1)">Submit Group 2</button>
+        <button class="btn btn-ghost" onclick="showGroup(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 3 -->
+  <section class="section" id="group-2">
+    <div class="section-header">
+      <span class="section-number">Group 03</span>
+      <h2 class="section-title">Encapsulation — Data Hiding &amp; Access</h2>
+      <span class="section-count">Q41 – Q60</span>
+    </div>
+    <div id="cards-2"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-2">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(1)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(2)">Submit Group 3</button>
+        <button class="btn btn-ghost" onclick="showGroup(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 4 -->
+  <section class="section" id="group-3">
+    <div class="section-header">
+      <span class="section-number">Group 04</span>
+      <h2 class="section-title">Inheritance — Basics &amp; <code>super</code> Keyword</h2>
+      <span class="section-count">Q61 – Q80</span>
+    </div>
+    <div id="cards-3"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-3">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(2)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(3)">Submit Group 4</button>
+        <button class="btn btn-ghost" onclick="showGroup(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 5 -->
+  <section class="section" id="group-4">
+    <div class="section-header">
+      <span class="section-number">Group 05</span>
+      <h2 class="section-title">Inheritance — Method Overriding &amp; Advanced</h2>
+      <span class="section-count">Q81 – Q100</span>
+    </div>
+    <div id="cards-4"></div>
+    <div class="section-footer">
+      <div class="section-result" id="result-4">Answer all questions first.</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="showGroup(3)">← Prev</button>
+        <button class="btn btn-primary" onclick="submitGroup(4)">Submit Group 5</button>
+        <button class="btn btn-primary" onclick="showFinalResult()" style="background:var(--java-blue)">View Final Score</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="global-result">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score-text">—</div>
+    <p id="final-grade-text"></p>
+    <br>
+    <button class="btn btn-primary" onclick="resetAll()">Retake Quiz</button>
+  </div>
+
+</div>
+
+<script>
+const data = [
+
+// ── GROUP 1: Constructors — Basics & Types (Q1–Q20) ──
+[
+  { q:"What is a constructor in Java?", opts:["A method that returns the class type","A special method invoked automatically when an object is created","A static block that initializes fields","A method used to destroy objects"], ans:1 },
+  { q:"Which rule must a constructor follow regarding its name?", opts:["It must start with a lowercase letter","It must match the class name exactly","It must be the same as the package name","It can have any name"], ans:1 },
+  { q:"What is the return type of a constructor?", opts:["void","int","The class itself","Constructors have no return type"], ans:3 },
+  { q:"When is a constructor called in Java?", opts:["When the class is loaded","When a method is invoked","When an object is created using new","When the program ends"], ans:2 },
+  { q:"What is a default constructor?", opts:["A constructor with one parameter","A private constructor","A no-argument constructor provided by Java if no constructor is defined","A constructor that always returns null"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Car {\n  Car() { System.out.println(\"Car created\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Car c = new Car();\n  }\n}</pre>", opts:["Nothing","Car created","Car()","Compilation error"], ans:1 },
+  { q:"If a class explicitly defines a parameterized constructor and no default constructor, what happens when you call <code>new ClassName()</code>?", opts:["Java provides a default constructor automatically","Runtime exception is thrown","Compilation error — no matching constructor","Returns null"], ans:2 },
+  { q:"What is a parameterized constructor?", opts:["A constructor with no arguments","A constructor that accepts parameters to initialize fields","A constructor that calls another class","A constructor only used in interfaces"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Box {\n  int width;\n  Box(int w) { width = w; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Box b = new Box(10);\n    System.out.println(b.width);\n  }\n}</pre>", opts:["0","10","null","Compilation error"], ans:1 },
+  { q:"How many times is a constructor called for each object?", opts:["Zero","Once","Twice","As many times as needed"], ans:1 },
+  { q:"Can a constructor be declared <code>private</code>?", opts:["No, constructors must be public","Yes, it restricts object creation from outside the class","Yes, but it does nothing","Only abstract classes can have private constructors"], ans:1 },
+  { q:"What is a copy constructor?", opts:["A constructor that copies a method","A constructor that initializes a new object using values from another object of the same class","A built-in Java constructor","A constructor that clones to the heap"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Point {\n  int x, y;\n  Point(int x, int y) { this.x = x; this.y = y; }\n  Point(Point p) { this.x = p.x; this.y = p.y; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Point p1 = new Point(3, 4);\n    Point p2 = new Point(p1);\n    System.out.println(p2.x + \" \" + p2.y);\n  }\n}</pre>", opts:["0 0","3 4","null null","Compilation error"], ans:1 },
+  { q:"Can a constructor call another method inside its body?", opts:["No","Yes, it can call any accessible method","Only static methods","Only void methods"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Dog {\n  String name;\n  Dog() { name = \"Unknown\"; }\n  Dog(String n) { name = n; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Dog d1 = new Dog();\n    Dog d2 = new Dog(\"Rex\");\n    System.out.println(d1.name + \" \" + d2.name);\n  }\n}</pre>", opts:["null Rex","Unknown Rex","Unknown Unknown","Compilation error"], ans:1 },
+  { q:"What happens to instance variables if a constructor is not defined?", opts:["They must be manually initialized","They are initialized to their default values by Java","Compilation error","They are set to null always"], ans:1 },
+  { q:"Can a constructor be declared <code>static</code>?", opts:["Yes","No, constructors cannot be static","Only in abstract classes","Only if they have no parameters"], ans:1 },
+  { q:"Can a constructor be declared <code>final</code>?", opts:["Yes","No, constructors cannot be final","Only for sealed classes","Only for utility classes"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Circle {\n  double radius;\n  Circle() { this(1.0); }\n  Circle(double r) { radius = r; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Circle c = new Circle();\n    System.out.println(c.radius);\n  }\n}</pre>", opts:["0.0","1.0","null","Compilation error"], ans:1 },
+  { q:"Which statement about constructors and methods is TRUE?", opts:["Constructors have a return type; methods do not","Methods are called with new; constructors are not","Constructors have no return type; methods must have one","Constructors match the class name; regular methods can have any name"], ans:3 },
+],
+
+// ── GROUP 2: Constructors — Overloading & Chaining (Q21–Q40) ──
+[
+  { q:"What is constructor overloading?", opts:["Calling a constructor from a subclass","Defining multiple constructors in one class with different parameter lists","Having two classes with the same constructor","A constructor that calls itself"], ans:1 },
+  { q:"What is constructor chaining?", opts:["Calling a constructor from a different class using new","Calling one constructor from another constructor of the same or parent class","A loop that creates objects","Multiple return statements in one constructor"], ans:1 },
+  { q:"Which keyword is used to call another constructor of the same class?", opts:["super()","self()","this()","new()"], ans:2 },
+  { q:"Where must the <code>this()</code> call appear inside a constructor?", opts:["Anywhere in the constructor body","At the end of the constructor","As the first statement","After the super() call"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Student {\n  String name;\n  int age;\n  Student() { this(\"Unknown\", 0); }\n  Student(String n, int a) { name = n; age = a; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Student s = new Student();\n    System.out.println(s.name + \" \" + s.age);\n  }\n}</pre>", opts:["null 0","Unknown 0","Unknown","Compilation error"], ans:1 },
+  { q:"Can <code>this()</code> and <code>super()</code> both appear as the first statement in the same constructor?", opts:["Yes","No, only one can be the first statement","Yes, but super() must come first","Yes, but this() must come first"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Vehicle {\n  int speed;\n  Vehicle() { this(60); }\n  Vehicle(int s) { speed = s; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Vehicle v = new Vehicle();\n    System.out.println(v.speed);\n  }\n}</pre>", opts:["0","60","null","Compilation error"], ans:1 },
+  { q:"What happens if constructor chaining creates a cycle (e.g., A calls B, B calls A)?", opts:["It works and loops once","Compilation error","StackOverflowError at runtime","The JVM ignores the cycle"], ans:1 },
+  { q:"Which keyword calls the parent class constructor from a child class constructor?", opts:["this()","parent()","base()","super()"], ans:3 },
+  { q:"If a child class constructor does not explicitly call <code>super()</code>, what does Java do?", opts:["Compilation error","Calls the parent's parameterized constructor","Automatically inserts a call to the parent's no-arg constructor","Skips the parent constructor entirely"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Animal {\n  Animal() { System.out.println(\"Animal\"); }\n}\nclass Dog extends Animal {\n  Dog() { System.out.println(\"Dog\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n  }\n}</pre>", opts:["Dog","Animal\nDog","Dog\nAnimal","Compilation error"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Shape {\n  Shape(String s) { System.out.println(\"Shape: \" + s); }\n}\nclass Circle extends Shape {\n  Circle() { super(\"Circle\"); System.out.println(\"Circle created\"); }\n}\npublic class Main {\n  public static void main(String[] args) { new Circle(); }\n}</pre>", opts:["Circle created","Shape: Circle\nCircle created","Circle created\nShape: Circle","Compilation error"], ans:1 },
+  { q:"Can a constructor be overloaded with different access modifiers?", opts:["No","Yes, e.g., one public and one private constructor","Only if they have different parameter types","Only in abstract classes"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Lamp {\n  String color;\n  int watts;\n  Lamp(String c) { this(c, 60); }\n  Lamp(String c, int w) { color = c; watts = w; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Lamp l = new Lamp(\"White\");\n    System.out.println(l.color + \" \" + l.watts);\n  }\n}</pre>", opts:["White 0","null 60","White 60","Compilation error"], ans:2 },
+  { q:"What is the purpose of a private constructor in a Singleton class?", opts:["To prevent inheritance","To ensure only one instance of the class can be created","To allow subclasses only","To make all methods static"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class A {\n  A() { System.out.print(\"A \"); }\n}\nclass B extends A {\n  B() { System.out.print(\"B \"); }\n}\nclass C extends B {\n  C() { System.out.print(\"C\"); }\n}\npublic class Main {\n  public static void main(String[] args) { new C(); }\n}</pre>", opts:["C","C B A","A B C","Compilation error"], ans:2 },
+  { q:"Can <code>super(args)</code> be used to call a specific parameterized constructor of the parent class?", opts:["No, only the no-arg constructor can be called","Yes, by passing the correct arguments","Only in abstract classes","Only if the parent constructor is public"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Base {\n  Base(int x) { System.out.println(\"Base: \" + x); }\n}\nclass Derived extends Base {\n  Derived() { super(42); System.out.println(\"Derived\"); }\n}\npublic class Main {\n  public static void main(String[] args) { new Derived(); }\n}</pre>", opts:["Derived","Base: 42\nDerived","Derived\nBase: 42","Compilation error"], ans:1 },
+  { q:"Which of the following is TRUE about constructor chaining with <code>this()</code>?", opts:["this() can appear anywhere in the constructor","this() must be the first statement and prevents adding super()","this() and super() can both be first statements","this() calls the parent class constructor"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Item {\n  int id;\n  double price;\n  Item(int id) { this(id, 9.99); }\n  Item(int id, double price) { this.id = id; this.price = price; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Item i = new Item(101);\n    System.out.println(i.id + \" \" + i.price);\n  }\n}</pre>", opts:["101 0.0","101 9.99","0 9.99","Compilation error"], ans:1 },
+],
+
+// ── GROUP 3: Encapsulation — Data Hiding & Access (Q41–Q60) ──
+[
+  { q:"What is encapsulation in Java?", opts:["Inheriting methods from a parent class","Bundling data and methods together while hiding internal details","Making all fields public","Using only static methods"], ans:1 },
+  { q:"Which access modifier is used to implement data hiding in encapsulation?", opts:["public","protected","default","private"], ans:3 },
+  { q:"What is a getter method?", opts:["A method that modifies a private field","A method that provides read access to a private field","A method that creates objects","A static method that deletes fields"], ans:1 },
+  { q:"What is a setter method?", opts:["A method that reads a private field","A method that provides write access to a private field","A constructor substitute","A method with no return value always"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Person {\n  private String name;\n  public void setName(String n) { name = n; }\n  public String getName() { return name; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Person p = new Person();\n    p.setName(\"Alice\");\n    System.out.println(p.getName());\n  }\n}</pre>", opts:["null","name","Alice","Compilation error"], ans:2 },
+  { q:"Which of the following correctly breaks encapsulation?", opts:["private int age;","public int getAge() { return age; }","public int age;","private void setAge(int a) { age = a; }"], ans:2 },
+  { q:"What is data hiding?", opts:["Deleting unused data","Restricting direct access to an object's internal data","Making data read-only","Using arrays to store data"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class BankAccount {\n  private double balance = 1000.0;\n  public double getBalance() { return balance; }\n  public void deposit(double amount) {\n    if (amount > 0) balance += amount;\n  }\n}\npublic class Main {\n  public static void main(String[] args) {\n    BankAccount acc = new BankAccount();\n    acc.deposit(500.0);\n    System.out.println(acc.getBalance());\n  }\n}</pre>", opts:["1000.0","500.0","1500.0","Compilation error"], ans:2 },
+  { q:"What is the benefit of using setters with validation?", opts:["Faster code execution","Ensures only valid data is assigned to a field","Reduces the number of classes","Allows direct field access"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Temperature {\n  private double celsius;\n  public void setCelsius(double c) {\n    if (c >= -273.15) celsius = c;\n  }\n  public double getCelsius() { return celsius; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Temperature t = new Temperature();\n    t.setCelsius(-300);\n    System.out.println(t.getCelsius());\n  }\n}</pre>", opts:["-300.0","0.0","-273.15","0"], ans:1 },
+  { q:"What is a read-only property in encapsulation?", opts:["A field with both getter and setter","A field with only a getter (no setter)","A public static field","A field marked final only"], ans:1 },
+  { q:"What is a write-only property in encapsulation?", opts:["A field with only a setter (no getter)","A field with both getter and setter","A private static field","A field with no methods"], ans:0 },
+  { q:"Which of the following is the correct naming convention for a getter of field <code>studentAge</code>?", opts:["getage()","get_studentAge()","getStudentAge()","fetchStudentAge()"], ans:2 },
+  { q:"Which of the following is the correct naming convention for a setter of field <code>studentAge</code>?", opts:["setage()","set_studentAge()","setStudentAge()","putStudentAge()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Counter {\n  private int count = 0;\n  public void increment() { count++; }\n  public void decrement() { if (count > 0) count--; }\n  public int getCount() { return count; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Counter c = new Counter();\n    c.increment(); c.increment(); c.decrement();\n    System.out.println(c.getCount());\n  }\n}</pre>", opts:["0","1","2","3"], ans:1 },
+  { q:"Why is encapsulation considered good OOP practice?", opts:["It increases memory usage","It prevents code reuse","It protects data integrity and promotes modularity","It makes all methods public"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Rectangle {\n  private int width;\n  private int height;\n  Rectangle(int w, int h) { width = w; height = h; }\n  public int getArea() { return width * height; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Rectangle r = new Rectangle(6, 7);\n    System.out.println(r.getArea());\n  }\n}</pre>", opts:["13","42","67","Compilation error"], ans:1 },
+  { q:"Which of the following best describes a JavaBean?", opts:["A class with only static methods","A class following: private fields, public getters/setters, and a no-arg constructor","A class that extends Thread","A class that implements Runnable"], ans:1 },
+  { q:"Can a private field be accessed directly from a subclass?", opts:["Yes, always","No, private members are not inherited directly","Yes, using the super keyword","Only in the same package"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Employee {\n  private String name = \"John\";\n  public String toString() { return \"Employee: \" + name; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Employee e = new Employee();\n    System.out.println(e);\n  }\n}</pre>", opts:["Employee@hashcode","Employee: John","John","Compilation error"], ans:1 },
+],
+
+// ── GROUP 4: Inheritance — Basics & super Keyword (Q61–Q80) ──
+[
+  { q:"What is inheritance in Java?", opts:["Creating multiple objects from one class","A mechanism where a child class acquires properties and methods of a parent class","Hiding internal data of a class","A way to define interfaces"], ans:1 },
+  { q:"Which keyword is used to inherit a class in Java?", opts:["implements","inherits","extends","uses"], ans:2 },
+  { q:"What is the parent class also called?", opts:["Child class / Derived class","Sub class","Super class / Base class","Abstract class"], ans:2 },
+  { q:"What is the child class also called?", opts:["Super class","Base class","Derived class / Subclass","Final class"], ans:2 },
+  { q:"What type of inheritance does Java support for classes?", opts:["Multiple class inheritance","Single inheritance only","Single and multilevel inheritance","Only hierarchical inheritance"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Animal {\n  String type = \"Animal\";\n  void sound() { System.out.println(\"Some sound\"); }\n}\nclass Dog extends Animal {\n  void bark() { System.out.println(\"Woof!\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    System.out.println(d.type);\n    d.sound();\n    d.bark();\n  }\n}</pre>", opts:["Animal\nWoof!","Animal\nSome sound\nWoof!","Some sound\nWoof!","Compilation error"], ans:1 },
+  { q:"What is multilevel inheritance?", opts:["A extends B and C simultaneously","A extends B, B extends C (chain of inheritance)","A and B both extend C","Only two levels of classes"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class A { void show() { System.out.println(\"A\"); } }\nclass B extends A { }\nclass C extends B { }\npublic class Main {\n  public static void main(String[] args) {\n    C obj = new C();\n    obj.show();\n  }\n}</pre>", opts:["Compilation error","Nothing","C","A"], ans:3 },
+  { q:"Why does Java not support multiple class inheritance?", opts:["To save memory","To avoid the Diamond Problem (ambiguity)","Because Java is slow","Because interfaces cover all cases"], ans:1 },
+  { q:"What does the <code>super</code> keyword refer to?", opts:["The current object","The child class","The parent class","The Object class"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Vehicle {\n  String brand = \"Generic\";\n}\nclass Car extends Vehicle {\n  String brand = \"Toyota\";\n  void display() {\n    System.out.println(super.brand + \" \" + brand);\n  }\n}\npublic class Main {\n  public static void main(String[] args) {\n    new Car().display();\n  }\n}</pre>", opts:["Toyota Toyota","Generic Toyota","Generic Generic","Compilation error"], ans:1 },
+  { q:"How do you call a parent class method from a child class when the child has overridden it?", opts:["parent.method()","base.method()","super.method()","this.parent.method()"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Shape {\n  void draw() { System.out.println(\"Drawing Shape\"); }\n}\nclass Circle extends Shape {\n  void draw() {\n    super.draw();\n    System.out.println(\"Drawing Circle\");\n  }\n}\npublic class Main {\n  public static void main(String[] args) { new Circle().draw(); }\n}</pre>", opts:["Drawing Circle","Drawing Shape\nDrawing Circle","Drawing Circle\nDrawing Shape","Compilation error"], ans:1 },
+  { q:"Does a child class inherit private members of the parent?", opts:["Yes, fully","No, private members are not directly accessible in child classes","Yes, through reflection only","Only if in the same package"], ans:1 },
+  { q:"Does a child class inherit constructors?", opts:["Yes, all constructors are inherited","No, constructors are not inherited","Only the default constructor is inherited","Only parameterized constructors are inherited"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Person {\n  String name;\n  Person(String n) { name = n; }\n}\nclass Employee extends Person {\n  int id;\n  Employee(String n, int id) { super(n); this.id = id; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Employee e = new Employee(\"Bob\", 101);\n    System.out.println(e.name + \" \" + e.id);\n  }\n}</pre>", opts:["null 101","Bob 0","Bob 101","Compilation error"], ans:2 },
+  { q:"What is hierarchical inheritance?", opts:["One child has multiple parents","One parent class is inherited by multiple child classes","A chain: A extends B extends C","A class extending itself"], ans:1 },
+  { q:"What is the root class of all Java classes?", opts:["Class","Base","Root","Object"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">class Fruit {\n  String taste = \"Sweet\";\n}\nclass Mango extends Fruit {\n  String variety = \"Alphonso\";\n}\npublic class Main {\n  public static void main(String[] args) {\n    Mango m = new Mango();\n    System.out.println(m.taste + \" \" + m.variety);\n  }\n}</pre>", opts:["null null","Sweet Alphonso","Alphonso Sweet","Compilation error"], ans:1 },
+  { q:"Which of the following correctly describes the IS-A relationship?", opts:["Composition — a class HAS another class","Aggregation — classes share objects","Inheritance — a child class IS-A type of the parent","Encapsulation — data is hidden"], ans:2 },
+],
+
+// ── GROUP 5: Inheritance — Method Overriding & Advanced (Q81–Q100) ──
+[
+  { q:"What is method overriding in Java?", opts:["Defining two methods with the same name in one class","Redefining a parent class method in a child class with the same signature","Calling a parent method with super","Overloading a method with extra parameters"], ans:1 },
+  { q:"Which annotation is used to indicate method overriding?", opts:["@Overload","@Override","@Inherit","@Super"], ans:1 },
+  { q:"What must match between the parent and child method for overriding to work?", opts:["Return type only","Method name only","Method name, parameter list, and return type (or covariant)","Access modifier only"], ans:2 },
+  { q:"What is the output?<pre class=\"code-block\">class Animal {\n  void speak() { System.out.println(\"Animal speaks\"); }\n}\nclass Cat extends Animal {\n  @Override\n  void speak() { System.out.println(\"Meow\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Animal a = new Cat();\n    a.speak();\n  }\n}</pre>", opts:["Animal speaks","Meow","Compilation error","null"], ans:1 },
+  { q:"What is runtime polymorphism (dynamic dispatch)?", opts:["Resolving method calls at compile time","Selecting which overridden method to run based on the actual object type at runtime","Using method overloading","Calling static methods at runtime"], ans:1 },
+  { q:"Can a static method be overridden in Java?", opts:["Yes, like any instance method","No, static methods are hidden, not overridden","Only if the child class is not abstract","Yes, but only if marked @Override"], ans:1 },
+  { q:"Can a private method be overridden in Java?", opts:["Yes","No, private methods are not visible to subclasses","Yes, but only inside the same package","Only if the subclass is in the same file"], ans:1 },
+  { q:"What is covariant return type in method overriding?", opts:["The return type must be exactly the same","The overriding method can return a subtype of the parent method's return type","The overriding method must return void","The return type can be any primitive"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Base {\n  void display() { System.out.println(\"Base\"); }\n}\nclass Derived extends Base {\n  @Override\n  void display() { System.out.println(\"Derived\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Base obj = new Derived();\n    obj.display();\n  }\n}</pre>", opts:["Base","Derived","Base\nDerived","Compilation error"], ans:1 },
+  { q:"What keyword prevents a method from being overridden in subclasses?", opts:["static","private","abstract","final"], ans:3 },
+  { q:"What keyword prevents a class from being subclassed?", opts:["static","sealed","abstract","final"], ans:3 },
+  { q:"What is the output?<pre class=\"code-block\">class Parent {\n  final void show() { System.out.println(\"Parent show\"); }\n}\nclass Child extends Parent {\n  void show() { System.out.println(\"Child show\"); }\n}\npublic class Main {\n  public static void main(String[] args) { new Child().show(); }\n}</pre>", opts:["Parent show","Child show","Nothing","Compilation error"], ans:3 },
+  { q:"Can the access modifier of an overriding method be more restrictive than the parent?", opts:["Yes, always","No, the overriding method cannot have a more restrictive access modifier","Only if marked final","Only for protected methods"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Vehicle {\n  String type() { return \"Vehicle\"; }\n}\nclass Bike extends Vehicle {\n  @Override\n  String type() { return \"Bike\"; }\n}\npublic class Main {\n  public static void main(String[] args) {\n    Vehicle v = new Bike();\n    System.out.println(v.type());\n  }\n}</pre>", opts:["Vehicle","Bike","null","Compilation error"], ans:1 },
+  { q:"What is method hiding in Java?", opts:["Overriding a private method","Declaring a static method in a child class with the same signature as a static method in the parent","Making a method private in the child","Using super to call a parent method"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class P {\n  static void greet() { System.out.println(\"Hello from P\"); }\n}\nclass Q extends P {\n  static void greet() { System.out.println(\"Hello from Q\"); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    P obj = new Q();\n    obj.greet();\n  }\n}</pre>", opts:["Hello from Q","Hello from P","Compilation error","Nothing"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class A {\n  int val = 10;\n  void show() { System.out.println(\"A: \" + val); }\n}\nclass B extends A {\n  int val = 20;\n  @Override\n  void show() { System.out.println(\"B: \" + val); }\n}\npublic class Main {\n  public static void main(String[] args) {\n    A obj = new B();\n    obj.show();\n    System.out.println(obj.val);\n  }\n}</pre>", opts:["B: 20\n20","B: 20\n10","A: 10\n10","Compilation error"], ans:1 },
+  { q:"When can <code>super.method()</code> be useful in an overriding method?", opts:["When you want to prevent overriding","When you want to extend the parent's functionality while adding new behavior","When you want to call a static method","When the method is private"], ans:1 },
+  { q:"What is the difference between method overloading and method overriding?", opts:["No difference","Overloading is in the same class with different parameters; overriding redefines a parent method in a child class","Overriding changes the return type; overloading does not","Overloading uses super; overriding uses this"], ans:1 },
+  { q:"What is the output?<pre class=\"code-block\">class Animal {\n  void eat() { System.out.println(\"Animal eats\"); }\n}\nclass Lion extends Animal {\n  @Override\n  void eat() {\n    super.eat();\n    System.out.println(\"Lion eats meat\");\n  }\n}\npublic class Main {\n  public static void main(String[] args) { new Lion().eat(); }\n}</pre>", opts:["Lion eats meat","Animal eats\nLion eats meat","Lion eats meat\nAnimal eats","Compilation error"], ans:1 },
+  { q:"Which concept allows a parent class reference to hold a child class object?", opts:["Encapsulation","Abstraction","Upcasting (Runtime Polymorphism)","Constructor chaining"], ans:2 },
+]
+];
+
+const state = {
+  selected: Array.from({length:5}, () => new Array(20).fill(-1)),
+  submitted: [false,false,false,false,false],
+  scores: [0,0,0,0,0]
+};
+
+function renderAll() {
+  data.forEach((group, gi) => {
+    const container = document.getElementById(`cards-${gi}`);
+    container.innerHTML = group.map((q, qi) => {
+      const globalNum = gi * 20 + qi + 1;
+      const opts = q.opts.map((o, oi) => `
+        <label class="option" id="opt-${gi}-${qi}-${oi}" onclick="select(${gi},${qi},${oi})">
+          <input type="radio" name="q-${gi}-${qi}" value="${oi}">
+          <span class="opt-label">${String.fromCharCode(65+oi)}</span>
+          <span class="opt-text">${o}</span>
+        </label>`).join('');
+      return `
+        <div class="q-card" id="qcard-${gi}-${qi}">
+          <div class="q-header">
+            <span class="q-num">Q${globalNum}</span>
+            <span class="q-text">${q.q}</span>
+          </div>
+          <div class="options">${opts}</div>
+        </div>`;
+    }).join('');
+  });
+}
+
+function select(gi, qi, oi) {
+  if (state.submitted[gi]) return;
+  const prev = state.selected[gi][qi];
+  if (prev !== -1) document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  state.selected[gi][qi] = oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+}
+
+function submitGroup(gi) {
+  if (state.submitted[gi]) { alert('This group is already submitted!'); return; }
+  const unanswered = state.selected[gi].filter(v => v === -1).length;
+  if (unanswered > 0) { alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`); return; }
+  state.submitted[gi] = true;
+  let correct = 0;
+  data[gi].forEach((q, qi) => {
+    const chosen = state.selected[gi][qi];
+    const right = q.ans;
+    for (let oi = 0; oi < 4; oi++) {
+      const el = document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents = 'none';
+      if (oi === right) el.classList.add('correct');
+      else if (oi === chosen && chosen !== right) el.classList.add('wrong');
+    }
+    if (chosen === right) correct++;
+  });
+  state.scores[gi] = correct;
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  document.getElementById(`result-${gi}`).innerHTML = `Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent = `Score: ${total} / ${state.submitted.filter(Boolean).length * 20}`;
+  updateProgress();
+  if (state.submitted.every(Boolean)) document.getElementById('results-tab').style.display = '';
+}
+
+function showGroup(idx) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('global-result').style.display = 'none';
+  if (idx <= 4) {
+    document.getElementById(`group-${idx}`).classList.add('visible');
+    document.querySelectorAll('.group-btn')[idx].classList.add('active');
+  }
+}
+
+function showFinalResult() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
+  const total = state.scores.reduce((a,b)=>a+b,0);
+  const pct = Math.round(total / 100 * 100);
+  let grade = pct >= 90 ? '🏆 Excellent! You have a strong grasp of Java OOP.' :
+              pct >= 75 ? '👍 Good work! Review the questions you missed.' :
+              pct >= 50 ? '📖 Fair. Keep studying constructors, encapsulation & inheritance.' :
+                          '💡 Keep practicing! OOP concepts take time to master.';
+  document.getElementById('final-score-text').textContent = `${total} / 100`;
+  document.getElementById('final-grade-text').textContent = `${pct}% — ${grade}`;
+  document.getElementById('global-result').style.display = 'block';
+  document.getElementById('results-tab').classList.add('active');
+}
+
+function updateProgress() {
+  const answered = state.selected.flat().filter(v => v !== -1).length;
+  document.getElementById('progress-fill').style.width = (answered / 100 * 100) + '%';
+}
+
+function resetAll() {
+  state.selected.forEach(g => g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent = 'Score: 0 / 100';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('results-tab').style.display = 'none';
+  document.getElementById('global-result').style.display = 'none';
+  [0,1,2,3,4].forEach(gi => { document.getElementById(`result-${gi}`).innerHTML = 'Answer all questions first.'; });
+  renderAll();
+  showGroup(0);
+}
+
+renderAll();
+</script>
+</body>
+</html>
