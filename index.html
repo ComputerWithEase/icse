@@ -1,40 +1,556 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Index Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-        }
-        header {
-            text-align: center;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-        }
-        nav {
-            margin: 15px 0;
-            text-align: center;
-        }
-        nav a {
-            margin: 0 10px;
-            text-decoration: none;
-            color: #4CAF50;
-        }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #555;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java for ICSE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --java-orange: #f89820;
+    --java-blue: #4dabf7;
+    --correct: #2ea043;
+    --wrong: #da3633;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --radius: 8px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--java-orange);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--java-blue); }
+  header h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+    flex: 1;
+  }
+  .version-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--java-orange);
+    white-space: nowrap;
+  }
+
+  /* ── Progress bar ── */
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 35%;
+    background: linear-gradient(90deg, var(--java-orange), var(--java-blue));
+  }
+
+  /* ── Main layout ── */
+  .wrapper {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 52px 24px 80px;
+    flex: 1;
+    width: 100%;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.1);
+    border: 1px solid rgba(248,152,32,0.25);
+    border-radius: 20px;
+    padding: 5px 16px;
+    margin-bottom: 20px;
+  }
+  .hero h2 {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .hero h2 span { color: var(--java-orange); }
+  .hero p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto 32px;
+  }
+
+  /* ── Stats row ── */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--java-blue);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+  .stat-divider {
+    width: 1px;
+    background: var(--border);
+    align-self: stretch;
+  }
+
+  /* ── Section heading ── */
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .section-heading-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--java-orange);
+  }
+  .section-heading-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Card grid ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 56px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.18s, background 0.18s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: #444c56;
+  }
+  .card:hover::before { opacity: 1; }
+
+  /* Per-card accent colours */
+  .card-notes::before { background: linear-gradient(90deg, #f89820, #ffb347); }
+  .card-notes:hover { border-color: rgba(248,152,32,0.5); background: rgba(248,152,32,0.04); }
+
+  .card-youtube::before { background: linear-gradient(90deg, #da3633, #ff6b6b); }
+  .card-youtube:hover { border-color: rgba(218,54,51,0.5); background: rgba(218,54,51,0.04); }
+
+  .card-mcq::before { background: linear-gradient(90deg, #4dabf7, #74c0fc); }
+  .card-mcq:hover { border-color: rgba(77,171,247,0.5); background: rgba(77,171,247,0.04); }
+
+  .card-pyq::before { background: linear-gradient(90deg, #2ea043, #51cf66); }
+  .card-pyq:hover { border-color: rgba(46,160,67,0.5); background: rgba(46,160,67,0.04); }
+
+  /* Card icon */
+  .card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .card-notes .card-icon { background: rgba(248,152,32,0.12); }
+  .card-youtube .card-icon { background: rgba(218,54,51,0.12); }
+  .card-mcq .card-icon { background: rgba(77,171,247,0.12); }
+  .card-pyq .card-icon { background: rgba(46,160,67,0.12); }
+
+  .card-body { flex: 1; }
+  .card-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+  .card-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+  .card-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    transition: color 0.15s, transform 0.15s;
+  }
+  .card:hover .card-arrow { transform: translateX(4px); }
+  .card-notes:hover .card-arrow { color: var(--java-orange); }
+  .card-youtube:hover .card-arrow { color: var(--wrong); }
+  .card-mcq:hover .card-arrow { color: var(--java-blue); }
+  .card-pyq:hover .card-arrow { color: var(--correct); }
+
+  /* ── Topics section ── */
+  .topics-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 56px;
+  }
+  .topic-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    letter-spacing: 0.4px;
+    cursor: default;
+    transition: all 0.15s;
+  }
+  .topic-chip:hover {
+    border-color: var(--java-orange);
+    color: var(--java-orange);
+    background: rgba(248,152,32,0.07);
+  }
+  .topic-chip.done {
+    border-color: rgba(46,160,67,0.4);
+    color: var(--correct);
+    background: rgba(46,160,67,0.08);
+  }
+  .topic-chip.done::before { content: '✓ '; }
+
+  /* ── Quick access strip ── */
+  .quick-strip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .quick-strip-text h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .quick-strip-text p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .quick-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .qbtn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.4px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .qbtn-primary { background: var(--java-orange); color: #000; }
+  .qbtn-primary:hover { background: #e08800; }
+  .qbtn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .qbtn-ghost:hover { border-color: var(--java-blue); color: var(--java-blue); }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--java-orange);
+  }
+  .footer-logo span { color: var(--java-blue); }
+  footer p {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    header { padding: 16px; flex-wrap: wrap; }
+    .hero h2 { font-size: 28px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .wrapper { padding: 32px 16px 60px; }
+    .stat-divider { display: none; }
+    footer { padding: 16px; }
+    .quick-strip { flex-direction: column; align-items: flex-start; }
+  }
+</style>
 </head>
-<body>
-    <p><a href="java_oop_quiz.html">Set 1</a></p>
-    <p><a href="java_basics_quiz.html">Set 2</a></p>
+<body oncontextmenu="return false">
+
+<!-- ── Header ── -->
+<header>
+  <div class="logo">Sourav<span> Sir</span></div>
+  <h1>Complete Java Learning for ICSE Board Students</h1>
+  <div class="version-pill">ICSE</div>
+</header>
+
+<div class="progress-track">
+  <div class="progress-fill"></div>
+</div>
+
+<div class="wrapper">
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-badge">🎯 ICSE Computer Application</div>
+    <h2>Master <span>Java</span> from<br>Zero to Hero</h2>
+    <p>Everything you need in one place — notes, video tutorials, practice tests, and past exam questions. Useful for <b>Class-VIII</b> to <b>Class-X</b>.</p>
+  </div>
+
+  <!-- ── Stats ── -->
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">300+</div>
+      <div class="stat-label">Notes Pages</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">80+</div>
+      <div class="stat-label">Video Tutorials</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">MCQ Questions</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">10 Yrs</div>
+      <div class="stat-label">Past Papers</div>
+    </div>
+  </div>
+
+  <!-- ── Main Cards ── -->
+  <div class="section-heading">
+    <span class="section-heading-label">Study Resources</span>
+    <div class="section-heading-line"></div>
+  </div>
+
+  <div class="card-grid">
+
+    <!-- Notes -->
+    <a class="card card-notes" href="#">
+      <div class="card-icon">📒</div>
+      <div class="card-body">
+        <div class="card-title">Notes</div>
+        <div class="card-desc">Comprehensive topic-wise notes covering Java fundamentals, OOP, collections, exceptions, threads, and more. Clean, concise, and exam-ready.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-meta">12 chapters · PDF available</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- YouTube Tutorials -->
+    <a class="card card-youtube" href="#">
+      <div class="card-icon">▶️</div>
+      <div class="card-body">
+        <div class="card-title">YouTube Tutorials</div>
+        <div class="card-desc">Curated playlist of the best Java video lectures — from beginner syntax to advanced design patterns, all free on YouTube.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-meta">80+ videos · Sorted by topic</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- MCQ Tests -->
+    <a class="card card-mcq" href="java_mcq.html">
+      <div class="card-icon">✅</div>
+      <div class="card-body">
+        <div class="card-title">MCQ Tests</div>
+        <div class="card-desc">Practice with 500+ multiple-choice questions grouped by topic. Instant feedback, score tracking, and answer explanations included.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-meta">500+ questions · 5 difficulty levels</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Previous Year Questions -->
+    <a class="card card-pyq" href="#">
+      <div class="card-icon">📄</div>
+      <div class="card-body">
+        <div class="card-title">Previous Year Questions</div>
+        <div class="card-desc">Solved PYQs from university and competitive exams for the past 10 years. Identify patterns, prioritize topics, and ace your exams.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-meta">10 years · With model answers</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── Topics ── -->
+  <div class="section-heading">
+    <span class="section-heading-label">Topics Covered</span>
+    <div class="section-heading-line"></div>
+  </div>
+
+  <div class="topics-grid">
+    <span class="topic-chip done">Java Introduction</span>
+    <span class="topic-chip done">Data Types &amp; Variables</span>
+    <span class="topic-chip done">Operators</span>
+    <span class="topic-chip done">Input &amp; Output</span>
+    <span class="topic-chip done">Math Library</span>
+    <span class="topic-chip done">OOP Concepts</span>
+    <span class="topic-chip done">Classes &amp; Objects</span>
+    <span class="topic-chip done">Constructors</span>
+    <span class="topic-chip done">Inheritance</span>
+    <span class="topic-chip done">Polymorphism</span>
+    <span class="topic-chip done">Encapsulation</span>
+    <span class="topic-chip done">Abstraction</span>
+    <span class="topic-chip">Interfaces</span>
+    <span class="topic-chip">Exception Handling</span>
+    <span class="topic-chip">Arrays &amp; Strings</span>
+    <span class="topic-chip">Collections Framework</span>
+    <span class="topic-chip">Generics</span>
+    <span class="topic-chip">File I/O</span>
+    <span class="topic-chip">Multithreading</span>
+    <span class="topic-chip">Lambda &amp; Streams</span>
+  </div>
+
+  <!-- ── Quick access strip ── -->
+  <div class="quick-strip">
+    <div class="quick-strip-text">
+      <h3>Ready to test yourself?</h3>
+      <p>Jump straight into a topic-wise MCQ quiz and track your progress.</p>
+    </div>
+    <div class="quick-btns">
+      <a class="qbtn qbtn-primary" href="#">Start MCQ Test</a>
+      <a class="qbtn qbtn-ghost" href="#">Browse Notes</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-logo">Sourav <span> Sir</span></div>
+  <p>Your complete Java study companion · All resources in one place</p>
+  <p style="font-family:var(--mono);font-size:11px;color:var(--muted);">Java SE 17 · Updated 2026</p>
+</footer>
+
 </body>
 </html>
