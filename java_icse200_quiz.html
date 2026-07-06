@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java for ICSE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+  :root {
+    --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
+    --java-orange:#f89820;--java-blue:#4dabf7;--correct:#2ea043;--wrong:#da3633;
+    --text:#e6edf3;--muted:#7d8590;--radius:8px;
+    --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:22px 32px;display:flex;align-items:center;gap:20px;position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+  .logo{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--java-orange);letter-spacing:-.5px;}
+  .logo span{color:var(--java-blue);}
+  header h1{font-size:13px;font-weight:500;color:var(--muted);flex:1;}
+  .score-pill{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-family:var(--mono);font-size:12px;color:var(--java-orange);white-space:nowrap;}
+  .wrapper{max-width:860px;margin:0 auto;padding:36px 24px 80px;}
+  .group-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:36px;}
+  .group-btn{font-family:var(--mono);font-size:11px;font-weight:700;padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s;text-decoration:none;letter-spacing:.4px;}
+  .group-btn:hover,.group-btn.active{border-color:var(--java-orange);color:var(--java-orange);background:rgba(248,152,32,.08);}
+  .group-btn.done{border-color:rgba(46,160,67,.5);color:var(--correct);background:rgba(46,160,67,.07);}
+  .progress-wrap{margin-bottom:32px;}
+  .progress-info{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:5px;}
+  .progress-track{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--java-orange),var(--java-blue));border-radius:2px;width:0%;transition:width .4s ease;}
+  .section{display:none;}.section.visible{display:block;}
+  .section-header{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+  .section-number{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--java-orange);letter-spacing:2px;text-transform:uppercase;}
+  .section-title{font-size:18px;font-weight:600;color:var(--text);}
+  .section-count{font-size:11px;color:var(--muted);margin-left:auto;font-family:var(--mono);}
+  .q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:14px;transition:border-color .15s;}
+  .q-card:hover{border-color:#444c56;}
+  .q-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;}
+  .q-num{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--java-orange);background:rgba(248,152,32,.1);border-radius:4px;padding:2px 6px;white-space:nowrap;margin-top:2px;letter-spacing:.5px;flex-shrink:0;}
+  .q-text{font-size:14px;font-weight:500;color:var(--text);line-height:1.55;}
+  code{font-family:var(--mono);font-size:12px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:1px 5px;color:var(--java-blue);}
+  pre.code-block{font-family:var(--mono);font-size:12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--java-blue);margin:8px 0 0;line-height:1.65;overflow-x:auto;white-space:pre;}
+  .options{display:flex;flex-direction:column;gap:7px;}
+  .option{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all .12s;}
+  .option:hover{border-color:var(--java-blue);background:rgba(77,171,247,.05);}
+  .option input[type="radio"]{display:none;}
+  .opt-label{font-family:var(--mono);font-size:10px;font-weight:700;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0;transition:all .12s;}
+  .opt-text{font-size:13.5px;color:var(--text);}
+  .option.selected .opt-label{border-color:var(--java-blue);background:var(--java-blue);color:#000;}
+  .option.correct{border-color:var(--correct);background:rgba(46,160,67,.1);}
+  .option.correct .opt-label{border-color:var(--correct);background:var(--correct);color:#fff;}
+  .option.wrong{border-color:var(--wrong);background:rgba(218,54,51,.1);}
+  .option.wrong .opt-label{border-color:var(--wrong);background:var(--wrong);color:#fff;}
+  .section-footer{margin-top:28px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-top:18px;border-top:1px solid var(--border);}
+  .section-result{font-family:var(--mono);font-size:12px;color:var(--muted);}
+  .section-result strong{color:var(--java-orange);font-size:14px;}
+  .btn{font-family:var(--mono);font-size:12px;font-weight:700;padding:9px 20px;border-radius:6px;border:none;cursor:pointer;transition:all .15s;letter-spacing:.4px;}
+  .btn-primary{background:var(--java-orange);color:#000;}.btn-primary:hover{background:#e08800;}
+  .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border);}.btn-ghost:hover{border-color:var(--java-blue);color:var(--java-blue);}
+  .btn-blue{background:var(--java-blue);color:#000;}.btn-blue:hover{background:#3a9de0;}
+  #global-result{display:none;text-align:center;padding:56px 32px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-top:32px;}
+  #global-result h2{font-size:26px;font-weight:700;margin-bottom:10px;color:var(--java-orange);}
+  .big-score{font-family:var(--mono);font-size:64px;font-weight:700;color:var(--java-blue);line-height:1;margin:16px 0 6px;}
+  #global-result p{color:var(--muted);font-size:14px;}
+  .breakdown-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:22px 0;}
+  .bc{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;text-align:center;min-width:88px;}
+  .bc-label{font-size:9px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+  .bc-score{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--java-orange);}
+  .bc-topic{font-size:9px;color:var(--muted);margin-top:2px;}
+  @media(max-width:600px){header{padding:14px 16px;}.wrapper{padding:20px 14px 60px;}.section-footer{flex-direction:column;align-items:stretch;}.btn{text-align:center;}.big-score{font-size:48px!important;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">ICSE<span>.java</span></div>
+  <h1>Computer Applications Class 10 — 200 MCQ · 10 Groups of 20</h1>
+  <div class="score-pill" id="header-score">Score: 0 / 200</div>
+</header>
+<div class="wrapper">
+  <nav class="group-nav" id="group-nav"></nav>
+  <div class="progress-wrap">
+    <div class="progress-info"><span id="prog-text">0 of 200 answered</span><span id="prog-pct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+  <div id="sections-container"></div>
+  <div id="global-result">
+    <h2>🎓 Quiz Complete!</h2>
+    <div class="big-score" id="final-num">—</div>
+    <p id="final-sub">out of 200 questions</p>
+    <p id="final-grade" style="margin-top:8px;font-size:16px;color:var(--text);"></p>
+    <div class="breakdown-grid" id="breakdown"></div>
+    <button class="btn btn-primary" onclick="resetAll()">↺ Retake Quiz</button>
+  </div>
+</div>
+<script>
+const GROUPS = [
+{title:"Introduction to Java & OOP Concepts",qs:[
+{q:"Who created Java?",opts:["Dennis Ritchie","James Gosling","Bjarne Stroustrup","Guido van Rossum"],ans:1},
+{q:"Java source files are compiled to:",opts:["Machine code",".exe files","Bytecode (.class)","Assembly language"],ans:2},
+{q:"Which command compiles a Java program?",opts:["java","jvm","javac","compile"],ans:2},
+{q:"What does JVM stand for?",opts:["Java Variable Memory","Java Virtual Machine","Java Verified Module","Java Version Manager"],ans:1},
+{q:"What makes Java platform-independent?",opts:["It uses C++ libraries","It compiles to bytecode run by JVM","It is interpreted directly","It uses native code"],ans:1},
+{q:"Which of the following is the entry point of a Java program?",opts:["start()","init()","main()","run()"],ans:2},
+{q:"What is the correct main method signature?",opts:["public void main(String args)","public static void main(String[] args)","static main(String[] args)","void main()"],ans:1},
+{q:"Which of the following is NOT a pillar of OOP?",opts:["Encapsulation","Compilation","Polymorphism","Inheritance"],ans:1},
+{q:"What is a class in Java?",opts:["A running process","A blueprint for creating objects","A primitive data type","A reserved keyword"],ans:1},
+{q:"What is an object?",opts:["A keyword","A primitive","An instance of a class","A static method"],ans:2},
+{q:"Which keyword creates an object?",opts:["create","object","make","new"],ans:3},
+{q:"Which of the following is a single-line comment?",opts:["<!-- -->","/* */","//","#"],ans:2},
+{q:"What does encapsulation mean?",opts:["Multiple inheritance","Hiding data and exposing only necessary parts","Calling methods at runtime","Overriding parent methods"],ans:1},
+{q:"What is the root class of all Java classes?",opts:["Class","Base","Root","Object"],ans:3},
+{q:"Which keyword is used to inherit a class?",opts:["implements","inherits","extends","uses"],ans:2},
+{q:"What is polymorphism in Java?",opts:["One class one method","Ability to take many forms","Only compile-time binding","Only for interfaces"],ans:1},
+{q:"Which package is automatically imported in Java?",opts:["java.util","java.io","java.lang","java.net"],ans:2},
+{q:"Java is considered:",opts:["Interpreted only","Compiled only","Both compiled and interpreted","Neither"],ans:2},
+{q:"What does JDK stand for?",opts:["Java Data Kit","Java Development Kit","Java Deployment Kit","Java Debug Kit"],ans:1},
+{q:"What is the output?<pre class=\"code-block\">System.out.println(\"ICSE\" + \" \" + 2024);</pre>",opts:["ICSE2024","ICSE 2024","Error","icse 2024"],ans:1}
+]},
+
+{title:"Data Types, Variables & Type Casting",qs:[
+{q:"How many primitive types does Java have?",opts:["4","6","8","10"],ans:2},
+{q:"What is the size of an int in Java?",opts:["8 bits","16 bits","32 bits","64 bits"],ans:2},
+{q:"What is the size of a long?",opts:["16 bits","32 bits","64 bits","128 bits"],ans:2},
+{q:"What is the default value of an int instance variable?",opts:["null","1","undefined","0"],ans:3},
+{q:"Which is NOT a primitive type?",opts:["int","boolean","String","char"],ans:2},
+{q:"What suffix marks a long literal?",opts:["l or L","g or G","d or D","s or S"],ans:0},
+{q:"What suffix marks a float literal?",opts:["d or D","f or F","l or L","g or G"],ans:1},
+{q:"What is the default type of literal 3.14?",opts:["float","double","decimal","real"],ans:1},
+{q:"What is the size of char in Java?",opts:["8 bits","16 bits","32 bits","1 bit"],ans:1},
+{q:"What encoding does Java char use?",opts:["ASCII","UTF-8","UTF-16","UTF-32"],ans:2},
+{q:"What is the range of byte?",opts:["0 to 255","-128 to 127","-256 to 255","-32768 to 32767"],ans:1},
+{q:"What is the default value of boolean?",opts:["true","null","0","false"],ans:3},
+{q:"What keyword declares a constant?",opts:["const","constant","final","fixed"],ans:2},
+{q:"What is the output?<pre class=\"code-block\">double d=9.7;\nint x=(int)d;\nSystem.out.println(x);</pre>",opts:["10","9","9.7","Error"],ans:1},
+{q:"What is implicit type conversion called?",opts:["Narrowing","Widening","Casting","Parsing"],ans:1},
+{q:"Which conversion requires explicit syntax?",opts:["Widening","Narrowing","Implicit","Automatic"],ans:1},
+{q:"What is the output?<pre class=\"code-block\">int x=5;\ndouble d=x;\nSystem.out.println(d);</pre>",opts:["5","5.0","Error","null"],ans:1},
+{q:"What is the size of double?",opts:["32 bits","64 bits","128 bits","16 bits"],ans:1},
+{q:"Which declares a valid char literal?",opts:["\"A\"","A","'A'","(A)"],ans:2},
+{q:"What is the output?<pre class=\"code-block\">System.out.println((int)'A');</pre>",opts:["A","65","97","Error"],ans:1}
+]},
+
+{title:"Operators & Expressions",qs:[
+{q:"What is the result of 10 % 3?",opts:["3","0","1","3.33"],ans:2},
+{q:"What is 7 / 2 when both are integers?",opts:["3.5","4","3","2"],ans:2},
+{q:"What does x += 5 mean?",opts:["x = 5","x = x + 5","x = x * 5","x + 5"],ans:1},
+{q:"Given int x=5; int y=x++; what is y?",opts:["6","5","4","0"],ans:1},
+{q:"Given int x=5; int y=++x; what is y?",opts:["5","4","6","0"],ans:2},
+{q:"What is 2 + 3 * 4?",opts:["20","14","24","10"],ans:1},
+{q:"Which has highest precedence?",opts:["+ addition","* multiplication","() parentheses","= assignment"],ans:2},
+{q:"What is the result of true && false?",opts:["true","1","false","null"],ans:2},
+{q:"What is the result of true || false?",opts:["false","null","0","true"],ans:3},
+{q:"What does ! operator do?",opts:["Adds values","Negates a boolean","Bitwise NOT","AND"],ans:1},
+{q:"What is the ternary syntax?",opts:["cond ? a : b","if cond then a else b","cond -> a : b","cond{a}else{b}"],ans:0},
+{q:"What does (5>3) ? 10 : 20 evaluate to?",opts:["20","5","3","10"],ans:3},
+{q:"Which bitwise operator performs AND?",opts:["&&","|","&","^"],ans:2},
+{q:"What is 5 & 3? (5=101, 3=011 binary)",opts:["7","6","1","0"],ans:2},
+{q:"What is 5 | 3? (5=101, 3=011 binary)",opts:["7","6","1","0"],ans:0},
+{q:"What does << do?",opts:["Right-shifts","Compares","Left-shifts","Logical AND"],ans:2},
+{q:"What is 5 != 6?",opts:["false","0","true","null"],ans:2},
+{q:"What is the output?<pre class=\"code-block\">int a=10,b=3;\nSystem.out.println(a/b+\" \"+a%b);</pre>",opts:["3 1","3.33 1","3 3","Error"],ans:0},
+{q:"What is the output?<pre class=\"code-block\">System.out.println(1+2+\"3\");</pre>",opts:["123","33","6","Error"],ans:1},
+{q:"What does ~5 evaluate to?",opts:["-5","-6","4","6"],ans:1}
+]},
+
+{title:"Input & Output — Scanner and printf",qs:[
+{q:"Which class reads keyboard input?",opts:["BufferedReader","InputReader","Scanner","KeyboardReader"],ans:2},
+{q:"Which package contains Scanner?",opts:["java.io","java.util","java.lang","java.input"],ans:1},
+{q:"Which method reads an int from Scanner?",opts:["sc.readInt()","sc.getInt()","sc.nextInt()","sc.parseInt()"],ans:2},
+{q:"Which method reads an entire line?",opts:["sc.next()","sc.nextLine()","sc.readLine()","sc.getLine()"],ans:1},
+{q:"Which reads a single word stopping at whitespace?",opts:["sc.nextLine()","sc.readString()","sc.next()","sc.getString()"],ans:2},
+{q:"Which reads a double from Scanner?",opts:["sc.nextDouble()","sc.getDouble()","sc.readDouble()","sc.parseDouble()"],ans:0},
+{q:"What should you call when done with Scanner?",opts:["sc.end()","sc.stop()","sc.close()","sc.dispose()"],ans:2},
+{q:"Which format specifier is used for int in printf?",opts:["%f","%s","%d","%i"],ans:2},
+{q:"Which format specifier is used for double in printf?",opts:["%d","%f","%s","%c"],ans:1},
+{q:"What does %.2f do in printf?",opts:["Prints 2 digits total","Prints 2 decimal places","Prints 2 characters","Error"],ans:1},
+{q:"What does %08d print for value 42?",opts:["42000000","00000042","42      ","Error"],ans:1},
+{q:"What does %-5d do?",opts:["Prints negative only","Left-aligns in width 5","Subtracts 5","Prints 5 digits"],ans:1},
+{q:"What is System.in?",opts:["Standard output","Standard error","Standard input","File stream"],ans:2},
+{q:"What does %n do in format string?",opts:["Prints n","Platform newline","Prints null","Nothing"],ans:1},
+{q:"Which converts String \"42\" to int?",opts:["Integer.toString()","String.toInt()","Integer.parseInt()","int.parse()"],ans:2},
+{q:"What common issue arises mixing nextInt() and nextLine()?",opts:["nextInt() leaves newline for nextLine()","nextLine() throws exception","Both read same token","No issue"],ans:0},
+{q:"What does String.format(\"%s=%d\",\"x\",5) return?",opts:["x=5","x=%d","Error","null"],ans:0},
+{q:"What does %c represent?",opts:["int","String","float","char"],ans:3},
+{q:"Which reads boolean from Scanner?",opts:["sc.nextBool()","sc.getBoolean()","sc.readBoolean()","sc.nextBoolean()"],ans:3},
+{q:"What is the output?<pre class=\"code-block\">System.out.printf(\"%.2f\",3.14159);</pre>",opts:["3.14159","3.1","3.14","3.142"],ans:2}
+]},
+
+{title:"Conditional Statements & switch",qs:[
+{q:"What type must an if condition evaluate to?",opts:["int","String","boolean","any"],ans:2},
+{q:"What is the output?<pre class=\"code-block\">int x=0;\nif(x>0) System.out.println(\"P\");\nelse if(x<0) System.out.println(\"N\");\nelse System.out.println(\"Z\");</pre>",opts:["P","N","Z","Error"],ans:2},
+{q:"What prevents fall-through in switch?",opts:["stop","exit","break","end"],ans:2},
+{q:"What branch runs when no case matches in switch?",opts:["else","otherwise","default","fallback"],ans:2},
+{q:"What happens if break is omitted in switch case?",opts:["Error","Falls through to next case","Switch exits","Nothing"],ans:1},
+{q:"Can boolean be used in switch expression?",opts:["Yes","No","Only Java 17+","Only in loops"],ans:1},
+{q:"What is output?<pre class=\"code-block\">char g='B';\nswitch(g){\n  case 'A': System.out.println(\"A\"); break;\n  case 'B': System.out.println(\"B\"); break;\n  default: System.out.println(\"?\");\n}</pre>",opts:["A","B","?","Error"],ans:1},
+{q:"What does dangling else bind to?",opts:["First if","Nearest unmatched if","Outermost if","Any if"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int x=15;\nif(x>10 && x<20) System.out.println(\"In\");\nelse System.out.println(\"Out\");</pre>",opts:["In","Out","15","Error"],ans:0},
+{q:"What is a nested if?",opts:["If inside loop","If inside another if","Multiple else","If without braces"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int x=4;\nSystem.out.println(x%2==0 ? \"Even\" : \"Odd\");</pre>",opts:["Even","Odd","4","Error"],ans:0},
+{q:"Which data types work in switch?",opts:["int and char only","int, char, String, enum","Only String","Only boolean"],ans:1},
+{q:"What is output?<pre class=\"code-block\">boolean f=false;\nif(f) System.out.println(\"A\");\nSystem.out.println(\"B\");</pre>",opts:["A","B","AB","Error"],ans:1},
+{q:"What does yield do in modern switch expression?",opts:["Pauses execution","Returns value from case block","Throws exception","Exits program"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int x=3;\nswitch(x){\n  case 1: System.out.print(\"1\");\n  case 2: System.out.print(\"2\");\n  case 3: System.out.print(\"3\");\n  case 4: System.out.print(\"4\");\n}</pre>",opts:["3","34","3 4","Error"],ans:1},
+{q:"Which is equivalent to a long if-else-if chain?",opts:["for loop","switch statement","while loop","do-while"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int x=5,y=10;\nSystem.out.println(x>y ? x : y);</pre>",opts:["5","10","true","false"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int x=5;\nif(x>3) if(x>7) System.out.println(\"A\");\nelse System.out.println(\"B\");</pre>",opts:["A","B","Nothing","Error"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int x=7;\nif(x%2==0) System.out.println(\"Even\");\nelse System.out.println(\"Odd\");</pre>",opts:["Even","Odd","7","Error"],ans:1},
+{q:"What is the modern switch arrow syntax?",opts:["case 1 => result;","case 1: result;","case 1 -> result;","case 1 then result;"],ans:2}
+]},
+
+{title:"Loops — for, while, do-while & Control",qs:[
+{q:"Which loop executes at least once regardless of condition?",opts:["for","while","do-while","for-each"],ans:2},
+{q:"What is minimum executions of while if condition initially false?",opts:["1","0","Infinite","Depends"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int i=0;\nwhile(i<3){System.out.print(i);i++;}</pre>",opts:["012","123","0123","Infinite"],ans:0},
+{q:"What does for(;;){} represent?",opts:["Syntax error","Infinite loop","Zero iterations","One iteration"],ans:1},
+{q:"For-each loop syntax for int array arr?",opts:["for(int x:arr){}","for(int x in arr){}","for(x:arr){}","foreach(int x:arr){}"],ans:0},
+{q:"What is output?<pre class=\"code-block\">int[] a={1,2,3};\nint s=0;\nfor(int x:a) s+=x;\nSystem.out.println(s);</pre>",opts:["3","6","123","Error"],ans:1},
+{q:"What does break do inside a loop?",opts:["Skips iteration","Terminates loop","Pauses","Restarts"],ans:1},
+{q:"What does continue do?",opts:["Terminates loop","Skips rest of current iteration","Restarts program","Exits method"],ans:1},
+{q:"What is output?<pre class=\"code-block\">for(int i=0;i<5;i++){\n  if(i==3) break;\n  System.out.print(i);\n}</pre>",opts:["01234","012","0123","Infinite"],ans:1},
+{q:"What is output?<pre class=\"code-block\">for(int i=0;i<5;i++){\n  if(i==2) continue;\n  System.out.print(i);\n}</pre>",opts:["01234","0134","012","01"],ans:1},
+{q:"What is a labeled loop used for?",opts:["Naming variables","Breaking/continuing a specific outer loop","Declaring arrays","Creating labels"],ans:1},
+{q:"How many times does inner body execute?<pre class=\"code-block\">for(int i=0;i<3;i++)\n  for(int j=0;j<4;j++){}</pre>",opts:["3","4","7","12"],ans:3},
+{q:"What is output?<pre class=\"code-block\">int i=5;\ndo{System.out.print(i);i++;}\nwhile(i<3);</pre>",opts:["5","Nothing","Infinite","Error"],ans:0},
+{q:"What is the output?<pre class=\"code-block\">int s=0;\nfor(int i=1;i<=10;i++) s+=i;\nSystem.out.println(s);</pre>",opts:["45","55","100","10"],ans:1},
+{q:"Which part of for loop runs only once?",opts:["Condition","Update","Initialization","Body"],ans:2},
+{q:"What is the output?<pre class=\"code-block\">for(int i=1;i<=3;i++)\n  System.out.print(i+\" \");</pre>",opts:["0 1 2","1 2 3","3 2 1","Error"],ans:1},
+{q:"What is the output?<pre class=\"code-block\">int i=0;\nwhile(i<10){\n  i++;\n  if(i%2==0) continue;\n  System.out.print(i);\n}</pre>",opts:["13579","2468","12345","02468"],ans:0},
+{q:"What is nested loop time complexity when both run n times?",opts:["O(n)","O(log n)","O(n2)","O(2n)"],ans:2},
+{q:"What does break without label terminate in nested loops?",opts:["All loops","Outermost","Innermost","No loop"],ans:2},
+{q:"What is the output?<pre class=\"code-block\">int n=0;\nfor(int i=1;i<=20;i++)\n  if(i%3==0 && i%5==0) n++;\nSystem.out.println(n);</pre>",opts:["1","2","3","0"],ans:0}
+]},
+
+{title:"Arrays — 1D and 2D",qs:[
+{q:"Which correctly declares a 1D int array?",opts:["int arr;","int arr[];","int[] arr;","Both B and C"],ans:3},
+{q:"What is the default value of int array element?",opts:["null","1","undefined","0"],ans:3},
+{q:"What is the index of the first element?",opts:["1","-1","0","Depends"],ans:2},
+{q:"What exception occurs on invalid array index?",opts:["NullPointerException","IllegalArgumentException","ArrayIndexOutOfBoundsException","ClassCastException"],ans:2},
+{q:"What gives array length?",opts:["arr.size()","arr.length()","arr.length","arr.count"],ans:2},
+{q:"Can the size of a Java array change after creation?",opts:["Yes using resize()","Yes using length","No","Only with var"],ans:2},
+{q:"What is output?<pre class=\"code-block\">int[] arr={5,10,15};\nSystem.out.println(arr.length);</pre>",opts:["2","3","15","Error"],ans:1},
+{q:"What does dst=src do for arrays?",opts:["Copies elements","Both point to same array","Independent copy","Error"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int[] a={1,2,3};\nint[] b=a;\nb[0]=99;\nSystem.out.println(a[0]);</pre>",opts:["1","99","0","Error"],ans:1},
+{q:"Which method copies array?",opts:["arr.clone()","Arrays.copyOf(arr,arr.length)","Both A and B","arr.copy()"],ans:2},
+{q:"Which correctly initializes 2D array with 3 rows 4 cols?",opts:["int[][] a=new int[4][3];","int[][] a=new int[3][4];","int a=new int[3,4];","int[3][4] a;"],ans:1},
+{q:"How many total elements in int[][] a=new int[3][4]?",opts:["3","4","7","12"],ans:3},
+{q:"How to access row 1 col 2 of 2D array arr?",opts:["arr(1,2)","arr[1,2]","arr[1][2]","arr[2][1]"],ans:2},
+{q:"What gives number of rows in 2D array arr?",opts:["arr.length","arr[0].length","arr.rows","arr.size()"],ans:0},
+{q:"What is output?<pre class=\"code-block\">int[][] m={{1,2},{3,4},{5,6}};\nSystem.out.println(m[1][1]);</pre>",opts:["3","2","4","1"],ans:2},
+{q:"What is a jagged array?",opts:["Single row array","2D where rows can have different columns","No columns","Sorted 2D"],ans:1},
+{q:"Which method sorts array ascending?",opts:["arr.sort()","Arrays.sort(arr)","arr.order()","Collections.sort(arr)"],ans:1},
+{q:"What is output?<pre class=\"code-block\">int[] arr={5,3,8,1};\nint min=arr[0];\nfor(int x:arr) if(x<min)min=x;\nSystem.out.println(min);</pre>",opts:["5","3","8","1"],ans:3},
+{q:"Which method converts array to readable String?",opts:["arr.toString()","Arrays.print()","Arrays.toString()","String.valueOf()"],ans:2},
+{q:"What is output?<pre class=\"code-block\">int[] arr={10,20,30,40};\nfor(int i=arr.length-1;i>=0;i--)\n  System.out.print(arr[i]+\" \");</pre>",opts:["10 20 30 40","40 30 20 10","30 20 10","Error"],ans:1}
+]},
+
+{title:"String Handling",qs:[
+{q:"Strings in Java are:",opts:["Mutable","Primitive","Immutable","Always on stack"],ans:2},
+{q:"What is the String constant pool?",opts:["Thread pool","Special heap area for unique String literals","Stack region","GC zone"],ans:1},
+{q:"What is output?<pre class=\"code-block\">String s1=\"Hi\"; String s2=\"Hi\";\nSystem.out.println(s1==s2);</pre>",opts:["false","null","Error","true"],ans:3},
+{q:"What is output?<pre class=\"code-block\">String s1=new String(\"Hi\");\nString s2=new String(\"Hi\");\nSystem.out.println(s1==s2);</pre>",opts:["true","false","null","Error"],ans:1},
+{q:"Which method compares String content?",opts:["==","compareTo()","equals()","matches()"],ans:2},
+{q:"What does compareTo() return when equal?",opts:["true","1","-1","0"],ans:3},
+{q:"What is output?<pre class=\"code-block\">String s=\"Hello World\";\nSystem.out.println(s.indexOf('o'));</pre>",opts:["4","7","0","-1"],ans:0},
+{q:"What is output?<pre class=\"code-block\">String s=\"Hello\";\nSystem.out.println(s.charAt(1));</pre>",opts:["H","e","l","Error"],ans:1},
+{q:"What is output?<pre class=\"code-block\">String s=\"Hello World\";\nSystem.out.println(s.substring(6));</pre>",opts:["Hello","World","Hello World","ello World"],ans:1},
+{q:"What is output?<pre class=\"code-block\">String s=\"Hello World\";\nSystem.out.println(s.substring(0,5));</pre>",opts:["Hello","World"," World","Hello "],ans:0},
+{q:"What is output?<pre class=\"code-block\">String s=\"banana\";\nSystem.out.println(s.replace('a','o'));</pre>",opts:["bonono","banana","bonona","Error"],ans:0},
+{q:"What is output?<pre class=\"code-block\">String s=\"a,b,c\";\nSystem.out.println(s.split(\",\").length);</pre>",opts:["2","3","4","Error"],ans:1},
+{q:"What does trim() do?",opts:["Converts to uppercase","Removes leading/trailing whitespace","Splits string","Reverses string"],ans:1},
+{q:"What does isEmpty() return for \"\"?",opts:["false","true","null","Error"],ans:1},
+{q:"Difference between isEmpty() and isBlank()?",opts:["No difference","isEmpty checks length==0; isBlank also true for whitespace-only","isBlank checks length==0","isBlank removed"],ans:1},
+{q:"What does String.valueOf(42) return?",opts:["42 as int","\"42\" as String","42.0","null"],ans:1},
+{q:"What does \"Java\".repeat(2) return?",opts:["Java","JavaJava","Java Java","Error"],ans:1},
+{q:"What is output?<pre class=\"code-block\">String s=\"Hello\";\nSystem.out.println(s.toUpperCase());</pre>",opts:["hello","Hello","HELLO","Error"],ans:2},
+{q:"What does intern() do?",opts:["Creates new heap String","Returns pooled version","Deletes String","Converts to lowercase"],ans:1},
+{q:"What is output?<pre class=\"code-block\">String s=\"Java Programming\";\nSystem.out.println(s.contains(\"gram\"));</pre>",opts:["false","true","null","Error"],ans:1}
+]},
+
+{title:"User-Defined Methods, Classes & Objects",qs:[
+{q:"What is a void method?",opts:["No parameters","Returns null","Returns no value","Never called"],ans:2},
+{q:"What is pass-by-value?",opts:["Method gets actual variable","Method gets copy of value","Changes affect original","Only objects by value"],ans:1},
+{q:"What is a method signature?",opts:["Return type only","Method name and parameter types","Method body","Access modifier only"],ans:1},
+{q:"What is method overloading?",opts:["Calling a method multiple times","Same name, different parameter lists","Overriding parent method","Hiding static method"],ans:1},
+{q:"Can methods overload by changing only return type?",opts:["Yes","No","Only for primitives","Only for static"],ans:1},
+{q:"What is recursion?",opts:["Forever loop","Method calling itself","Method calling another","Multiple returns"],ans:1},
+{q:"What is needed for recursion to not loop forever?",opts:["Large stack","Base case stopping recursion","Two methods","void return type"],ans:1},
+{q:"What is output?<pre class=\"code-block\">static int fact(int n){\n  if(n==0) return 1;\n  return n*fact(n-1);\n}\npublic static void main(String[] a){\n  System.out.println(fact(5));\n}</pre>",opts:["5","24","120","Error"],ans:2},
+{q:"What exception when recursion has no base case?",opts:["NullPointerException","ArithmeticException","ArrayIndexOutOfBoundsException","StackOverflowError"],ans:3},
+{q:"What is output?<pre class=\"code-block\">static int max(int a,int b){\n  if(a>b) return a;\n  return b;\n}\npublic static void main(String[] a){\n  System.out.println(max(10,20));\n}</pre>",opts:["10","20","30","Error"],ans:1},
+{q:"What is a static method?",opts:["Called only once","Belongs to class not instance","No parameters","Cannot return value"],ans:1},
+{q:"What is output?<pre class=\"code-block\">class Dog{String name=\"Buddy\";\n  void bark(){System.out.println(name+\" Woof!\");}\n}\npublic class Main{\n  public static void main(String[] a){\n    new Dog().bark();}\n}</pre>",opts:["Woof!","Buddy Woof!","Buddy","Error"],ans:1},
+{q:"Where are objects stored?",opts:["Stack","Register","Method area","Heap"],ans:3},
+{q:"What does obj1==obj2 check for objects?",opts:["Field equality","Same object in memory","Same class","Both null"],ans:1},
+{q:"What method compares object content?",opts:["==","compareTo()","equals()","compare()"],ans:2},
+{q:"What is garbage collection?",opts:["Manual memory free","Automatically reclaims unreachable object memory","Clears null refs","Clears stack"],ans:1},
+{q:"What is output?<pre class=\"code-block\">class Box{int w=5,h=10;\n  int area(){return w*h;}\n}\npublic class Main{\n  public static void main(String[] a){\n    System.out.println(new Box().area());}\n}</pre>",opts:["5","10","50","Error"],ans:2},
+{q:"What is varargs syntax?",opts:["int... nums","int[] nums","int num...","vararg int nums"],ans:0},
+{q:"What happens if non-void method doesn't return on all paths?",opts:["Returns 0","Returns null","Compilation error","Runtime exception"],ans:2},
+{q:"Can static method directly access instance variables?",opts:["Yes","No, needs object reference","Only if final","Only if public"],ans:1}
+]},
+
+{title:"Constructors, Encapsulation & Inheritance",qs:[
+{q:"What is a constructor?",opts:["Method with return type","Special method invoked when object created","Static block","Destroys objects"],ans:1},
+{q:"What is the return type of a constructor?",opts:["void","int","The class","No return type"],ans:3},
+{q:"What is a default constructor?",opts:["One parameter","Private","No-arg constructor provided by Java if none defined","Returns null"],ans:2},
+{q:"What is constructor overloading?",opts:["Calling from subclass","Multiple constructors with different parameter lists","Two classes same constructor","Calls itself"],ans:1},
+{q:"Which keyword calls another constructor of same class?",opts:["super()","self()","this()","new()"],ans:2},
+{q:"Where must this() appear in constructor?",opts:["Anywhere","At end","As first statement","After super()"],ans:2},
+{q:"Which keyword calls parent constructor?",opts:["this()","parent()","base()","super()"],ans:3},
+{q:"What is encapsulation?",opts:["Multiple inheritance","Bundling data and hiding internal details","All fields public","Only static methods"],ans:1},
+{q:"Which modifier best implements data hiding?",opts:["public","protected","default","private"],ans:3},
+{q:"What is output?<pre class=\"code-block\">class P{private String n;\n  public void setN(String x){n=x;}\n  public String getN(){return n;}\n}\npublic class Main{\n  public static void main(String[] a){\n    P p=new P();p.setN(\"Alice\");\n    System.out.println(p.getN());}\n}</pre>",opts:["null","n","Alice","Error"],ans:2},
+{q:"Which breaks encapsulation?",opts:["private int age;","public int getAge(){return age;}","public int age;","private void setAge(int a){age=a;}"],ans:2},
+{q:"What keyword is used to inherit a class?",opts:["implements","inherits","extends","uses"],ans:2},
+{q:"Why no multiple class inheritance in Java?",opts:["Saves memory","Avoids Diamond Problem","Java is slow","Interfaces cover all"],ans:1},
+{q:"Does a child class inherit constructors?",opts:["Yes all","No","Only default","Only parameterized"],ans:1},
+{q:"What is the output?<pre class=\"code-block\">class A{A(){System.out.print(\"A \");}}\nclass B extends A{B(){System.out.print(\"B \");}}\nclass C extends B{C(){System.out.print(\"C\");}}\npublic class Main{\n  public static void main(String[] a){new C();}}</pre>",opts:["C","C B A","A B C","Error"],ans:2},
+{q:"What is method overriding?",opts:["Two methods same name in one class","Redefining parent method in child with same signature","Calling parent via super","Overloading with extra params"],ans:1},
+{q:"What annotation indicates overriding?",opts:["@Overload","@Override","@Inherit","@Super"],ans:1},
+{q:"What is output?<pre class=\"code-block\">class A{void show(){System.out.println(\"A\");}}\nclass B extends A{\n  @Override void show(){System.out.println(\"B\");}\n}\npublic class Main{\n  public static void main(String[] a){\n    A obj=new B(); obj.show();}}</pre>",opts:["A","B","AB","Error"],ans:1},
+{q:"What keyword prevents a method from being overridden?",opts:["static","private","abstract","final"],ans:3},
+{q:"Which concept allows parent reference to hold child object?",opts:["Encapsulation","Abstraction","Upcasting/Runtime polymorphism","Constructor chaining"],ans:2}
+]}
+];
+
+const TOTAL=200;
+const state={sel:GROUPS.map(g=>new Array(g.qs.length).fill(-1)),submitted:new Array(GROUPS.length).fill(false),scores:new Array(GROUPS.length).fill(0)};
+
+function buildUI(){
+  const nav=document.getElementById('group-nav');
+  const cont=document.getElementById('sections-container');
+  nav.innerHTML=''; cont.innerHTML='';
+  GROUPS.forEach((grp,gi)=>{
+    const btn=document.createElement('a');
+    btn.href='#'; btn.className='group-btn'+(gi===0?' active':'');
+    btn.textContent=`G${gi+1} · Q${gi*20+1}–${gi*20+20}`;
+    btn.onclick=(e)=>{e.preventDefault();showGroup(gi);}; nav.appendChild(btn);
+    const sec=document.createElement('section');
+    sec.className='section'+(gi===0?' visible':''); sec.id=`group-${gi}`;
+    const prev=gi>0?`<button class="btn btn-ghost" onclick="showGroup(${gi-1})">← Prev</button>`:'';
+    const next=gi<GROUPS.length-1?`<button class="btn btn-ghost" onclick="showGroup(${gi+1})">Next →</button>`:'';
+    const fin=gi===GROUPS.length-1?`<button class="btn btn-blue" onclick="showFinalResult()">View Final Score</button>`:'';
+    sec.innerHTML=`<div class="section-header"><span class="section-number">Group ${String(gi+1).padStart(2,'0')}</span><h2 class="section-title">${grp.title}</h2><span class="section-count">Q${gi*20+1} – Q${gi*20+20}</span></div><div id="cards-${gi}"></div><div class="section-footer"><div class="section-result" id="result-${gi}">Answer all questions first.</div><div style="display:flex;gap:8px;flex-wrap:wrap">${prev}<button class="btn btn-primary" onclick="submitGroup(${gi})">Submit Group ${gi+1}</button>${next}${fin}</div></div>`;
+    cont.appendChild(sec);
+  });
+  const resTab=document.createElement('a');
+  resTab.href='#'; resTab.className='group-btn'; resTab.id='results-tab'; resTab.style.display='none';
+  resTab.textContent='📊 Results'; resTab.onclick=(e)=>{e.preventDefault();showFinalResult();}; nav.appendChild(resTab);
+}
+
+function renderAll(){
+  GROUPS.forEach((grp,gi)=>{
+    const cont=document.getElementById(`cards-${gi}`);
+    cont.innerHTML=grp.qs.map((q,qi)=>{
+      const num=gi*20+qi+1;
+      const opts=q.opts.map((o,oi)=>`<label class="option" id="opt-${gi}-${qi}-${oi}" onclick="pick(${gi},${qi},${oi})"><input type="radio" name="q-${gi}-${qi}" value="${oi}"><span class="opt-label">${String.fromCharCode(65+oi)}</span><span class="opt-text">${o}</span></label>`).join('');
+      return `<div class="q-card"><div class="q-header"><span class="q-num">Q${num}</span><span class="q-text">${q.q}</span></div><div class="options">${opts}</div></div>`;
+    }).join('');
+  });
+}
+
+function pick(gi,qi,oi){
+  if(state.submitted[gi]) return;
+  const prev=state.sel[gi][qi];
+  if(prev!==-1) document.getElementById(`opt-${gi}-${qi}-${prev}`).classList.remove('selected');
+  state.sel[gi][qi]=oi;
+  document.getElementById(`opt-${gi}-${qi}-${oi}`).classList.add('selected');
+  updateProgress();
+}
+
+function submitGroup(gi){
+  if(state.submitted[gi]){alert('Already submitted!');return;}
+  const missing=state.sel[gi].filter(v=>v===-1).length;
+  if(missing>0){alert(`${missing} question(s) unanswered.`);return;}
+  state.submitted[gi]=true;
+  let correct=0;
+  GROUPS[gi].qs.forEach((q,qi)=>{
+    const chosen=state.sel[gi][qi],right=q.ans;
+    for(let oi=0;oi<4;oi++){
+      const el=document.getElementById(`opt-${gi}-${qi}-${oi}`);
+      el.style.pointerEvents='none';
+      if(oi===right) el.classList.add('correct');
+      else if(oi===chosen&&chosen!==right) el.classList.add('wrong');
+    }
+    if(chosen===right) correct++;
+  });
+  state.scores[gi]=correct;
+  const total=state.scores.reduce((a,b)=>a+b,0);
+  const done=state.submitted.filter(Boolean).length;
+  document.getElementById(`result-${gi}`).innerHTML=`Group score: <strong>${correct} / 20</strong>`;
+  document.getElementById('header-score').textContent=`Score: ${total} / ${done*20}`;
+  document.querySelectorAll('.group-btn')[gi].classList.add('done');
+  if(state.submitted.every(Boolean)){document.getElementById('results-tab').style.display='';document.getElementById('header-score').textContent=`Score: ${total} / ${TOTAL}`;}
+  updateProgress();
+}
+
+function showGroup(idx){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+  document.querySelectorAll('.group-btn').forEach(b=>{if(!b.classList.contains('done'))b.classList.remove('active');});
+  document.getElementById('global-result').style.display='none';
+  if(idx>=0&&idx<GROUPS.length){document.getElementById(`group-${idx}`).classList.add('visible');document.querySelectorAll('.group-btn')[idx].classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+}
+
+function showFinalResult(){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+  const total=state.scores.reduce((a,b)=>a+b,0);
+  const pct=Math.round(total/TOTAL*100);
+  let grade;
+  if(pct>=90) grade='🏆 Outstanding! Excellent ICSE preparation.';
+  else if(pct>=75) grade='🎯 Very Good! Well prepared for board exams.';
+  else if(pct>=60) grade='👍 Good. Review weak topics and practice more.';
+  else if(pct>=40) grade='📖 Average. Focus on fundamental concepts.';
+  else grade='💡 Keep practicing. Revisit all ICSE chapters.';
+  document.getElementById('final-num').textContent=`${total}`;
+  document.getElementById('final-sub').textContent=`out of ${TOTAL} questions`;
+  document.getElementById('final-grade').textContent=`${pct}% — ${grade}`;
+  document.getElementById('breakdown').innerHTML=state.scores.map((sc,i)=>`<div class="bc"><div class="bc-label">G${i+1}</div><div class="bc-score">${sc}/20</div><div class="bc-topic">${GROUPS[i].title.substring(0,16)}…</div></div>`).join('');
+  document.getElementById('global-result').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress(){
+  const answered=state.sel.flat().filter(v=>v!==-1).length;
+  const pct=Math.round(answered/TOTAL*100);
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('prog-text').textContent=`${answered} of ${TOTAL} answered`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+
+function resetAll(){
+  state.sel.forEach(g=>g.fill(-1));
+  state.submitted.fill(false);
+  state.scores.fill(0);
+  document.getElementById('header-score').textContent='Score: 0 / 200';
+  document.getElementById('results-tab').style.display='none';
+  document.getElementById('global-result').style.display='none';
+  document.querySelectorAll('.group-btn').forEach(b=>b.classList.remove('done','active'));
+  GROUPS.forEach((_,gi)=>{document.getElementById(`result-${gi}`).innerHTML='Answer all questions first.';});
+  renderAll(); updateProgress(); showGroup(0);
+}
+
+buildUI(); renderAll(); updateProgress();
+</script>
+</body>
+</html>
